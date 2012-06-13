@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" default-destroy-method="destroy" default-init-method="afterPropertiesSet" xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+	<bean id="org.lsp.liferay.portlet.socialliving.service.ChannelEntryLocalService" class="org.lsp.liferay.portlet.socialliving.service.impl.ChannelEntryLocalServiceImpl" />
+	<bean id="org.lsp.liferay.portlet.socialliving.service.persistence.ChannelEntryPersistence" class="org.lsp.liferay.portlet.socialliving.service.persistence.ChannelEntryPersistenceImpl" parent="basePersistence" />
+	<bean id="org.lsp.liferay.portlet.socialliving.service.EventEntryLocalService" class="org.lsp.liferay.portlet.socialliving.service.impl.EventEntryLocalServiceImpl" />
+	<bean id="org.lsp.liferay.portlet.socialliving.service.EventEntryService" class="org.lsp.liferay.portlet.socialliving.service.impl.EventEntryServiceImpl" />
+	<bean id="org.lsp.liferay.portlet.socialliving.service.persistence.EventEntryPersistence" class="org.lsp.liferay.portlet.socialliving.service.persistence.EventEntryPersistenceImpl" parent="basePersistence" />
+	<bean id="org.lsp.liferay.portlet.socialliving.service.EventRegistrationLocalService" class="org.lsp.liferay.portlet.socialliving.service.impl.EventRegistrationLocalServiceImpl" />
+	<bean id="org.lsp.liferay.portlet.socialliving.service.persistence.EventRegistrationPersistence" class="org.lsp.liferay.portlet.socialliving.service.persistence.EventRegistrationPersistenceImpl" parent="basePersistence" />
+</beans>

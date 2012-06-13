@@ -1,0 +1,46 @@
+<?xml version="1.0"?>
+
+<model-hints>
+	<model name="org.lsp.liferay.portlet.socialliving.model.ChannelEntry">
+		<field name="channelEntryId" type="long" />
+		<field name="groupId" type="long" />
+		<field name="companyId" type="long" />
+		<field name="userId" type="long" />
+		<field name="userName" type="String" />
+		<field name="createDate" type="Date" />
+		<field name="modifiedDate" type="Date" />
+		<field name="comments" type="String" />
+	</model>
+	<model name="org.lsp.liferay.portlet.socialliving.model.EventEntry">
+		<field name="eventEntryId" type="long" />
+		<field name="companyId" type="long" />
+		<field name="groupId" type="long" />
+		<field name="userId" type="long" />
+		<field name="userName" type="String" />
+		<field name="createDate" type="Date" />
+		<field name="modifiedDate" type="Date" />
+		<field name="title" type="String" />
+		<field name="description" type="String" />
+		<field name="startDate" type="Date" />
+		<field name="endDate" type="Date" />
+		<field name="totalAttendees" type="int" />
+		<field name="maxAttendees" type="int" />
+		<field name="price" type="double" />
+		<field name="thumbnailId" type="long" />
+		<field name="latitude" type="String" />
+		<field name="longitude" type="String" />
+		<field name="location" type="String" />
+	</model>
+	<model name="org.lsp.liferay.portlet.socialliving.model.EventRegistration">
+		<field name="eventRegistrationId" type="long" />
+		<field name="companyId" type="long" />
+		<field name="groupId" type="long" />
+		<field name="userId" type="long" />
+		<field name="userName" type="String" />
+		<field name="createDate" type="Date" />
+		<field name="modifiedDate" type="Date" />
+		<field name="eventEntryId" type="long" />
+		<field name="status" type="int" />
+		<field name="comments" type="String" />
+	</model>
+</model-hints>

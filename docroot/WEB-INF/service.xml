@@ -1,0 +1,151 @@
+<?xml version="1.0"?>
+<!DOCTYPE service-builder PUBLIC "-//Liferay//DTD Service Builder 6.1.0//EN" "http://www.liferay.com/dtd/liferay-service-builder_6_1_0.dtd">
+
+<service-builder package-path="org.lsp.liferay.portlet.socialliving">
+	<namespace>LSPSL</namespace>
+	<entity name="EventEntry" local-service="true" remote-service="true">
+
+		<!-- PK fields -->
+
+		<column name="eventEntryId" type="long" primary="true" />
+
+		<!-- Audit fields -->
+
+		<column name="companyId" type="long" />
+		<column name="groupId" type="long" />
+		<column name="userId" type="long" />
+		<column name="userName" type="String" />
+		<column name="createDate" type="Date" />
+		<column name="modifiedDate" type="Date" />
+
+		<!-- Other fields -->
+
+		<column name="title" type="String" />
+		<column name="description" type="String" />
+		<column name="startDate" type="Date" />
+		<column name="endDate" type="Date" />
+		<column name="totalAttendees" type="int" />
+		<column name="maxAttendees" type="int" />
+		<column name="price" type="double" />
+		<column name="thumbnailId" type="long" />
+		<column name="latitude" type="String" />
+		<column name="longitude" type="String" />
+		<column name="location" type="String" />
+
+		<!-- Order -->
+
+		<order by="asc">
+			<order-column name="startDate" />
+		</order>
+
+		<!-- Finder methods -->
+
+		<finder name="EntryFinder" return-type="EventEntry">
+			<finder-column name="companyId"/>
+			<finder-column name="eventEntryId"/>
+		</finder>
+		<finder name="GlobalFinder" return-type="Collection">
+			<finder-column name="companyId" />
+			<finder-column name="groupId" />
+		</finder>
+		<finder name="AllButGroupId" return-type="Collection">
+			<finder-column name="groupId" comparator="!=" />
+		</finder>
+		<finder name="GroupId" return-type="Collection">
+			<finder-column name="companyId" />
+			<finder-column name="groupId" />
+		</finder>
+		<finder name="CompanyId" return-type="Collection">
+			<finder-column name="companyId" />
+		</finder>
+		<finder name="UserId" return-type="Collection">
+			<finder-column name="userId" />
+		</finder>
+	</entity>
+	<entity name="EventRegistration" local-service="true" remote-service="false">
+
+		<!-- PK fields -->
+
+		<column name="eventRegistrationId" type="long" primary="true" />
+
+		<!-- Audit fields -->
+
+		<column name="companyId" type="long" />
+		<column name="groupId" type="long" />
+		<column name="userId" type="long" />
+		<column name="userName" type="String" />
+		<column name="createDate" type="Date" />
+		<column name="modifiedDate" type="Date" />
+
+		<!-- Other fields -->
+
+		<column name="eventEntryId" type="long" />
+		<column name="status" type="int" />
+		<column name="comments" type="String" />
+
+		<!-- Order -->
+
+		<order by="desc">
+			<order-column name="modifiedDate" />
+		</order>
+
+		<!-- Finder methods -->
+
+		<finder name="EventEntryId" return-type="Collection">
+			<finder-column name="eventEntryId" />
+		</finder>
+		<finder name="U_ME" return-type="EventRegistration">
+			<finder-column name="userId" />
+			<finder-column name="eventEntryId" />
+		</finder>
+		<finder name="ME_S" return-type="Collection">
+			<finder-column name="eventEntryId" />
+			<finder-column name="status" />
+		</finder>
+	</entity>
+	<entity name="ChannelEntry" local-service="true" remote-service="false">
+
+		<!-- PK fields -->
+
+		<column name="channelEntryId" type="long" primary="true" />
+
+		<!-- Group instance -->
+
+		<column name="groupId" type="long" />
+
+		<!-- Audit fields -->
+
+		<column name="companyId" type="long" />
+		<column name="userId" type="long" />
+		<column name="userName" type="String" />
+		<column name="createDate" type="Date" />
+		<column name="modifiedDate" type="Date" />
+
+		<!-- Other fields -->
+
+		<column name="comments" type="String" />
+
+		<!-- Order -->
+
+		<order by="desc">
+			<order-column name="createDate" />
+		</order>
+
+		<!-- Finder methods -->
+
+		<finder name="GroupId" return-type="Collection">
+			<finder-column name="groupId" />
+		</finder>
+		<finder name="UserId" return-type="Collection">
+			<finder-column name="userId" />
+		</finder>
+		<finder name="G_U" return-type="Collection">
+			<finder-column name="groupId" />
+			<finder-column name="userId" />
+		</finder>
+	</entity>
+	<exceptions>
+		<exception>EventEntryEndDate</exception>
+		<exception>EventEntryStartDate</exception>
+	</exceptions>
+</service-builder>

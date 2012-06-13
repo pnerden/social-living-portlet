@@ -1,0 +1,59 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping default-lazy="false" auto-import="false">
+	<import class="org.lsp.liferay.portlet.socialliving.model.ChannelEntry" />
+	<import class="org.lsp.liferay.portlet.socialliving.model.EventEntry" />
+	<import class="org.lsp.liferay.portlet.socialliving.model.EventRegistration" />
+	<class name="org.lsp.liferay.portlet.socialliving.model.impl.ChannelEntryImpl" table="LSPSL_ChannelEntry">
+		<cache usage="read-write" />
+		<id name="channelEntryId" type="long">
+			<generator class="assigned" />
+		</id>
+		<property name="groupId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="companyId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="userId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="userName" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="createDate" type="org.hibernate.type.TimestampType" />
+		<property name="modifiedDate" type="org.hibernate.type.TimestampType" />
+		<property name="comments" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+	</class>
+	<class name="org.lsp.liferay.portlet.socialliving.model.impl.EventEntryImpl" table="LSPSL_EventEntry">
+		<cache usage="read-write" />
+		<id name="eventEntryId" type="long">
+			<generator class="assigned" />
+		</id>
+		<property name="companyId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="groupId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="userId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="userName" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="createDate" type="org.hibernate.type.TimestampType" />
+		<property name="modifiedDate" type="org.hibernate.type.TimestampType" />
+		<property name="title" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="description" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="startDate" type="org.hibernate.type.TimestampType" />
+		<property name="endDate" type="org.hibernate.type.TimestampType" />
+		<property name="totalAttendees" type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
+		<property name="maxAttendees" type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
+		<property name="price" type="com.liferay.portal.dao.orm.hibernate.DoubleType" />
+		<property name="thumbnailId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="latitude" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="longitude" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="location" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+	</class>
+	<class name="org.lsp.liferay.portlet.socialliving.model.impl.EventRegistrationImpl" table="LSPSL_EventRegistration">
+		<cache usage="read-write" />
+		<id name="eventRegistrationId" type="long">
+			<generator class="assigned" />
+		</id>
+		<property name="companyId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="groupId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="userId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="userName" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="createDate" type="org.hibernate.type.TimestampType" />
+		<property name="modifiedDate" type="org.hibernate.type.TimestampType" />
+		<property name="eventEntryId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="status" type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
+		<property name="comments" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+	</class>
+</hibernate-mapping>
