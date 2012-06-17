@@ -55,9 +55,9 @@ String longitude = defaultlongitude;
 String zoom = defaultzoom;
 
 if (eventEntry != null) {
-	latitude = (eventEntry.getLatitude() != null) ? eventEntry.getLatitude() : defaultlatitude;
-	longitude = (eventEntry.getLongitude() != null) ? eventEntry.getLongitude() : defaultlongitude;
-	zoom = (eventEntry.getLatitude() != null) ? EventConstants.DEFAULT_VIEW_ZOOM : defaultzoom;
+	latitude = ((eventEntry.getLatitude() != null) && (eventEntry.getLatitude() != "")) ? eventEntry.getLatitude() : defaultlatitude;
+	longitude = ((eventEntry.getLongitude() != null) && (eventEntry.getLongitude() != "")) ? eventEntry.getLongitude() : defaultlongitude;
+	zoom = ((eventEntry.getLatitude() != null) && (eventEntry.getLatitude() != "")) ? EventConstants.DEFAULT_VIEW_ZOOM : defaultzoom;
 }
 
 int visibility = EventConstants.VISIBILITY_DEFAULT;
