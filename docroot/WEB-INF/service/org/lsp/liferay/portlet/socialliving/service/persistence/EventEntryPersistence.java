@@ -727,9 +727,11 @@ public interface EventEntryPersistence extends BasePersistence<EventEntry> {
 	*
 	* @param companyId the company ID
 	* @param eventEntryId the event entry ID
+	* @return the event entry that was removed
 	* @throws SystemException if a system exception occurred
 	*/
-	public void removeByEntryFinder(long companyId, long eventEntryId)
+	public org.lsp.liferay.portlet.socialliving.model.EventEntry removeByEntryFinder(
+		long companyId, long eventEntryId)
 		throws com.liferay.portal.kernel.exception.SystemException,
 			org.lsp.liferay.portlet.socialliving.NoSuchEventEntryException;
 

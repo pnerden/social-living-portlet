@@ -6,7 +6,7 @@ create table LSPSL_ChannelEntry (
 	userName VARCHAR(75) null,
 	createDate DATE null,
 	modifiedDate DATE null,
-	comments VARCHAR(75) null
+	comments TEXT null
 );
 
 create table LSPSL_EventEntry (
@@ -18,7 +18,7 @@ create table LSPSL_EventEntry (
 	createDate DATE null,
 	modifiedDate DATE null,
 	title VARCHAR(75) null,
-	description VARCHAR(75) null,
+	description TEXT null,
 	startDate DATE null,
 	endDate DATE null,
 	totalAttendees INTEGER,
@@ -27,7 +27,7 @@ create table LSPSL_EventEntry (
 	thumbnailId LONG,
 	latitude VARCHAR(75) null,
 	longitude VARCHAR(75) null,
-	location VARCHAR(75) null
+	location TEXT null
 );
 
 create table LSPSL_EventRegistration (
@@ -40,5 +40,5 @@ create table LSPSL_EventRegistration (
 	modifiedDate DATE null,
 	eventEntryId LONG,
 	status INTEGER,
-	comments VARCHAR(75) null
+	comments TEXT null
 );

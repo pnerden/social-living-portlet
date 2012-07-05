@@ -64,6 +64,7 @@ public class EventEntryClp extends BaseModelImpl<EventEntry>
 		setPrimaryKey(((Long)primaryKeyObj).longValue());
 	}
 
+	@Override
 	public Map<String, Object> getModelAttributes() {
 		Map<String, Object> attributes = new HashMap<String, Object>();
 
@@ -89,6 +90,7 @@ public class EventEntryClp extends BaseModelImpl<EventEntry>
 		return attributes;
 	}
 
+	@Override
 	public void setModelAttributes(Map<String, Object> attributes) {
 		Long eventEntryId = (Long)attributes.get("eventEntryId");
 

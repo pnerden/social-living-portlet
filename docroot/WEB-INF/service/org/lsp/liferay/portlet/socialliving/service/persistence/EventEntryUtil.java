@@ -916,12 +916,14 @@ public class EventEntryUtil {
 	*
 	* @param companyId the company ID
 	* @param eventEntryId the event entry ID
+	* @return the event entry that was removed
 	* @throws SystemException if a system exception occurred
 	*/
-	public static void removeByEntryFinder(long companyId, long eventEntryId)
+	public static org.lsp.liferay.portlet.socialliving.model.EventEntry removeByEntryFinder(
+		long companyId, long eventEntryId)
 		throws com.liferay.portal.kernel.exception.SystemException,
 			org.lsp.liferay.portlet.socialliving.NoSuchEventEntryException {
-		getPersistence().removeByEntryFinder(companyId, eventEntryId);
+		return getPersistence().removeByEntryFinder(companyId, eventEntryId);
 	}
 
 	/**

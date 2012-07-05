@@ -83,10 +83,10 @@ for (int i = 0; i < eventEntries.size(); i++) {
 %>
 
 <aui:layout>
-	<aui:column columnWidth="<%= (displaymaponview == EventConstants.DISPLAY_MAP_ON_VIEW) ? 33 : 50 %>" first="true" id="eventThumbnailColumn" >
+	<aui:column columnWidth="<%= ((displaymaponview == EventConstants.DISPLAY_MAP_ON_VIEW) || (displaymaponview == EventConstants.DEFAULT_DISPLAY_MAP_ON_VIEW)) ? 33 : 50 %>" first="true" id="eventThumbnailColumn" >
 		<a href="<%= viewEventEntryURL %>" id="eventThumbnail"><img alt="<liferay-ui:message key="view-event" />" src="<%= thumbnailURL %>" /></a>
 	</aui:column>
-	<aui:column columnWidth="<%= (displaymaponview == EventConstants.DISPLAY_MAP_ON_VIEW) ? 33 : 50 %>" last="<%= (displaymaponview == EventConstants.DISPLAY_MAP_ON_VIEW) ? false : true %>" id="eventDetailsColumn" >
+	<aui:column columnWidth="<%= ((displaymaponview == EventConstants.DISPLAY_MAP_ON_VIEW) || (displaymaponview == EventConstants.DEFAULT_DISPLAY_MAP_ON_VIEW)) ? 33 : 50 %>" last="<%= ((displaymaponview == EventConstants.DISPLAY_MAP_ON_VIEW) || (displaymaponview == EventConstants.DEFAULT_DISPLAY_MAP_ON_VIEW)) ? false : true %>" id="eventDetailsColumn" >
 		<c:if test="<%= EventEntryServiceUtil.getVisibility(eventEntry) == EventConstants.VISIBILITY_GROUP %>">
 			<span class="portlet-msg-info"><liferay-ui:message key="private" /></span>
 		</c:if>
@@ -159,9 +159,9 @@ for (int i = 0; i < eventEntries.size(); i++) {
 		</c:if>
 		</liferay-ui:icon-list>
 	</aui:column>
-	<c:if test="<%= (displaymaponview == EventConstants.DISPLAY_MAP_ON_VIEW) %>">
+	<c:if test="<%= ((displaymaponview == EventConstants.DISPLAY_MAP_ON_VIEW) || (displaymaponview == EventConstants.DEFAULT_DISPLAY_MAP_ON_VIEW)) %>">
 	<aui:column columnWidth="33" last="true" id="eventMapColumn" >
-		<lsp-osm:simplemap startLatitude="<%= eventEntry.getLatitude() %>" startLongitude="<%= eventEntry.getLongitude() %>" displayText="<%= eventEntry.getLocation() %>" occurenceId="<%= i %>"/>
+		<lsp-osm:simplemap startLatitude="<%= eventEntry.getLatitude() %>" startLongitude="<%= eventEntry.getLongitude() %>" displayText="<%= StringEscapeUtils.escapeJavaScript(eventEntry.getLocation()) %>" occurenceId="<%= i %>"/>
 	</aui:column>
 	</c:if>
 </aui:layout>

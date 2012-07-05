@@ -73,7 +73,7 @@ public class EventRegistrationModelImpl extends BaseModelImpl<EventRegistration>
 			{ "status", Types.INTEGER },
 			{ "comments", Types.VARCHAR }
 		};
-	public static final String TABLE_SQL_CREATE = "create table LSPSL_EventRegistration (eventRegistrationId LONG not null primary key,companyId LONG,groupId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,eventEntryId LONG,status INTEGER,comments VARCHAR(75) null)";
+	public static final String TABLE_SQL_CREATE = "create table LSPSL_EventRegistration (eventRegistrationId LONG not null primary key,companyId LONG,groupId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,eventEntryId LONG,status INTEGER,comments TEXT null)";
 	public static final String TABLE_SQL_DROP = "drop table LSPSL_EventRegistration";
 	public static final String ORDER_BY_JPQL = " ORDER BY eventRegistration.modifiedDate DESC";
 	public static final String ORDER_BY_SQL = " ORDER BY LSPSL_EventRegistration.modifiedDate DESC";

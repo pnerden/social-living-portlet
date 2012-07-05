@@ -9,7 +9,9 @@
 		<field name="userName" type="String" />
 		<field name="createDate" type="Date" />
 		<field name="modifiedDate" type="Date" />
-		<field name="comments" type="String" />
+		<field name="comments" type="String">
+			<hint name="max-length">10000</hint>
+		</field>
 	</model>
 	<model name="org.lsp.liferay.portlet.socialliving.model.EventEntry">
 		<field name="eventEntryId" type="long" />
@@ -20,7 +22,9 @@
 		<field name="createDate" type="Date" />
 		<field name="modifiedDate" type="Date" />
 		<field name="title" type="String" />
-		<field name="description" type="String" />
+		<field name="description" type="String">
+			<hint name="max-length">10000</hint>
+		</field>
 		<field name="startDate" type="Date" />
 		<field name="endDate" type="Date" />
 		<field name="totalAttendees" type="int" />
@@ -29,7 +33,9 @@
 		<field name="thumbnailId" type="long" />
 		<field name="latitude" type="String" />
 		<field name="longitude" type="String" />
-		<field name="location" type="String" />
+		<field name="location" type="String">
+			<hint name="max-length">10000</hint>
+		</field>
 	</model>
 	<model name="org.lsp.liferay.portlet.socialliving.model.EventRegistration">
 		<field name="eventRegistrationId" type="long" />
@@ -41,6 +47,8 @@
 		<field name="modifiedDate" type="Date" />
 		<field name="eventEntryId" type="long" />
 		<field name="status" type="int" />
-		<field name="comments" type="String" />
+		<field name="comments" type="String">
+			<hint name="max-length">10000</hint>
+		</field>
 	</model>
 </model-hints>

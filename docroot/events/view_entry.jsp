@@ -223,6 +223,6 @@ int yesTotal = EventRegistrationLocalServiceUtil.getEventRegistrationsCount(even
 		
 	</aui:column>
 	<aui:column columnWidth="33" last="true">
-		<lsp-osm:simplemap startLatitude="<%= eventEntry.getLatitude() %>" startLongitude="<%= eventEntry.getLongitude() %>" displayText="<%= eventEntry.getLocation() %>" mapWidth="384" mapHeight="384" />
+		<lsp-osm:simplemap startLatitude="<%= eventEntry.getLatitude() %>" startLongitude="<%= eventEntry.getLongitude() %>" displayText="<%= StringEscapeUtils.escapeJavaScript(eventEntry.getLocation()) %>" mapWidth="384" mapHeight="384" />
 	</aui:column>
 </aui:layout>

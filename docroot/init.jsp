@@ -71,6 +71,7 @@ page import="com.liferay.portlet.social.model.SocialRequestConstants" %><%@
 page import="com.liferay.portlet.social.service.SocialActivityLocalServiceUtil" %><%@
 page import="com.liferay.portlet.social.service.SocialRelationLocalServiceUtil" %><%@
 page import="com.liferay.portlet.social.service.SocialRequestLocalServiceUtil" %><%@
+page import="org.apache.commons.lang.StringEscapeUtils" %><%@
 page import="org.lsp.liferay.portlet.socialliving.NoSuchEventEntryException" %><%@
 page import="org.lsp.liferay.portlet.socialliving.NoSuchEventRegistrationException" %><%@
 page import="org.lsp.liferay.portlet.socialliving.events.util.EventConstants" %><%@

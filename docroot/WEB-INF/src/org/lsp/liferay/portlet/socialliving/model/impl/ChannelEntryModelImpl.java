@@ -71,7 +71,7 @@ public class ChannelEntryModelImpl extends BaseModelImpl<ChannelEntry>
 			{ "modifiedDate", Types.TIMESTAMP },
 			{ "comments", Types.VARCHAR }
 		};
-	public static final String TABLE_SQL_CREATE = "create table LSPSL_ChannelEntry (channelEntryId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,comments VARCHAR(75) null)";
+	public static final String TABLE_SQL_CREATE = "create table LSPSL_ChannelEntry (channelEntryId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,comments TEXT null)";
 	public static final String TABLE_SQL_DROP = "drop table LSPSL_ChannelEntry";
 	public static final String ORDER_BY_JPQL = " ORDER BY channelEntry.createDate DESC";
 	public static final String ORDER_BY_SQL = " ORDER BY LSPSL_ChannelEntry.createDate DESC";

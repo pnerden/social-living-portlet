@@ -118,15 +118,10 @@ public class EventEntryPersistenceImpl extends BasePersistenceImpl<EventEntry>
 			"java.lang.Integer", "java.lang.Integer",
 				"com.liferay.portal.kernel.util.OrderByComparator"
 			});
-	public static final FinderPath FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_ALLBUTGROUPID =
+	public static final FinderPath FINDER_PATH_WITH_PAGINATION_COUNT_BY_ALLBUTGROUPID =
 		new FinderPath(EventEntryModelImpl.ENTITY_CACHE_ENABLED,
-			EventEntryModelImpl.FINDER_CACHE_ENABLED, EventEntryImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByAllButGroupId",
-			new String[] { Long.class.getName() },
-			EventEntryModelImpl.GROUPID_COLUMN_BITMASK);
-	public static final FinderPath FINDER_PATH_COUNT_BY_ALLBUTGROUPID = new FinderPath(EventEntryModelImpl.ENTITY_CACHE_ENABLED,
 			EventEntryModelImpl.FINDER_CACHE_ENABLED, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByAllButGroupId",
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "countByAllButGroupId",
 			new String[] { Long.class.getName() });
 	public static final FinderPath FINDER_PATH_WITH_PAGINATION_FIND_BY_GROUPID = new FinderPath(EventEntryModelImpl.ENTITY_CACHE_ENABLED,
 			EventEntryModelImpl.FINDER_CACHE_ENABLED, EventEntryImpl.class,
@@ -416,6 +411,7 @@ public class EventEntryPersistenceImpl extends BasePersistenceImpl<EventEntry>
 		if (isNew || !EventEntryModelImpl.COLUMN_BITMASK_ENABLED) {
 			FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 		}
+
 		else {
 			if ((eventEntryModelImpl.getColumnBitmask() &
 					FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_GLOBALFINDER.getColumnBitmask()) != 0) {
@@ -437,27 +433,6 @@ public class EventEntryPersistenceImpl extends BasePersistenceImpl<EventEntry>
 				FinderCacheUtil.removeResult(FINDER_PATH_COUNT_BY_GLOBALFINDER,
 					args);
 				FinderCacheUtil.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_GLOBALFINDER,
-					args);
-			}
-
-			if ((eventEntryModelImpl.getColumnBitmask() &
-					FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_ALLBUTGROUPID.getColumnBitmask()) != 0) {
-				Object[] args = new Object[] {
-						Long.valueOf(eventEntryModelImpl.getOriginalGroupId())
-					};
-
-				FinderCacheUtil.removeResult(FINDER_PATH_COUNT_BY_ALLBUTGROUPID,
-					args);
-				FinderCacheUtil.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_ALLBUTGROUPID,
-					args);
-
-				args = new Object[] {
-						Long.valueOf(eventEntryModelImpl.getGroupId())
-					};
-
-				FinderCacheUtil.removeResult(FINDER_PATH_COUNT_BY_ALLBUTGROUPID,
-					args);
-				FinderCacheUtil.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_ALLBUTGROUPID,
 					args);
 			}
 
@@ -543,6 +518,7 @@ public class EventEntryPersistenceImpl extends BasePersistenceImpl<EventEntry>
 
 				FinderCacheUtil.removeResult(FINDER_PATH_COUNT_BY_ENTRYFINDER,
 					args);
+
 				FinderCacheUtil.removeResult(FINDER_PATH_FETCH_BY_ENTRYFINDER,
 					args);
 
@@ -1271,15 +1247,8 @@ public class EventEntryPersistenceImpl extends BasePersistenceImpl<EventEntry>
 		FinderPath finderPath = null;
 		Object[] finderArgs = null;
 
-		if ((start == QueryUtil.ALL_POS) && (end == QueryUtil.ALL_POS) &&
-				(orderByComparator == null)) {
-			finderPath = FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_ALLBUTGROUPID;
-			finderArgs = new Object[] { groupId };
-		}
-		else {
-			finderPath = FINDER_PATH_WITH_PAGINATION_FIND_BY_ALLBUTGROUPID;
-			finderArgs = new Object[] { groupId, start, end, orderByComparator };
-		}
+		finderPath = FINDER_PATH_WITH_PAGINATION_FIND_BY_ALLBUTGROUPID;
+		finderArgs = new Object[] { groupId, start, end, orderByComparator };
 
 		List<EventEntry> list = (List<EventEntry>)FinderCacheUtil.getResult(finderPath,
 				finderArgs, this);
@@ -2792,13 +2761,14 @@ public class EventEntryPersistenceImpl extends BasePersistenceImpl<EventEntry>
 	 *
 	 * @param companyId the company ID
 	 * @param eventEntryId the event entry ID
+	 * @return the event entry that was removed
 	 * @throws SystemException if a system exception occurred
 	 */
-	public void removeByEntryFinder(long companyId, long eventEntryId)
+	public EventEntry removeByEntryFinder(long companyId, long eventEntryId)
 		throws NoSuchEventEntryException, SystemException {
 		EventEntry eventEntry = findByEntryFinder(companyId, eventEntryId);
 
-		remove(eventEntry);
+		return remove(eventEntry);
 	}
 
 	/**
@@ -3004,7 +2974,7 @@ public class EventEntryPersistenceImpl extends BasePersistenceImpl<EventEntry>
 	public int countByAllButGroupId(long groupId) throws SystemException {
 		Object[] finderArgs = new Object[] { groupId };
 
-		Long count = (Long)FinderCacheUtil.getResult(FINDER_PATH_COUNT_BY_ALLBUTGROUPID,
+		Long count = (Long)FinderCacheUtil.getResult(FINDER_PATH_WITH_PAGINATION_COUNT_BY_ALLBUTGROUPID,
 				finderArgs, this);
 
 		if (count == null) {
@@ -3037,7 +3007,7 @@ public class EventEntryPersistenceImpl extends BasePersistenceImpl<EventEntry>
 					count = Long.valueOf(0);
 				}
 
-				FinderCacheUtil.putResult(FINDER_PATH_COUNT_BY_ALLBUTGROUPID,
+				FinderCacheUtil.putResult(FINDER_PATH_WITH_PAGINATION_COUNT_BY_ALLBUTGROUPID,
 					finderArgs, count);
 
 				closeSession(session);

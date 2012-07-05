@@ -556,12 +556,14 @@ public class EventRegistrationUtil {
 	*
 	* @param userId the user ID
 	* @param eventEntryId the event entry ID
+	* @return the event registration that was removed
 	* @throws SystemException if a system exception occurred
 	*/
-	public static void removeByU_ME(long userId, long eventEntryId)
+	public static org.lsp.liferay.portlet.socialliving.model.EventRegistration removeByU_ME(
+		long userId, long eventEntryId)
 		throws com.liferay.portal.kernel.exception.SystemException,
 			org.lsp.liferay.portlet.socialliving.NoSuchEventRegistrationException {
-		getPersistence().removeByU_ME(userId, eventEntryId);
+		return getPersistence().removeByU_ME(userId, eventEntryId);
 	}
 
 	/**

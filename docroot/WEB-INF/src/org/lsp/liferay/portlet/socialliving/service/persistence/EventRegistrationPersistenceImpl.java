@@ -364,6 +364,7 @@ public class EventRegistrationPersistenceImpl extends BasePersistenceImpl<EventR
 		if (isNew || !EventRegistrationModelImpl.COLUMN_BITMASK_ENABLED) {
 			FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 		}
+
 		else {
 			if ((eventRegistrationModelImpl.getColumnBitmask() &
 					FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_EVENTENTRYID.getColumnBitmask()) != 0) {
@@ -428,6 +429,7 @@ public class EventRegistrationPersistenceImpl extends BasePersistenceImpl<EventR
 					};
 
 				FinderCacheUtil.removeResult(FINDER_PATH_COUNT_BY_U_ME, args);
+
 				FinderCacheUtil.removeResult(FINDER_PATH_FETCH_BY_U_ME, args);
 
 				FinderCacheUtil.putResult(FINDER_PATH_FETCH_BY_U_ME,
@@ -1598,13 +1600,14 @@ public class EventRegistrationPersistenceImpl extends BasePersistenceImpl<EventR
 	 *
 	 * @param userId the user ID
 	 * @param eventEntryId the event entry ID
+	 * @return the event registration that was removed
 	 * @throws SystemException if a system exception occurred
 	 */
-	public void removeByU_ME(long userId, long eventEntryId)
+	public EventRegistration removeByU_ME(long userId, long eventEntryId)
 		throws NoSuchEventRegistrationException, SystemException {
 		EventRegistration eventRegistration = findByU_ME(userId, eventEntryId);
 
-		remove(eventRegistration);
+		return remove(eventRegistration);
 	}
 
 	/**

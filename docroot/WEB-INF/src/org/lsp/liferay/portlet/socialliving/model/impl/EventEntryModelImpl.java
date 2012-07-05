@@ -86,7 +86,7 @@ public class EventEntryModelImpl extends BaseModelImpl<EventEntry>
 			{ "longitude", Types.VARCHAR },
 			{ "location", Types.VARCHAR }
 		};
-	public static final String TABLE_SQL_CREATE = "create table LSPSL_EventEntry (eventEntryId LONG not null primary key,companyId LONG,groupId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,title VARCHAR(75) null,description VARCHAR(75) null,startDate DATE null,endDate DATE null,totalAttendees INTEGER,maxAttendees INTEGER,price DOUBLE,thumbnailId LONG,latitude VARCHAR(75) null,longitude VARCHAR(75) null,location VARCHAR(75) null)";
+	public static final String TABLE_SQL_CREATE = "create table LSPSL_EventEntry (eventEntryId LONG not null primary key,companyId LONG,groupId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,title VARCHAR(75) null,description TEXT null,startDate DATE null,endDate DATE null,totalAttendees INTEGER,maxAttendees INTEGER,price DOUBLE,thumbnailId LONG,latitude VARCHAR(75) null,longitude VARCHAR(75) null,location TEXT null)";
 	public static final String TABLE_SQL_DROP = "drop table LSPSL_EventEntry";
 	public static final String ORDER_BY_JPQL = " ORDER BY eventEntry.startDate ASC";
 	public static final String ORDER_BY_SQL = " ORDER BY LSPSL_EventEntry.startDate ASC";
