@@ -8,7 +8,7 @@
 	</route>
 	<route>
 		<pattern>/entry/{eventEntryId:\d+}</pattern>
-		<implicit-parameter name="jspPage">/events/view_entry.jsp</implicit-parameter>
+		<implicit-parameter name="jspPage">/common/view_entry.jsp</implicit-parameter>
 		<implicit-parameter name="p_p_state">maximized</implicit-parameter>
 	</route>
 </routes>

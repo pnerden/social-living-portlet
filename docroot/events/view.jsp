@@ -69,13 +69,13 @@ for (int i = 0; i < eventEntries.size(); i++) {
 	PortletURL viewEventEntryURL = renderResponse.createRenderURL();
 
 	viewEventEntryURL.setWindowState(WindowState.MAXIMIZED);
-	viewEventEntryURL.setParameter("mvcPath", "/events/view_entry.jsp");
+	viewEventEntryURL.setParameter("mvcPath", "/common/view_entry.jsp");
 	viewEventEntryURL.setParameter("eventEntryId", String.valueOf(eventEntry.getEventEntryId()));
 
 	String thumbnailURL = null;
 
 	if (eventEntry.getThumbnailId() == 0) {
-		thumbnailURL = request.getContextPath() + "/events/images/calendar.png";
+		thumbnailURL = request.getContextPath() + "/common/images/calendar.png";
 	}
 	else {
 		thumbnailURL = themeDisplay.getPathImage() + "/events?img_id=" + eventEntry.getThumbnailId() + "&t=" + WebServerServletTokenUtil.getToken(eventEntry.getThumbnailId());

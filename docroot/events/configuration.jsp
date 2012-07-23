@@ -60,6 +60,7 @@ String portletNameSpaceLocation = portletNameSpace + "defaultlocation";
 	</aui:column>
 	
 	<aui:column columnWidth="66" last="true">
+		<span class="portlet-msg-info"><liferay-ui:message key="center-the-map-to-the-default-view-you-want" /></span>
 		<lsp-osm:map occurenceId="0" startLatitude="<%= defaultlatitude %>" startLongitude="<%= defaultlongitude %>" startZoom="<%= defaultzoom %>" locationMarkerActive="true" locationLatitudeFieldIdBind="<%= portletNameSpaceLatitude %>" locationLongitudeFieldIdBind="<%= portletNameSpaceLongitude %>" locationZoomFieldIdBind="<%= portletNameSpaceZoom %>" locationLocationFieldIdBind="<%= portletNameSpaceLocation %>" />
 	</aui:column>
 </aui:layout>

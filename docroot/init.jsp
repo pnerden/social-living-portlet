@@ -72,8 +72,10 @@ page import="com.liferay.portlet.social.service.SocialActivityLocalServiceUtil" 
 page import="com.liferay.portlet.social.service.SocialRelationLocalServiceUtil" %><%@
 page import="com.liferay.portlet.social.service.SocialRequestLocalServiceUtil" %><%@
 page import="org.apache.commons.lang.StringEscapeUtils" %><%@
+page import="org.lsp.liferay.ext.osm.model.GeolocalizationPlot" %><%@
 page import="org.lsp.liferay.portlet.socialliving.NoSuchEventEntryException" %><%@
 page import="org.lsp.liferay.portlet.socialliving.NoSuchEventRegistrationException" %><%@
+page import="org.lsp.liferay.portlet.socialliving.events.portlet.EventsMapPortletUtil" %><%@
 page import="org.lsp.liferay.portlet.socialliving.events.util.EventConstants" %><%@
 page import="org.lsp.liferay.portlet.socialliving.model.EventEntry" %><%@
 page import="org.lsp.liferay.portlet.socialliving.model.EventRegistration" %><%@
@@ -90,8 +92,10 @@ page import="java.text.NumberFormat" %>
 
 <%@ page import="java.util.ArrayList" %><%@
 page import="java.util.Calendar" %><%@
+page import="java.util.Iterator" %><%@
 page import="java.util.LinkedHashMap" %><%@
-page import="java.util.List" %>
+page import="java.util.List" %><%@
+page import="java.util.Vector" %>
 
 <%@ page import="javax.portlet.ActionRequest" %><%@
 page import="javax.portlet.PortletPreferences" %><%@

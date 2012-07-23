@@ -13,6 +13,15 @@
 		<css-class-wrapper>social-living-portlet-events</css-class-wrapper>
 		<add-default-resource>true</add-default-resource>
 	</portlet>
+	<portlet>
+		<portlet-name>2</portlet-name>
+		<configuration-action-class>com.liferay.portal.kernel.portlet.DefaultConfigurationAction</configuration-action-class>
+		<private-request-attributes>true</private-request-attributes>
+		<header-portlet-css>/events_map/css/events_map.css</header-portlet-css>
+		<header-portlet-javascript>/events_map/js/events_map.js</header-portlet-javascript>
+		<css-class-wrapper>social-living-portlet-events-map</css-class-wrapper>
+		<add-default-resource>true</add-default-resource>
+	</portlet>
 	<role-mapper>
 		<role-name>administrator</role-name>
 		<role-link>Administrator</role-link>
