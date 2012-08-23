@@ -77,11 +77,11 @@ public class EventEntryLocalServiceImpl extends EventEntryLocalServiceBaseImpl {
 		Date startDate = PortalUtil.getDate(
 			startDateMonth, startDateDay, startDateYear, startDateHour,
 			startDateMinute, user.getTimeZone(),
-			new EventEntryStartDateException());
+			EventEntryStartDateException.class);
 
 		Date endDate = PortalUtil.getDate(
 			endDateMonth, endDateDay, endDateYear, endDateHour, endDateMinute,
-			user.getTimeZone(), new EventEntryEndDateException());
+			user.getTimeZone(), EventEntryEndDateException.class);
 
 		Date now = new Date();
 
@@ -219,11 +219,11 @@ public class EventEntryLocalServiceImpl extends EventEntryLocalServiceBaseImpl {
 		Date startDate = PortalUtil.getDate(
 			startDateMonth, startDateDay, startDateYear, startDateHour,
 			startDateMinute, user.getTimeZone(),
-			new EventEntryStartDateException());
+			EventEntryStartDateException.class);
 
 		Date endDate = PortalUtil.getDate(
 			endDateMonth, endDateDay, endDateYear, endDateHour, endDateMinute,
-			user.getTimeZone(), new EventEntryEndDateException());
+			user.getTimeZone(), EventEntryEndDateException.class);
 
 		EventEntry eventEntry = eventEntryPersistence.findByPrimaryKey(
 			eventEntryId);
