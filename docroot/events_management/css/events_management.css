@@ -1,0 +1,17 @@
+@import url(../../css/main.css);
+
+.social-living-portlet-events-management #eventManagementTable {
+	font-family:		"Trebuchet MS", Arial, Helvetica, sans-serif;
+	width:				100%;
+	border-collapse:	collapse;
+}
+
+.social-living-portlet-events-management #eventManagementTable td, .social-living-portlet-events-management #eventManagementTable th {
+	border:				1px solid #98bf21;
+	padding:			3px 7px 2px 7px;
+}
+
+.social-living-portlet-events-management #eventManagementTable th {
+	background:			#98bf21;
+	color:				white;	
+}

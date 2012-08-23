@@ -1,0 +1,9 @@
+@import url(../../css/main.css);
+
+td.events-map-event-image {
+	padding:		5px;
+}
+
+td.events-map-event-image img {
+	width:			48px;
+}

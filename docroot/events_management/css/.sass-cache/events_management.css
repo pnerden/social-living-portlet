@@ -1,0 +1,80 @@
+.checkboxprice {
+  display: block; }
+
+.checkboxprice-blured {
+  display: none; }
+
+.social-living-portlet textarea {
+  width: 100%; }
+
+.social-living-portlet .response {
+  float: left;
+  margin-right: 15px;
+  position: relative; }
+
+.social-living-portlet .response .comments {
+  background: #E2E6E8;
+  border: 1px solid #6B767B;
+  bottom: 110%;
+  display: none;
+  left: -20px;
+  padding: 5px;
+  position: absolute;
+  width: 200px; }
+
+.social-living-portlet .response.hovering .comments {
+  display: block; }
+
+.social-living-portlet .response .comments .indicator {
+  background: url(../images/indicator.png) no-repeat;
+  bottom: -15px;
+  height: 15px;
+  left: 50px;
+  position: absolute;
+  width: 15px; }
+
+.social-living-portlet #eventDetailsColumn {
+  line-height: 0.8em;
+  vertical-align: middle; }
+
+.social-living-portlet #eventGroup {
+  font-weight: bold;
+  font-size: 1.2em; }
+
+.social-living-portlet #eventTitle {
+  font-weight: bold;
+  font-size: 1.6em; }
+
+.social-living-portlet #eventDetailsTable {
+  font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+  width: 100%;
+  border-collapse: collapse; }
+
+.social-living-portlet #eventDetailsTable td, .social-living-portlet #eventDetailsTable th {
+  border: 1px solid #98bf21;
+  padding: 3px 7px 2px 7px; }
+
+.social-living-portlet #eventDetailsTable td.eventFirstTD {
+  font-weight: bold; }
+
+.social-living-portlet #eventDetailsTable tr.eventAltTR td {
+  color: #000000;
+  background-color: #EAF2D3; }
+
+.mapquestCopyright {
+  text-align: center;
+  font-style: italic; }
+
+.social-living-portlet-events-management #eventManagementTable {
+  font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+  width: 100%;
+  border-collapse: collapse; }
+
+.social-living-portlet-events-management #eventManagementTable td, .social-living-portlet-events-management #eventManagementTable th {
+  border: 1px solid #98bf21;
+  padding: 3px 7px 2px 7px; }
+
+.social-living-portlet-events-management #eventManagementTable th {
+  background: #98bf21;
+  color: white; }
+
