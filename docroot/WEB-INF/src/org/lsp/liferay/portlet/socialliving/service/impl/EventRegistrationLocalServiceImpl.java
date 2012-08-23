@@ -17,6 +17,7 @@ package org.lsp.liferay.portlet.socialliving.service.impl;
 import java.util.Date;
 import java.util.List;
 
+import org.lsp.liferay.portlet.socialliving.events.util.EventConstants;
 import org.lsp.liferay.portlet.socialliving.model.EventRegistration;
 import org.lsp.liferay.portlet.socialliving.service.base.EventRegistrationLocalServiceBaseImpl;
 
@@ -60,6 +61,14 @@ public class EventRegistrationLocalServiceImpl
 
 		return eventRegistrationPersistence.findByME_S(
 			eventEntryId, status, start, end);
+	}
+	
+	public List<EventRegistration> getEventPositiveRegistrations(long companyId, long userId) throws SystemException {
+		return getEventRegistrations(companyId, userId, EventConstants.STATUS_YES);
+	}
+	
+	public List<EventRegistration> getEventRegistrations(long companyId, long userId, int status) throws SystemException {
+		return eventRegistrationPersistence.findByUserId(companyId, userId, status);
 	}
 
 	public int getEventRegistrationsCount(long eventEntryId, int status)

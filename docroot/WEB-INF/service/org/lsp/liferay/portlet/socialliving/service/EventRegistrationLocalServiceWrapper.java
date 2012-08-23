@@ -287,6 +287,20 @@ public class EventRegistrationLocalServiceWrapper
 			status, start, end);
 	}
 
+	public java.util.List<org.lsp.liferay.portlet.socialliving.model.EventRegistration> getEventPositiveRegistrations(
+		long companyId, long userId)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return _eventRegistrationLocalService.getEventPositiveRegistrations(companyId,
+			userId);
+	}
+
+	public java.util.List<org.lsp.liferay.portlet.socialliving.model.EventRegistration> getEventRegistrations(
+		long companyId, long userId, int status)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return _eventRegistrationLocalService.getEventRegistrations(companyId,
+			userId, status);
+	}
+
 	public int getEventRegistrationsCount(long eventEntryId, int status)
 		throws com.liferay.portal.kernel.exception.SystemException {
 		return _eventRegistrationLocalService.getEventRegistrationsCount(eventEntryId,

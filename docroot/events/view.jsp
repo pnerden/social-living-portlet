@@ -21,7 +21,7 @@ String tabs1 = ParamUtil.getString(request, "tabs1", "all-events");
 
 int filter = (tabs1.equals("all-events")) ? EventConstants.FILTER_ALL_EVENTS : EventConstants.FILTER_MY_EVENTS;
 
-List<EventEntry> eventEntries = EventEntryServiceUtil.getEventEntries(themeDisplay, filter, displayVisibility);
+List<EventEntry> eventEntries = EventEntryServiceUtil.getEventEntries(themeDisplay, filter, displayVisibility, ActionKeys.VIEW);
 %>
 
 <c:if test="<%= (permissionChecker.hasPermission(groupId, \"org.lsp.liferay.portlet.socialliving.event\", groupId, EventConstants.ADD_EVENT) || (permissionChecker.isGroupAdmin(groupId))) %>">
@@ -41,7 +41,7 @@ List<EventEntry> eventEntries = EventEntryServiceUtil.getEventEntries(themeDispl
 
 	addEventEntryURL.setWindowState(WindowState.MAXIMIZED);
 
-	addEventEntryURL.setParameter("mvcPath", "/events/edit_entry.jsp");
+	addEventEntryURL.setParameter("mvcPath", "/common/edit_entry.jsp");
 	addEventEntryURL.setParameter("redirect", currentURL);
 	%>
 
@@ -131,7 +131,7 @@ for (int i = 0; i < eventEntries.size(); i++) {
 
 			editEventEntryURL.setWindowState(WindowState.MAXIMIZED);
 
-			editEventEntryURL.setParameter("mvcPath", "/events/edit_entry.jsp");
+			editEventEntryURL.setParameter("mvcPath", "/common/edit_entry.jsp");
 			editEventEntryURL.setParameter("redirect", currentURL);
 			editEventEntryURL.setParameter("eventEntryId", String.valueOf(eventEntry.getEventEntryId()));
 			%>

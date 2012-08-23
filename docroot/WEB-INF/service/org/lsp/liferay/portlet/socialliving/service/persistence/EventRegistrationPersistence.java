@@ -154,10 +154,6 @@ public interface EventRegistrationPersistence extends BasePersistence<EventRegis
 	/**
 	* Returns the first event registration in the ordered set where eventEntryId = &#63;.
 	*
-	* <p>
-	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
-	* </p>
-	*
 	* @param eventEntryId the event entry ID
 	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	* @return the first matching event registration
@@ -171,11 +167,20 @@ public interface EventRegistrationPersistence extends BasePersistence<EventRegis
 			org.lsp.liferay.portlet.socialliving.NoSuchEventRegistrationException;
 
 	/**
-	* Returns the last event registration in the ordered set where eventEntryId = &#63;.
+	* Returns the first event registration in the ordered set where eventEntryId = &#63;.
 	*
-	* <p>
-	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
-	* </p>
+	* @param eventEntryId the event entry ID
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the first matching event registration, or <code>null</code> if a matching event registration could not be found
+	* @throws SystemException if a system exception occurred
+	*/
+	public org.lsp.liferay.portlet.socialliving.model.EventRegistration fetchByEventEntryId_First(
+		long eventEntryId,
+		com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
+		throws com.liferay.portal.kernel.exception.SystemException;
+
+	/**
+	* Returns the last event registration in the ordered set where eventEntryId = &#63;.
 	*
 	* @param eventEntryId the event entry ID
 	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
@@ -190,11 +195,20 @@ public interface EventRegistrationPersistence extends BasePersistence<EventRegis
 			org.lsp.liferay.portlet.socialliving.NoSuchEventRegistrationException;
 
 	/**
-	* Returns the event registrations before and after the current event registration in the ordered set where eventEntryId = &#63;.
+	* Returns the last event registration in the ordered set where eventEntryId = &#63;.
 	*
-	* <p>
-	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
-	* </p>
+	* @param eventEntryId the event entry ID
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the last matching event registration, or <code>null</code> if a matching event registration could not be found
+	* @throws SystemException if a system exception occurred
+	*/
+	public org.lsp.liferay.portlet.socialliving.model.EventRegistration fetchByEventEntryId_Last(
+		long eventEntryId,
+		com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
+		throws com.liferay.portal.kernel.exception.SystemException;
+
+	/**
+	* Returns the event registrations before and after the current event registration in the ordered set where eventEntryId = &#63;.
 	*
 	* @param eventRegistrationId the primary key of the current event registration
 	* @param eventEntryId the event entry ID
@@ -301,10 +315,6 @@ public interface EventRegistrationPersistence extends BasePersistence<EventRegis
 	/**
 	* Returns the first event registration in the ordered set where eventEntryId = &#63; and status = &#63;.
 	*
-	* <p>
-	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
-	* </p>
-	*
 	* @param eventEntryId the event entry ID
 	* @param status the status
 	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
@@ -319,11 +329,21 @@ public interface EventRegistrationPersistence extends BasePersistence<EventRegis
 			org.lsp.liferay.portlet.socialliving.NoSuchEventRegistrationException;
 
 	/**
-	* Returns the last event registration in the ordered set where eventEntryId = &#63; and status = &#63;.
+	* Returns the first event registration in the ordered set where eventEntryId = &#63; and status = &#63;.
 	*
-	* <p>
-	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
-	* </p>
+	* @param eventEntryId the event entry ID
+	* @param status the status
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the first matching event registration, or <code>null</code> if a matching event registration could not be found
+	* @throws SystemException if a system exception occurred
+	*/
+	public org.lsp.liferay.portlet.socialliving.model.EventRegistration fetchByME_S_First(
+		long eventEntryId, int status,
+		com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
+		throws com.liferay.portal.kernel.exception.SystemException;
+
+	/**
+	* Returns the last event registration in the ordered set where eventEntryId = &#63; and status = &#63;.
 	*
 	* @param eventEntryId the event entry ID
 	* @param status the status
@@ -339,11 +359,21 @@ public interface EventRegistrationPersistence extends BasePersistence<EventRegis
 			org.lsp.liferay.portlet.socialliving.NoSuchEventRegistrationException;
 
 	/**
-	* Returns the event registrations before and after the current event registration in the ordered set where eventEntryId = &#63; and status = &#63;.
+	* Returns the last event registration in the ordered set where eventEntryId = &#63; and status = &#63;.
 	*
-	* <p>
-	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
-	* </p>
+	* @param eventEntryId the event entry ID
+	* @param status the status
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the last matching event registration, or <code>null</code> if a matching event registration could not be found
+	* @throws SystemException if a system exception occurred
+	*/
+	public org.lsp.liferay.portlet.socialliving.model.EventRegistration fetchByME_S_Last(
+		long eventEntryId, int status,
+		com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
+		throws com.liferay.portal.kernel.exception.SystemException;
+
+	/**
+	* Returns the event registrations before and after the current event registration in the ordered set where eventEntryId = &#63; and status = &#63;.
 	*
 	* @param eventRegistrationId the primary key of the current event registration
 	* @param eventEntryId the event entry ID
@@ -355,6 +385,141 @@ public interface EventRegistrationPersistence extends BasePersistence<EventRegis
 	*/
 	public org.lsp.liferay.portlet.socialliving.model.EventRegistration[] findByME_S_PrevAndNext(
 		long eventRegistrationId, long eventEntryId, int status,
+		com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
+		throws com.liferay.portal.kernel.exception.SystemException,
+			org.lsp.liferay.portlet.socialliving.NoSuchEventRegistrationException;
+
+	/**
+	* Returns all the event registrations where companyId = &#63; and userId = &#63; and status = &#63;.
+	*
+	* @param companyId the company ID
+	* @param userId the user ID
+	* @param status the status
+	* @return the matching event registrations
+	* @throws SystemException if a system exception occurred
+	*/
+	public java.util.List<org.lsp.liferay.portlet.socialliving.model.EventRegistration> findByUserId(
+		long companyId, long userId, int status)
+		throws com.liferay.portal.kernel.exception.SystemException;
+
+	/**
+	* Returns a range of all the event registrations where companyId = &#63; and userId = &#63; and status = &#63;.
+	*
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+	* </p>
+	*
+	* @param companyId the company ID
+	* @param userId the user ID
+	* @param status the status
+	* @param start the lower bound of the range of event registrations
+	* @param end the upper bound of the range of event registrations (not inclusive)
+	* @return the range of matching event registrations
+	* @throws SystemException if a system exception occurred
+	*/
+	public java.util.List<org.lsp.liferay.portlet.socialliving.model.EventRegistration> findByUserId(
+		long companyId, long userId, int status, int start, int end)
+		throws com.liferay.portal.kernel.exception.SystemException;
+
+	/**
+	* Returns an ordered range of all the event registrations where companyId = &#63; and userId = &#63; and status = &#63;.
+	*
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+	* </p>
+	*
+	* @param companyId the company ID
+	* @param userId the user ID
+	* @param status the status
+	* @param start the lower bound of the range of event registrations
+	* @param end the upper bound of the range of event registrations (not inclusive)
+	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	* @return the ordered range of matching event registrations
+	* @throws SystemException if a system exception occurred
+	*/
+	public java.util.List<org.lsp.liferay.portlet.socialliving.model.EventRegistration> findByUserId(
+		long companyId, long userId, int status, int start, int end,
+		com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
+		throws com.liferay.portal.kernel.exception.SystemException;
+
+	/**
+	* Returns the first event registration in the ordered set where companyId = &#63; and userId = &#63; and status = &#63;.
+	*
+	* @param companyId the company ID
+	* @param userId the user ID
+	* @param status the status
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the first matching event registration
+	* @throws org.lsp.liferay.portlet.socialliving.NoSuchEventRegistrationException if a matching event registration could not be found
+	* @throws SystemException if a system exception occurred
+	*/
+	public org.lsp.liferay.portlet.socialliving.model.EventRegistration findByUserId_First(
+		long companyId, long userId, int status,
+		com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
+		throws com.liferay.portal.kernel.exception.SystemException,
+			org.lsp.liferay.portlet.socialliving.NoSuchEventRegistrationException;
+
+	/**
+	* Returns the first event registration in the ordered set where companyId = &#63; and userId = &#63; and status = &#63;.
+	*
+	* @param companyId the company ID
+	* @param userId the user ID
+	* @param status the status
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the first matching event registration, or <code>null</code> if a matching event registration could not be found
+	* @throws SystemException if a system exception occurred
+	*/
+	public org.lsp.liferay.portlet.socialliving.model.EventRegistration fetchByUserId_First(
+		long companyId, long userId, int status,
+		com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
+		throws com.liferay.portal.kernel.exception.SystemException;
+
+	/**
+	* Returns the last event registration in the ordered set where companyId = &#63; and userId = &#63; and status = &#63;.
+	*
+	* @param companyId the company ID
+	* @param userId the user ID
+	* @param status the status
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the last matching event registration
+	* @throws org.lsp.liferay.portlet.socialliving.NoSuchEventRegistrationException if a matching event registration could not be found
+	* @throws SystemException if a system exception occurred
+	*/
+	public org.lsp.liferay.portlet.socialliving.model.EventRegistration findByUserId_Last(
+		long companyId, long userId, int status,
+		com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
+		throws com.liferay.portal.kernel.exception.SystemException,
+			org.lsp.liferay.portlet.socialliving.NoSuchEventRegistrationException;
+
+	/**
+	* Returns the last event registration in the ordered set where companyId = &#63; and userId = &#63; and status = &#63;.
+	*
+	* @param companyId the company ID
+	* @param userId the user ID
+	* @param status the status
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the last matching event registration, or <code>null</code> if a matching event registration could not be found
+	* @throws SystemException if a system exception occurred
+	*/
+	public org.lsp.liferay.portlet.socialliving.model.EventRegistration fetchByUserId_Last(
+		long companyId, long userId, int status,
+		com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
+		throws com.liferay.portal.kernel.exception.SystemException;
+
+	/**
+	* Returns the event registrations before and after the current event registration in the ordered set where companyId = &#63; and userId = &#63; and status = &#63;.
+	*
+	* @param eventRegistrationId the primary key of the current event registration
+	* @param companyId the company ID
+	* @param userId the user ID
+	* @param status the status
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the previous, current, and next event registration
+	* @throws org.lsp.liferay.portlet.socialliving.NoSuchEventRegistrationException if a event registration with the primary key could not be found
+	* @throws SystemException if a system exception occurred
+	*/
+	public org.lsp.liferay.portlet.socialliving.model.EventRegistration[] findByUserId_PrevAndNext(
+		long eventRegistrationId, long companyId, long userId, int status,
 		com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
 		throws com.liferay.portal.kernel.exception.SystemException,
 			org.lsp.liferay.portlet.socialliving.NoSuchEventRegistrationException;
@@ -435,6 +600,17 @@ public interface EventRegistrationPersistence extends BasePersistence<EventRegis
 		throws com.liferay.portal.kernel.exception.SystemException;
 
 	/**
+	* Removes all the event registrations where companyId = &#63; and userId = &#63; and status = &#63; from the database.
+	*
+	* @param companyId the company ID
+	* @param userId the user ID
+	* @param status the status
+	* @throws SystemException if a system exception occurred
+	*/
+	public void removeByUserId(long companyId, long userId, int status)
+		throws com.liferay.portal.kernel.exception.SystemException;
+
+	/**
 	* Removes all the event registrations from the database.
 	*
 	* @throws SystemException if a system exception occurred
@@ -472,6 +648,18 @@ public interface EventRegistrationPersistence extends BasePersistence<EventRegis
 	* @throws SystemException if a system exception occurred
 	*/
 	public int countByME_S(long eventEntryId, int status)
+		throws com.liferay.portal.kernel.exception.SystemException;
+
+	/**
+	* Returns the number of event registrations where companyId = &#63; and userId = &#63; and status = &#63;.
+	*
+	* @param companyId the company ID
+	* @param userId the user ID
+	* @param status the status
+	* @return the number of matching event registrations
+	* @throws SystemException if a system exception occurred
+	*/
+	public int countByUserId(long companyId, long userId, int status)
 		throws com.liferay.portal.kernel.exception.SystemException;
 
 	/**

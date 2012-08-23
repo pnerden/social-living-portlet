@@ -54,15 +54,22 @@ public class EventEntryServiceClpInvoker {
 				"com.liferay.portal.theme.ThemeDisplay", "int", "int"
 			};
 
-		_methodName40 = "getVisibility";
+		_methodName40 = "getEventEntries";
 
 		_methodParameterTypes40 = new String[] {
+				"com.liferay.portal.theme.ThemeDisplay", "int", "int",
+				"java.lang.String"
+			};
+
+		_methodName41 = "getVisibility";
+
+		_methodParameterTypes41 = new String[] {
 				"org.lsp.liferay.portlet.socialliving.model.EventEntry"
 			};
 
-		_methodName41 = "updateEventEntry";
+		_methodName42 = "updateEventEntry";
 
-		_methodParameterTypes41 = new String[] {
+		_methodParameterTypes42 = new String[] {
 				"long", "long", "java.lang.String", "java.lang.String", "int",
 				"int", "int", "int", "int", "int", "int", "int", "int", "int",
 				"int", "int", "double", "byte[][]", "int", "java.lang.String",
@@ -126,11 +133,19 @@ public class EventEntryServiceClpInvoker {
 
 		if (_methodName40.equals(name) &&
 				Arrays.deepEquals(_methodParameterTypes40, parameterTypes)) {
-			return EventEntryServiceUtil.getVisibility((org.lsp.liferay.portlet.socialliving.model.EventEntry)arguments[0]);
+			return EventEntryServiceUtil.getEventEntries((com.liferay.portal.theme.ThemeDisplay)arguments[0],
+				((Integer)arguments[1]).intValue(),
+				((Integer)arguments[2]).intValue(),
+				(java.lang.String)arguments[3]);
 		}
 
 		if (_methodName41.equals(name) &&
 				Arrays.deepEquals(_methodParameterTypes41, parameterTypes)) {
+			return EventEntryServiceUtil.getVisibility((org.lsp.liferay.portlet.socialliving.model.EventEntry)arguments[0]);
+		}
+
+		if (_methodName42.equals(name) &&
+				Arrays.deepEquals(_methodParameterTypes42, parameterTypes)) {
 			return EventEntryServiceUtil.updateEventEntry(((Long)arguments[0]).longValue(),
 				((Long)arguments[1]).longValue(),
 				(java.lang.String)arguments[2], (java.lang.String)arguments[3],
@@ -171,4 +186,6 @@ public class EventEntryServiceClpInvoker {
 	private String[] _methodParameterTypes40;
 	private String _methodName41;
 	private String[] _methodParameterTypes41;
+	private String _methodName42;
+	private String[] _methodParameterTypes42;
 }

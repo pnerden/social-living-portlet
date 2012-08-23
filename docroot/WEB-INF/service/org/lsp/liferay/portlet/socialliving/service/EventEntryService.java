@@ -94,6 +94,13 @@ public interface EventEntryService extends BaseService, InvokableService {
 			com.liferay.portal.kernel.exception.SystemException;
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public java.util.List<org.lsp.liferay.portlet.socialliving.model.EventEntry> getEventEntries(
+		com.liferay.portal.theme.ThemeDisplay themeDisplay, int filter,
+		int visibility, java.lang.String permissionLevel)
+		throws com.liferay.portal.kernel.exception.PortalException,
+			com.liferay.portal.kernel.exception.SystemException;
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public int getVisibility(
 		org.lsp.liferay.portlet.socialliving.model.EventEntry eventEntry)
 		throws com.liferay.portal.kernel.exception.PortalException,

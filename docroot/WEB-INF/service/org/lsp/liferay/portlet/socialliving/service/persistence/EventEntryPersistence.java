@@ -196,10 +196,6 @@ public interface EventEntryPersistence extends BasePersistence<EventEntry> {
 	/**
 	* Returns the first event entry in the ordered set where companyId = &#63; and groupId = &#63;.
 	*
-	* <p>
-	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
-	* </p>
-	*
 	* @param companyId the company ID
 	* @param groupId the group ID
 	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
@@ -214,11 +210,21 @@ public interface EventEntryPersistence extends BasePersistence<EventEntry> {
 			org.lsp.liferay.portlet.socialliving.NoSuchEventEntryException;
 
 	/**
-	* Returns the last event entry in the ordered set where companyId = &#63; and groupId = &#63;.
+	* Returns the first event entry in the ordered set where companyId = &#63; and groupId = &#63;.
 	*
-	* <p>
-	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
-	* </p>
+	* @param companyId the company ID
+	* @param groupId the group ID
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the first matching event entry, or <code>null</code> if a matching event entry could not be found
+	* @throws SystemException if a system exception occurred
+	*/
+	public org.lsp.liferay.portlet.socialliving.model.EventEntry fetchByGlobalFinder_First(
+		long companyId, long groupId,
+		com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
+		throws com.liferay.portal.kernel.exception.SystemException;
+
+	/**
+	* Returns the last event entry in the ordered set where companyId = &#63; and groupId = &#63;.
 	*
 	* @param companyId the company ID
 	* @param groupId the group ID
@@ -234,11 +240,21 @@ public interface EventEntryPersistence extends BasePersistence<EventEntry> {
 			org.lsp.liferay.portlet.socialliving.NoSuchEventEntryException;
 
 	/**
-	* Returns the event entries before and after the current event entry in the ordered set where companyId = &#63; and groupId = &#63;.
+	* Returns the last event entry in the ordered set where companyId = &#63; and groupId = &#63;.
 	*
-	* <p>
-	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
-	* </p>
+	* @param companyId the company ID
+	* @param groupId the group ID
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the last matching event entry, or <code>null</code> if a matching event entry could not be found
+	* @throws SystemException if a system exception occurred
+	*/
+	public org.lsp.liferay.portlet.socialliving.model.EventEntry fetchByGlobalFinder_Last(
+		long companyId, long groupId,
+		com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
+		throws com.liferay.portal.kernel.exception.SystemException;
+
+	/**
+	* Returns the event entries before and after the current event entry in the ordered set where companyId = &#63; and groupId = &#63;.
 	*
 	* @param eventEntryId the primary key of the current event entry
 	* @param companyId the company ID
@@ -304,10 +320,6 @@ public interface EventEntryPersistence extends BasePersistence<EventEntry> {
 	/**
 	* Returns the first event entry in the ordered set where groupId &ne; &#63;.
 	*
-	* <p>
-	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
-	* </p>
-	*
 	* @param groupId the group ID
 	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	* @return the first matching event entry
@@ -321,11 +333,20 @@ public interface EventEntryPersistence extends BasePersistence<EventEntry> {
 			org.lsp.liferay.portlet.socialliving.NoSuchEventEntryException;
 
 	/**
-	* Returns the last event entry in the ordered set where groupId &ne; &#63;.
+	* Returns the first event entry in the ordered set where groupId &ne; &#63;.
 	*
-	* <p>
-	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
-	* </p>
+	* @param groupId the group ID
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the first matching event entry, or <code>null</code> if a matching event entry could not be found
+	* @throws SystemException if a system exception occurred
+	*/
+	public org.lsp.liferay.portlet.socialliving.model.EventEntry fetchByAllButGroupId_First(
+		long groupId,
+		com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
+		throws com.liferay.portal.kernel.exception.SystemException;
+
+	/**
+	* Returns the last event entry in the ordered set where groupId &ne; &#63;.
 	*
 	* @param groupId the group ID
 	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
@@ -340,11 +361,20 @@ public interface EventEntryPersistence extends BasePersistence<EventEntry> {
 			org.lsp.liferay.portlet.socialliving.NoSuchEventEntryException;
 
 	/**
-	* Returns the event entries before and after the current event entry in the ordered set where groupId &ne; &#63;.
+	* Returns the last event entry in the ordered set where groupId &ne; &#63;.
 	*
-	* <p>
-	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
-	* </p>
+	* @param groupId the group ID
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the last matching event entry, or <code>null</code> if a matching event entry could not be found
+	* @throws SystemException if a system exception occurred
+	*/
+	public org.lsp.liferay.portlet.socialliving.model.EventEntry fetchByAllButGroupId_Last(
+		long groupId,
+		com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
+		throws com.liferay.portal.kernel.exception.SystemException;
+
+	/**
+	* Returns the event entries before and after the current event entry in the ordered set where groupId &ne; &#63;.
 	*
 	* @param eventEntryId the primary key of the current event entry
 	* @param groupId the group ID
@@ -412,10 +442,6 @@ public interface EventEntryPersistence extends BasePersistence<EventEntry> {
 	/**
 	* Returns the first event entry in the ordered set where companyId = &#63; and groupId = &#63;.
 	*
-	* <p>
-	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
-	* </p>
-	*
 	* @param companyId the company ID
 	* @param groupId the group ID
 	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
@@ -430,11 +456,21 @@ public interface EventEntryPersistence extends BasePersistence<EventEntry> {
 			org.lsp.liferay.portlet.socialliving.NoSuchEventEntryException;
 
 	/**
-	* Returns the last event entry in the ordered set where companyId = &#63; and groupId = &#63;.
+	* Returns the first event entry in the ordered set where companyId = &#63; and groupId = &#63;.
 	*
-	* <p>
-	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
-	* </p>
+	* @param companyId the company ID
+	* @param groupId the group ID
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the first matching event entry, or <code>null</code> if a matching event entry could not be found
+	* @throws SystemException if a system exception occurred
+	*/
+	public org.lsp.liferay.portlet.socialliving.model.EventEntry fetchByGroupId_First(
+		long companyId, long groupId,
+		com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
+		throws com.liferay.portal.kernel.exception.SystemException;
+
+	/**
+	* Returns the last event entry in the ordered set where companyId = &#63; and groupId = &#63;.
 	*
 	* @param companyId the company ID
 	* @param groupId the group ID
@@ -450,11 +486,21 @@ public interface EventEntryPersistence extends BasePersistence<EventEntry> {
 			org.lsp.liferay.portlet.socialliving.NoSuchEventEntryException;
 
 	/**
-	* Returns the event entries before and after the current event entry in the ordered set where companyId = &#63; and groupId = &#63;.
+	* Returns the last event entry in the ordered set where companyId = &#63; and groupId = &#63;.
 	*
-	* <p>
-	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
-	* </p>
+	* @param companyId the company ID
+	* @param groupId the group ID
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the last matching event entry, or <code>null</code> if a matching event entry could not be found
+	* @throws SystemException if a system exception occurred
+	*/
+	public org.lsp.liferay.portlet.socialliving.model.EventEntry fetchByGroupId_Last(
+		long companyId, long groupId,
+		com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
+		throws com.liferay.portal.kernel.exception.SystemException;
+
+	/**
+	* Returns the event entries before and after the current event entry in the ordered set where companyId = &#63; and groupId = &#63;.
 	*
 	* @param eventEntryId the primary key of the current event entry
 	* @param companyId the company ID
@@ -520,10 +566,6 @@ public interface EventEntryPersistence extends BasePersistence<EventEntry> {
 	/**
 	* Returns the first event entry in the ordered set where companyId = &#63;.
 	*
-	* <p>
-	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
-	* </p>
-	*
 	* @param companyId the company ID
 	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	* @return the first matching event entry
@@ -537,11 +579,20 @@ public interface EventEntryPersistence extends BasePersistence<EventEntry> {
 			org.lsp.liferay.portlet.socialliving.NoSuchEventEntryException;
 
 	/**
-	* Returns the last event entry in the ordered set where companyId = &#63;.
+	* Returns the first event entry in the ordered set where companyId = &#63;.
 	*
-	* <p>
-	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
-	* </p>
+	* @param companyId the company ID
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the first matching event entry, or <code>null</code> if a matching event entry could not be found
+	* @throws SystemException if a system exception occurred
+	*/
+	public org.lsp.liferay.portlet.socialliving.model.EventEntry fetchByCompanyId_First(
+		long companyId,
+		com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
+		throws com.liferay.portal.kernel.exception.SystemException;
+
+	/**
+	* Returns the last event entry in the ordered set where companyId = &#63;.
 	*
 	* @param companyId the company ID
 	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
@@ -556,11 +607,20 @@ public interface EventEntryPersistence extends BasePersistence<EventEntry> {
 			org.lsp.liferay.portlet.socialliving.NoSuchEventEntryException;
 
 	/**
-	* Returns the event entries before and after the current event entry in the ordered set where companyId = &#63;.
+	* Returns the last event entry in the ordered set where companyId = &#63;.
 	*
-	* <p>
-	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
-	* </p>
+	* @param companyId the company ID
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the last matching event entry, or <code>null</code> if a matching event entry could not be found
+	* @throws SystemException if a system exception occurred
+	*/
+	public org.lsp.liferay.portlet.socialliving.model.EventEntry fetchByCompanyId_Last(
+		long companyId,
+		com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
+		throws com.liferay.portal.kernel.exception.SystemException;
+
+	/**
+	* Returns the event entries before and after the current event entry in the ordered set where companyId = &#63;.
 	*
 	* @param eventEntryId the primary key of the current event entry
 	* @param companyId the company ID
@@ -624,10 +684,6 @@ public interface EventEntryPersistence extends BasePersistence<EventEntry> {
 	/**
 	* Returns the first event entry in the ordered set where userId = &#63;.
 	*
-	* <p>
-	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
-	* </p>
-	*
 	* @param userId the user ID
 	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	* @return the first matching event entry
@@ -641,11 +697,20 @@ public interface EventEntryPersistence extends BasePersistence<EventEntry> {
 			org.lsp.liferay.portlet.socialliving.NoSuchEventEntryException;
 
 	/**
-	* Returns the last event entry in the ordered set where userId = &#63;.
+	* Returns the first event entry in the ordered set where userId = &#63;.
 	*
-	* <p>
-	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
-	* </p>
+	* @param userId the user ID
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the first matching event entry, or <code>null</code> if a matching event entry could not be found
+	* @throws SystemException if a system exception occurred
+	*/
+	public org.lsp.liferay.portlet.socialliving.model.EventEntry fetchByUserId_First(
+		long userId,
+		com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
+		throws com.liferay.portal.kernel.exception.SystemException;
+
+	/**
+	* Returns the last event entry in the ordered set where userId = &#63;.
 	*
 	* @param userId the user ID
 	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
@@ -660,11 +725,20 @@ public interface EventEntryPersistence extends BasePersistence<EventEntry> {
 			org.lsp.liferay.portlet.socialliving.NoSuchEventEntryException;
 
 	/**
-	* Returns the event entries before and after the current event entry in the ordered set where userId = &#63;.
+	* Returns the last event entry in the ordered set where userId = &#63;.
 	*
-	* <p>
-	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
-	* </p>
+	* @param userId the user ID
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the last matching event entry, or <code>null</code> if a matching event entry could not be found
+	* @throws SystemException if a system exception occurred
+	*/
+	public org.lsp.liferay.portlet.socialliving.model.EventEntry fetchByUserId_Last(
+		long userId,
+		com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
+		throws com.liferay.portal.kernel.exception.SystemException;
+
+	/**
+	* Returns the event entries before and after the current event entry in the ordered set where userId = &#63;.
 	*
 	* @param eventEntryId the primary key of the current event entry
 	* @param userId the user ID

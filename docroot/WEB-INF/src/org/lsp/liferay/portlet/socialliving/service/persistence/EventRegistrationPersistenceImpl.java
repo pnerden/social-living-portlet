@@ -131,6 +131,36 @@ public class EventRegistrationPersistenceImpl extends BasePersistenceImpl<EventR
 			EventRegistrationModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByME_S",
 			new String[] { Long.class.getName(), Integer.class.getName() });
+	public static final FinderPath FINDER_PATH_WITH_PAGINATION_FIND_BY_USERID = new FinderPath(EventRegistrationModelImpl.ENTITY_CACHE_ENABLED,
+			EventRegistrationModelImpl.FINDER_CACHE_ENABLED,
+			EventRegistrationImpl.class,
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByUserId",
+			new String[] {
+				Long.class.getName(), Long.class.getName(),
+				Integer.class.getName(),
+				
+			"java.lang.Integer", "java.lang.Integer",
+				"com.liferay.portal.kernel.util.OrderByComparator"
+			});
+	public static final FinderPath FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_USERID =
+		new FinderPath(EventRegistrationModelImpl.ENTITY_CACHE_ENABLED,
+			EventRegistrationModelImpl.FINDER_CACHE_ENABLED,
+			EventRegistrationImpl.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByUserId",
+			new String[] {
+				Long.class.getName(), Long.class.getName(),
+				Integer.class.getName()
+			},
+			EventRegistrationModelImpl.COMPANYID_COLUMN_BITMASK |
+			EventRegistrationModelImpl.USERID_COLUMN_BITMASK |
+			EventRegistrationModelImpl.STATUS_COLUMN_BITMASK);
+	public static final FinderPath FINDER_PATH_COUNT_BY_USERID = new FinderPath(EventRegistrationModelImpl.ENTITY_CACHE_ENABLED,
+			EventRegistrationModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUserId",
+			new String[] {
+				Long.class.getName(), Long.class.getName(),
+				Integer.class.getName()
+			});
 	public static final FinderPath FINDER_PATH_WITH_PAGINATION_FIND_ALL = new FinderPath(EventRegistrationModelImpl.ENTITY_CACHE_ENABLED,
 			EventRegistrationModelImpl.FINDER_CACHE_ENABLED,
 			EventRegistrationImpl.class,
@@ -405,6 +435,29 @@ public class EventRegistrationPersistenceImpl extends BasePersistenceImpl<EventR
 
 				FinderCacheUtil.removeResult(FINDER_PATH_COUNT_BY_ME_S, args);
 				FinderCacheUtil.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_ME_S,
+					args);
+			}
+
+			if ((eventRegistrationModelImpl.getColumnBitmask() &
+					FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_USERID.getColumnBitmask()) != 0) {
+				Object[] args = new Object[] {
+						Long.valueOf(eventRegistrationModelImpl.getOriginalCompanyId()),
+						Long.valueOf(eventRegistrationModelImpl.getOriginalUserId()),
+						Integer.valueOf(eventRegistrationModelImpl.getOriginalStatus())
+					};
+
+				FinderCacheUtil.removeResult(FINDER_PATH_COUNT_BY_USERID, args);
+				FinderCacheUtil.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_USERID,
+					args);
+
+				args = new Object[] {
+						Long.valueOf(eventRegistrationModelImpl.getCompanyId()),
+						Long.valueOf(eventRegistrationModelImpl.getUserId()),
+						Integer.valueOf(eventRegistrationModelImpl.getStatus())
+					};
+
+				FinderCacheUtil.removeResult(FINDER_PATH_COUNT_BY_USERID, args);
+				FinderCacheUtil.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_USERID,
 					args);
 			}
 		}
@@ -710,10 +763,6 @@ public class EventRegistrationPersistenceImpl extends BasePersistenceImpl<EventR
 	/**
 	 * Returns the first event registration in the ordered set where eventEntryId = &#63;.
 	 *
-	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
-	 * </p>
-	 *
 	 * @param eventEntryId the event entry ID
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	 * @return the first matching event registration
@@ -723,32 +772,47 @@ public class EventRegistrationPersistenceImpl extends BasePersistenceImpl<EventR
 	public EventRegistration findByEventEntryId_First(long eventEntryId,
 		OrderByComparator orderByComparator)
 		throws NoSuchEventRegistrationException, SystemException {
+		EventRegistration eventRegistration = fetchByEventEntryId_First(eventEntryId,
+				orderByComparator);
+
+		if (eventRegistration != null) {
+			return eventRegistration;
+		}
+
+		StringBundler msg = new StringBundler(4);
+
+		msg.append(_NO_SUCH_ENTITY_WITH_KEY);
+
+		msg.append("eventEntryId=");
+		msg.append(eventEntryId);
+
+		msg.append(StringPool.CLOSE_CURLY_BRACE);
+
+		throw new NoSuchEventRegistrationException(msg.toString());
+	}
+
+	/**
+	 * Returns the first event registration in the ordered set where eventEntryId = &#63;.
+	 *
+	 * @param eventEntryId the event entry ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the first matching event registration, or <code>null</code> if a matching event registration could not be found
+	 * @throws SystemException if a system exception occurred
+	 */
+	public EventRegistration fetchByEventEntryId_First(long eventEntryId,
+		OrderByComparator orderByComparator) throws SystemException {
 		List<EventRegistration> list = findByEventEntryId(eventEntryId, 0, 1,
 				orderByComparator);
 
-		if (list.isEmpty()) {
-			StringBundler msg = new StringBundler(4);
-
-			msg.append(_NO_SUCH_ENTITY_WITH_KEY);
-
-			msg.append("eventEntryId=");
-			msg.append(eventEntryId);
-
-			msg.append(StringPool.CLOSE_CURLY_BRACE);
-
-			throw new NoSuchEventRegistrationException(msg.toString());
-		}
-		else {
+		if (!list.isEmpty()) {
 			return list.get(0);
 		}
+
+		return null;
 	}
 
 	/**
 	 * Returns the last event registration in the ordered set where eventEntryId = &#63;.
-	 *
-	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
-	 * </p>
 	 *
 	 * @param eventEntryId the event entry ID
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
@@ -759,34 +823,49 @@ public class EventRegistrationPersistenceImpl extends BasePersistenceImpl<EventR
 	public EventRegistration findByEventEntryId_Last(long eventEntryId,
 		OrderByComparator orderByComparator)
 		throws NoSuchEventRegistrationException, SystemException {
+		EventRegistration eventRegistration = fetchByEventEntryId_Last(eventEntryId,
+				orderByComparator);
+
+		if (eventRegistration != null) {
+			return eventRegistration;
+		}
+
+		StringBundler msg = new StringBundler(4);
+
+		msg.append(_NO_SUCH_ENTITY_WITH_KEY);
+
+		msg.append("eventEntryId=");
+		msg.append(eventEntryId);
+
+		msg.append(StringPool.CLOSE_CURLY_BRACE);
+
+		throw new NoSuchEventRegistrationException(msg.toString());
+	}
+
+	/**
+	 * Returns the last event registration in the ordered set where eventEntryId = &#63;.
+	 *
+	 * @param eventEntryId the event entry ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the last matching event registration, or <code>null</code> if a matching event registration could not be found
+	 * @throws SystemException if a system exception occurred
+	 */
+	public EventRegistration fetchByEventEntryId_Last(long eventEntryId,
+		OrderByComparator orderByComparator) throws SystemException {
 		int count = countByEventEntryId(eventEntryId);
 
 		List<EventRegistration> list = findByEventEntryId(eventEntryId,
 				count - 1, count, orderByComparator);
 
-		if (list.isEmpty()) {
-			StringBundler msg = new StringBundler(4);
-
-			msg.append(_NO_SUCH_ENTITY_WITH_KEY);
-
-			msg.append("eventEntryId=");
-			msg.append(eventEntryId);
-
-			msg.append(StringPool.CLOSE_CURLY_BRACE);
-
-			throw new NoSuchEventRegistrationException(msg.toString());
-		}
-		else {
+		if (!list.isEmpty()) {
 			return list.get(0);
 		}
+
+		return null;
 	}
 
 	/**
 	 * Returns the event registrations before and after the current event registration in the ordered set where eventEntryId = &#63;.
-	 *
-	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
-	 * </p>
 	 *
 	 * @param eventRegistrationId the primary key of the current event registration
 	 * @param eventEntryId the event entry ID
@@ -1231,10 +1310,6 @@ public class EventRegistrationPersistenceImpl extends BasePersistenceImpl<EventR
 	/**
 	 * Returns the first event registration in the ordered set where eventEntryId = &#63; and status = &#63;.
 	 *
-	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
-	 * </p>
-	 *
 	 * @param eventEntryId the event entry ID
 	 * @param status the status
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
@@ -1245,35 +1320,51 @@ public class EventRegistrationPersistenceImpl extends BasePersistenceImpl<EventR
 	public EventRegistration findByME_S_First(long eventEntryId, int status,
 		OrderByComparator orderByComparator)
 		throws NoSuchEventRegistrationException, SystemException {
+		EventRegistration eventRegistration = fetchByME_S_First(eventEntryId,
+				status, orderByComparator);
+
+		if (eventRegistration != null) {
+			return eventRegistration;
+		}
+
+		StringBundler msg = new StringBundler(6);
+
+		msg.append(_NO_SUCH_ENTITY_WITH_KEY);
+
+		msg.append("eventEntryId=");
+		msg.append(eventEntryId);
+
+		msg.append(", status=");
+		msg.append(status);
+
+		msg.append(StringPool.CLOSE_CURLY_BRACE);
+
+		throw new NoSuchEventRegistrationException(msg.toString());
+	}
+
+	/**
+	 * Returns the first event registration in the ordered set where eventEntryId = &#63; and status = &#63;.
+	 *
+	 * @param eventEntryId the event entry ID
+	 * @param status the status
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the first matching event registration, or <code>null</code> if a matching event registration could not be found
+	 * @throws SystemException if a system exception occurred
+	 */
+	public EventRegistration fetchByME_S_First(long eventEntryId, int status,
+		OrderByComparator orderByComparator) throws SystemException {
 		List<EventRegistration> list = findByME_S(eventEntryId, status, 0, 1,
 				orderByComparator);
 
-		if (list.isEmpty()) {
-			StringBundler msg = new StringBundler(6);
-
-			msg.append(_NO_SUCH_ENTITY_WITH_KEY);
-
-			msg.append("eventEntryId=");
-			msg.append(eventEntryId);
-
-			msg.append(", status=");
-			msg.append(status);
-
-			msg.append(StringPool.CLOSE_CURLY_BRACE);
-
-			throw new NoSuchEventRegistrationException(msg.toString());
-		}
-		else {
+		if (!list.isEmpty()) {
 			return list.get(0);
 		}
+
+		return null;
 	}
 
 	/**
 	 * Returns the last event registration in the ordered set where eventEntryId = &#63; and status = &#63;.
-	 *
-	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
-	 * </p>
 	 *
 	 * @param eventEntryId the event entry ID
 	 * @param status the status
@@ -1285,37 +1376,53 @@ public class EventRegistrationPersistenceImpl extends BasePersistenceImpl<EventR
 	public EventRegistration findByME_S_Last(long eventEntryId, int status,
 		OrderByComparator orderByComparator)
 		throws NoSuchEventRegistrationException, SystemException {
+		EventRegistration eventRegistration = fetchByME_S_Last(eventEntryId,
+				status, orderByComparator);
+
+		if (eventRegistration != null) {
+			return eventRegistration;
+		}
+
+		StringBundler msg = new StringBundler(6);
+
+		msg.append(_NO_SUCH_ENTITY_WITH_KEY);
+
+		msg.append("eventEntryId=");
+		msg.append(eventEntryId);
+
+		msg.append(", status=");
+		msg.append(status);
+
+		msg.append(StringPool.CLOSE_CURLY_BRACE);
+
+		throw new NoSuchEventRegistrationException(msg.toString());
+	}
+
+	/**
+	 * Returns the last event registration in the ordered set where eventEntryId = &#63; and status = &#63;.
+	 *
+	 * @param eventEntryId the event entry ID
+	 * @param status the status
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the last matching event registration, or <code>null</code> if a matching event registration could not be found
+	 * @throws SystemException if a system exception occurred
+	 */
+	public EventRegistration fetchByME_S_Last(long eventEntryId, int status,
+		OrderByComparator orderByComparator) throws SystemException {
 		int count = countByME_S(eventEntryId, status);
 
 		List<EventRegistration> list = findByME_S(eventEntryId, status,
 				count - 1, count, orderByComparator);
 
-		if (list.isEmpty()) {
-			StringBundler msg = new StringBundler(6);
-
-			msg.append(_NO_SUCH_ENTITY_WITH_KEY);
-
-			msg.append("eventEntryId=");
-			msg.append(eventEntryId);
-
-			msg.append(", status=");
-			msg.append(status);
-
-			msg.append(StringPool.CLOSE_CURLY_BRACE);
-
-			throw new NoSuchEventRegistrationException(msg.toString());
-		}
-		else {
+		if (!list.isEmpty()) {
 			return list.get(0);
 		}
+
+		return null;
 	}
 
 	/**
 	 * Returns the event registrations before and after the current event registration in the ordered set where eventEntryId = &#63; and status = &#63;.
-	 *
-	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
-	 * </p>
 	 *
 	 * @param eventRegistrationId the primary key of the current event registration
 	 * @param eventEntryId the event entry ID
@@ -1445,6 +1552,443 @@ public class EventRegistrationPersistenceImpl extends BasePersistenceImpl<EventR
 		QueryPos qPos = QueryPos.getInstance(q);
 
 		qPos.add(eventEntryId);
+
+		qPos.add(status);
+
+		if (orderByComparator != null) {
+			Object[] values = orderByComparator.getOrderByConditionValues(eventRegistration);
+
+			for (Object value : values) {
+				qPos.add(value);
+			}
+		}
+
+		List<EventRegistration> list = q.list();
+
+		if (list.size() == 2) {
+			return list.get(1);
+		}
+		else {
+			return null;
+		}
+	}
+
+	/**
+	 * Returns all the event registrations where companyId = &#63; and userId = &#63; and status = &#63;.
+	 *
+	 * @param companyId the company ID
+	 * @param userId the user ID
+	 * @param status the status
+	 * @return the matching event registrations
+	 * @throws SystemException if a system exception occurred
+	 */
+	public List<EventRegistration> findByUserId(long companyId, long userId,
+		int status) throws SystemException {
+		return findByUserId(companyId, userId, status, QueryUtil.ALL_POS,
+			QueryUtil.ALL_POS, null);
+	}
+
+	/**
+	 * Returns a range of all the event registrations where companyId = &#63; and userId = &#63; and status = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+	 * </p>
+	 *
+	 * @param companyId the company ID
+	 * @param userId the user ID
+	 * @param status the status
+	 * @param start the lower bound of the range of event registrations
+	 * @param end the upper bound of the range of event registrations (not inclusive)
+	 * @return the range of matching event registrations
+	 * @throws SystemException if a system exception occurred
+	 */
+	public List<EventRegistration> findByUserId(long companyId, long userId,
+		int status, int start, int end) throws SystemException {
+		return findByUserId(companyId, userId, status, start, end, null);
+	}
+
+	/**
+	 * Returns an ordered range of all the event registrations where companyId = &#63; and userId = &#63; and status = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+	 * </p>
+	 *
+	 * @param companyId the company ID
+	 * @param userId the user ID
+	 * @param status the status
+	 * @param start the lower bound of the range of event registrations
+	 * @param end the upper bound of the range of event registrations (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @return the ordered range of matching event registrations
+	 * @throws SystemException if a system exception occurred
+	 */
+	public List<EventRegistration> findByUserId(long companyId, long userId,
+		int status, int start, int end, OrderByComparator orderByComparator)
+		throws SystemException {
+		FinderPath finderPath = null;
+		Object[] finderArgs = null;
+
+		if ((start == QueryUtil.ALL_POS) && (end == QueryUtil.ALL_POS) &&
+				(orderByComparator == null)) {
+			finderPath = FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_USERID;
+			finderArgs = new Object[] { companyId, userId, status };
+		}
+		else {
+			finderPath = FINDER_PATH_WITH_PAGINATION_FIND_BY_USERID;
+			finderArgs = new Object[] {
+					companyId, userId, status,
+					
+					start, end, orderByComparator
+				};
+		}
+
+		List<EventRegistration> list = (List<EventRegistration>)FinderCacheUtil.getResult(finderPath,
+				finderArgs, this);
+
+		if ((list != null) && !list.isEmpty()) {
+			for (EventRegistration eventRegistration : list) {
+				if ((companyId != eventRegistration.getCompanyId()) ||
+						(userId != eventRegistration.getUserId()) ||
+						(status != eventRegistration.getStatus())) {
+					list = null;
+
+					break;
+				}
+			}
+		}
+
+		if (list == null) {
+			StringBundler query = null;
+
+			if (orderByComparator != null) {
+				query = new StringBundler(5 +
+						(orderByComparator.getOrderByFields().length * 3));
+			}
+			else {
+				query = new StringBundler(5);
+			}
+
+			query.append(_SQL_SELECT_EVENTREGISTRATION_WHERE);
+
+			query.append(_FINDER_COLUMN_USERID_COMPANYID_2);
+
+			query.append(_FINDER_COLUMN_USERID_USERID_2);
+
+			query.append(_FINDER_COLUMN_USERID_STATUS_2);
+
+			if (orderByComparator != null) {
+				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
+					orderByComparator);
+			}
+
+			else {
+				query.append(EventRegistrationModelImpl.ORDER_BY_JPQL);
+			}
+
+			String sql = query.toString();
+
+			Session session = null;
+
+			try {
+				session = openSession();
+
+				Query q = session.createQuery(sql);
+
+				QueryPos qPos = QueryPos.getInstance(q);
+
+				qPos.add(companyId);
+
+				qPos.add(userId);
+
+				qPos.add(status);
+
+				list = (List<EventRegistration>)QueryUtil.list(q, getDialect(),
+						start, end);
+			}
+			catch (Exception e) {
+				throw processException(e);
+			}
+			finally {
+				if (list == null) {
+					FinderCacheUtil.removeResult(finderPath, finderArgs);
+				}
+				else {
+					cacheResult(list);
+
+					FinderCacheUtil.putResult(finderPath, finderArgs, list);
+				}
+
+				closeSession(session);
+			}
+		}
+
+		return list;
+	}
+
+	/**
+	 * Returns the first event registration in the ordered set where companyId = &#63; and userId = &#63; and status = &#63;.
+	 *
+	 * @param companyId the company ID
+	 * @param userId the user ID
+	 * @param status the status
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the first matching event registration
+	 * @throws org.lsp.liferay.portlet.socialliving.NoSuchEventRegistrationException if a matching event registration could not be found
+	 * @throws SystemException if a system exception occurred
+	 */
+	public EventRegistration findByUserId_First(long companyId, long userId,
+		int status, OrderByComparator orderByComparator)
+		throws NoSuchEventRegistrationException, SystemException {
+		EventRegistration eventRegistration = fetchByUserId_First(companyId,
+				userId, status, orderByComparator);
+
+		if (eventRegistration != null) {
+			return eventRegistration;
+		}
+
+		StringBundler msg = new StringBundler(8);
+
+		msg.append(_NO_SUCH_ENTITY_WITH_KEY);
+
+		msg.append("companyId=");
+		msg.append(companyId);
+
+		msg.append(", userId=");
+		msg.append(userId);
+
+		msg.append(", status=");
+		msg.append(status);
+
+		msg.append(StringPool.CLOSE_CURLY_BRACE);
+
+		throw new NoSuchEventRegistrationException(msg.toString());
+	}
+
+	/**
+	 * Returns the first event registration in the ordered set where companyId = &#63; and userId = &#63; and status = &#63;.
+	 *
+	 * @param companyId the company ID
+	 * @param userId the user ID
+	 * @param status the status
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the first matching event registration, or <code>null</code> if a matching event registration could not be found
+	 * @throws SystemException if a system exception occurred
+	 */
+	public EventRegistration fetchByUserId_First(long companyId, long userId,
+		int status, OrderByComparator orderByComparator)
+		throws SystemException {
+		List<EventRegistration> list = findByUserId(companyId, userId, status,
+				0, 1, orderByComparator);
+
+		if (!list.isEmpty()) {
+			return list.get(0);
+		}
+
+		return null;
+	}
+
+	/**
+	 * Returns the last event registration in the ordered set where companyId = &#63; and userId = &#63; and status = &#63;.
+	 *
+	 * @param companyId the company ID
+	 * @param userId the user ID
+	 * @param status the status
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the last matching event registration
+	 * @throws org.lsp.liferay.portlet.socialliving.NoSuchEventRegistrationException if a matching event registration could not be found
+	 * @throws SystemException if a system exception occurred
+	 */
+	public EventRegistration findByUserId_Last(long companyId, long userId,
+		int status, OrderByComparator orderByComparator)
+		throws NoSuchEventRegistrationException, SystemException {
+		EventRegistration eventRegistration = fetchByUserId_Last(companyId,
+				userId, status, orderByComparator);
+
+		if (eventRegistration != null) {
+			return eventRegistration;
+		}
+
+		StringBundler msg = new StringBundler(8);
+
+		msg.append(_NO_SUCH_ENTITY_WITH_KEY);
+
+		msg.append("companyId=");
+		msg.append(companyId);
+
+		msg.append(", userId=");
+		msg.append(userId);
+
+		msg.append(", status=");
+		msg.append(status);
+
+		msg.append(StringPool.CLOSE_CURLY_BRACE);
+
+		throw new NoSuchEventRegistrationException(msg.toString());
+	}
+
+	/**
+	 * Returns the last event registration in the ordered set where companyId = &#63; and userId = &#63; and status = &#63;.
+	 *
+	 * @param companyId the company ID
+	 * @param userId the user ID
+	 * @param status the status
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the last matching event registration, or <code>null</code> if a matching event registration could not be found
+	 * @throws SystemException if a system exception occurred
+	 */
+	public EventRegistration fetchByUserId_Last(long companyId, long userId,
+		int status, OrderByComparator orderByComparator)
+		throws SystemException {
+		int count = countByUserId(companyId, userId, status);
+
+		List<EventRegistration> list = findByUserId(companyId, userId, status,
+				count - 1, count, orderByComparator);
+
+		if (!list.isEmpty()) {
+			return list.get(0);
+		}
+
+		return null;
+	}
+
+	/**
+	 * Returns the event registrations before and after the current event registration in the ordered set where companyId = &#63; and userId = &#63; and status = &#63;.
+	 *
+	 * @param eventRegistrationId the primary key of the current event registration
+	 * @param companyId the company ID
+	 * @param userId the user ID
+	 * @param status the status
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the previous, current, and next event registration
+	 * @throws org.lsp.liferay.portlet.socialliving.NoSuchEventRegistrationException if a event registration with the primary key could not be found
+	 * @throws SystemException if a system exception occurred
+	 */
+	public EventRegistration[] findByUserId_PrevAndNext(
+		long eventRegistrationId, long companyId, long userId, int status,
+		OrderByComparator orderByComparator)
+		throws NoSuchEventRegistrationException, SystemException {
+		EventRegistration eventRegistration = findByPrimaryKey(eventRegistrationId);
+
+		Session session = null;
+
+		try {
+			session = openSession();
+
+			EventRegistration[] array = new EventRegistrationImpl[3];
+
+			array[0] = getByUserId_PrevAndNext(session, eventRegistration,
+					companyId, userId, status, orderByComparator, true);
+
+			array[1] = eventRegistration;
+
+			array[2] = getByUserId_PrevAndNext(session, eventRegistration,
+					companyId, userId, status, orderByComparator, false);
+
+			return array;
+		}
+		catch (Exception e) {
+			throw processException(e);
+		}
+		finally {
+			closeSession(session);
+		}
+	}
+
+	protected EventRegistration getByUserId_PrevAndNext(Session session,
+		EventRegistration eventRegistration, long companyId, long userId,
+		int status, OrderByComparator orderByComparator, boolean previous) {
+		StringBundler query = null;
+
+		if (orderByComparator != null) {
+			query = new StringBundler(6 +
+					(orderByComparator.getOrderByFields().length * 6));
+		}
+		else {
+			query = new StringBundler(3);
+		}
+
+		query.append(_SQL_SELECT_EVENTREGISTRATION_WHERE);
+
+		query.append(_FINDER_COLUMN_USERID_COMPANYID_2);
+
+		query.append(_FINDER_COLUMN_USERID_USERID_2);
+
+		query.append(_FINDER_COLUMN_USERID_STATUS_2);
+
+		if (orderByComparator != null) {
+			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
+
+			if (orderByConditionFields.length > 0) {
+				query.append(WHERE_AND);
+			}
+
+			for (int i = 0; i < orderByConditionFields.length; i++) {
+				query.append(_ORDER_BY_ENTITY_ALIAS);
+				query.append(orderByConditionFields[i]);
+
+				if ((i + 1) < orderByConditionFields.length) {
+					if (orderByComparator.isAscending() ^ previous) {
+						query.append(WHERE_GREATER_THAN_HAS_NEXT);
+					}
+					else {
+						query.append(WHERE_LESSER_THAN_HAS_NEXT);
+					}
+				}
+				else {
+					if (orderByComparator.isAscending() ^ previous) {
+						query.append(WHERE_GREATER_THAN);
+					}
+					else {
+						query.append(WHERE_LESSER_THAN);
+					}
+				}
+			}
+
+			query.append(ORDER_BY_CLAUSE);
+
+			String[] orderByFields = orderByComparator.getOrderByFields();
+
+			for (int i = 0; i < orderByFields.length; i++) {
+				query.append(_ORDER_BY_ENTITY_ALIAS);
+				query.append(orderByFields[i]);
+
+				if ((i + 1) < orderByFields.length) {
+					if (orderByComparator.isAscending() ^ previous) {
+						query.append(ORDER_BY_ASC_HAS_NEXT);
+					}
+					else {
+						query.append(ORDER_BY_DESC_HAS_NEXT);
+					}
+				}
+				else {
+					if (orderByComparator.isAscending() ^ previous) {
+						query.append(ORDER_BY_ASC);
+					}
+					else {
+						query.append(ORDER_BY_DESC);
+					}
+				}
+			}
+		}
+
+		else {
+			query.append(EventRegistrationModelImpl.ORDER_BY_JPQL);
+		}
+
+		String sql = query.toString();
+
+		Query q = session.createQuery(sql);
+
+		q.setFirstResult(0);
+		q.setMaxResults(2);
+
+		QueryPos qPos = QueryPos.getInstance(q);
+
+		qPos.add(companyId);
+
+		qPos.add(userId);
 
 		qPos.add(status);
 
@@ -1621,6 +2165,22 @@ public class EventRegistrationPersistenceImpl extends BasePersistenceImpl<EventR
 		throws SystemException {
 		for (EventRegistration eventRegistration : findByME_S(eventEntryId,
 				status)) {
+			remove(eventRegistration);
+		}
+	}
+
+	/**
+	 * Removes all the event registrations where companyId = &#63; and userId = &#63; and status = &#63; from the database.
+	 *
+	 * @param companyId the company ID
+	 * @param userId the user ID
+	 * @param status the status
+	 * @throws SystemException if a system exception occurred
+	 */
+	public void removeByUserId(long companyId, long userId, int status)
+		throws SystemException {
+		for (EventRegistration eventRegistration : findByUserId(companyId,
+				userId, status)) {
 			remove(eventRegistration);
 		}
 	}
@@ -1808,6 +2368,70 @@ public class EventRegistrationPersistenceImpl extends BasePersistenceImpl<EventR
 	}
 
 	/**
+	 * Returns the number of event registrations where companyId = &#63; and userId = &#63; and status = &#63;.
+	 *
+	 * @param companyId the company ID
+	 * @param userId the user ID
+	 * @param status the status
+	 * @return the number of matching event registrations
+	 * @throws SystemException if a system exception occurred
+	 */
+	public int countByUserId(long companyId, long userId, int status)
+		throws SystemException {
+		Object[] finderArgs = new Object[] { companyId, userId, status };
+
+		Long count = (Long)FinderCacheUtil.getResult(FINDER_PATH_COUNT_BY_USERID,
+				finderArgs, this);
+
+		if (count == null) {
+			StringBundler query = new StringBundler(4);
+
+			query.append(_SQL_COUNT_EVENTREGISTRATION_WHERE);
+
+			query.append(_FINDER_COLUMN_USERID_COMPANYID_2);
+
+			query.append(_FINDER_COLUMN_USERID_USERID_2);
+
+			query.append(_FINDER_COLUMN_USERID_STATUS_2);
+
+			String sql = query.toString();
+
+			Session session = null;
+
+			try {
+				session = openSession();
+
+				Query q = session.createQuery(sql);
+
+				QueryPos qPos = QueryPos.getInstance(q);
+
+				qPos.add(companyId);
+
+				qPos.add(userId);
+
+				qPos.add(status);
+
+				count = (Long)q.uniqueResult();
+			}
+			catch (Exception e) {
+				throw processException(e);
+			}
+			finally {
+				if (count == null) {
+					count = Long.valueOf(0);
+				}
+
+				FinderCacheUtil.putResult(FINDER_PATH_COUNT_BY_USERID,
+					finderArgs, count);
+
+				closeSession(session);
+			}
+		}
+
+		return count.intValue();
+	}
+
+	/**
 	 * Returns the number of event registrations.
 	 *
 	 * @return the number of event registrations
@@ -1895,6 +2519,9 @@ public class EventRegistrationPersistenceImpl extends BasePersistenceImpl<EventR
 	private static final String _FINDER_COLUMN_U_ME_EVENTENTRYID_2 = "eventRegistration.eventEntryId = ?";
 	private static final String _FINDER_COLUMN_ME_S_EVENTENTRYID_2 = "eventRegistration.eventEntryId = ? AND ";
 	private static final String _FINDER_COLUMN_ME_S_STATUS_2 = "eventRegistration.status = ?";
+	private static final String _FINDER_COLUMN_USERID_COMPANYID_2 = "eventRegistration.companyId = ? AND ";
+	private static final String _FINDER_COLUMN_USERID_USERID_2 = "eventRegistration.userId = ? AND ";
+	private static final String _FINDER_COLUMN_USERID_STATUS_2 = "eventRegistration.status = ?";
 	private static final String _ORDER_BY_ENTITY_ALIAS = "eventRegistration.";
 	private static final String _NO_SUCH_ENTITY_WITH_PRIMARY_KEY = "No EventRegistration exists with the primary key ";
 	private static final String _NO_SUCH_ENTITY_WITH_KEY = "No EventRegistration exists with the key {";

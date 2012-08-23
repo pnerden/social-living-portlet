@@ -260,6 +260,16 @@ public interface EventRegistrationLocalService extends BaseLocalService,
 		throws com.liferay.portal.kernel.exception.SystemException;
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public java.util.List<org.lsp.liferay.portlet.socialliving.model.EventRegistration> getEventPositiveRegistrations(
+		long companyId, long userId)
+		throws com.liferay.portal.kernel.exception.SystemException;
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public java.util.List<org.lsp.liferay.portlet.socialliving.model.EventRegistration> getEventRegistrations(
+		long companyId, long userId, int status)
+		throws com.liferay.portal.kernel.exception.SystemException;
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public int getEventRegistrationsCount(long eventEntryId, int status)
 		throws com.liferay.portal.kernel.exception.SystemException;
 

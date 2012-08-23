@@ -7,4 +7,15 @@
 			<taglib-location>/WEB-INF/tld/osm.tld</taglib-location>
 		</taglib>
 	</jsp-config>
+	
+	<servlet>
+		<servlet-name>iCal Events Servlet</servlet-name>
+		<servlet-class>org.lsp.liferay.portlet.socialliving.servlet.ICalEventsServlet</servlet-class>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>iCal Events Servlet</servlet-name>
+		<url-pattern>/api/ical/*</url-pattern>
+	</servlet-mapping>
+	
 </web-app>

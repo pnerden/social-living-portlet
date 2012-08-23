@@ -22,6 +22,16 @@
 		<css-class-wrapper>social-living-portlet-events-map</css-class-wrapper>
 		<add-default-resource>true</add-default-resource>
 	</portlet>
+	<portlet>
+		<portlet-name>3</portlet-name>
+		<icon>/common/icons/events-management.png</icon>
+		<control-panel-entry-category>content</control-panel-entry-category>
+		<control-panel-entry-weight>2.0</control-panel-entry-weight>
+		<header-portlet-css>/events_management/css/events_management.css</header-portlet-css>
+		<header-portlet-javascript>/events_management/js/events_management.js</header-portlet-javascript>
+		<css-class-wrapper>social-living-portlet-events-management</css-class-wrapper>
+		<add-default-resource>true</add-default-resource>
+	</portlet>
 	<role-mapper>
 		<role-name>administrator</role-name>
 		<role-link>Administrator</role-link>

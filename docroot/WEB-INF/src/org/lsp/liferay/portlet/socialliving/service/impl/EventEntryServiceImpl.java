@@ -83,18 +83,22 @@ public class EventEntryServiceImpl extends EventEntryServiceBaseImpl {
 	
 	public EventEntry getEventEntry(long companyId, long eventEntryId) throws PortalException, SystemException {
 		EventEntry result = eventEntryLocalService.getEventEntry(companyId, eventEntryId); 
-		if (filterByPermission(result)) {
+		if (filterByPermission(result, ActionKeys.VIEW)) {
 			return result;
 		}
 		throw new PortalException("You have no right to access this resource");
 	}
 	
 	public List<EventEntry> getEventEntries(ThemeDisplay themeDisplay, int filter, int visibility) throws SystemException, PortalException {
+		return getEventEntries(themeDisplay, filter, visibility ,ActionKeys.VIEW);
+	}
+	
+	public List<EventEntry> getEventEntries(ThemeDisplay themeDisplay, int filter, int visibility, String permissionLevel) throws SystemException, PortalException {
 		switch (filter) {
 		case EventConstants.FILTER_MY_EVENTS:
-			return getEventEntriesByUserId(themeDisplay.getUserId());
+			return getEventEntriesByUserId(themeDisplay.getUserId(), permissionLevel);
 		case EventConstants.FILTER_ALL_EVENTS:
-			return getEventEntries(themeDisplay, visibility);
+			return getEventEntries(themeDisplay, visibility, permissionLevel);
 		default:
 			return null;
 		}
@@ -134,11 +138,11 @@ public class EventEntryServiceImpl extends EventEntryServiceBaseImpl {
 		throw new PortalException("You have no right to update this resource");
 	}
 	
-	private List<EventEntry> getEventEntriesByUserId(long userId) throws SystemException, PortalException {
-		return filterByPermission(eventEntryLocalService.getEventEntriesByUser(userId));	
+	private List<EventEntry> getEventEntriesByUserId(long userId, String permissionLevel) throws SystemException, PortalException {
+		return filterByPermission(eventEntryLocalService.getEventEntriesByUser(userId), ActionKeys.UPDATE);	
 	}
 	
-	private List<EventEntry> getEventEntries(ThemeDisplay themeDisplay, int displayVisibility) throws SystemException, PortalException {
+	private List<EventEntry> getEventEntries(ThemeDisplay themeDisplay, int displayVisibility, String permissionLevel) throws SystemException, PortalException {
 		
 		long companyId = themeDisplay.getCompanyId();
 		long groupId = themeDisplay.getScopeGroupIdOrLiveGroupId();
@@ -163,26 +167,26 @@ public class EventEntryServiceImpl extends EventEntryServiceBaseImpl {
         	throw new SystemException("Not Implemented VISIBILITY");
         }
 		
-		return filterByPermission(result);
+		return filterByPermission(result, permissionLevel);
 
 	}
 	
-	private List<EventEntry> filterByPermission(List<EventEntry> input) throws PortalException, SystemException {
+	private List<EventEntry> filterByPermission(List<EventEntry> input, String permissionLevel) throws PortalException, SystemException {
 		
 		List<EventEntry> result = new Vector<EventEntry>();
 		
 		Iterator<EventEntry> iter = input.iterator();
 		while (iter.hasNext()) {
 			EventEntry e = iter.next();
-			if (filterByPermission(e)) {
+			if (filterByPermission(e, permissionLevel)) {
 				result.add(e);
 			}
 		}
 		return result;
 	}
 	
-	private boolean filterByPermission(EventEntry e) throws PrincipalException {
-		if (getPermissionChecker().hasPermission(e.getGroupId(), EventEntry.class.getName(), e.getEventEntryId(), ActionKeys.VIEW)) {
+	private boolean filterByPermission(EventEntry e, String permissionLevel) throws PrincipalException {
+		if (getPermissionChecker().hasPermission(e.getGroupId(), EventEntry.class.getName(), e.getEventEntryId(), permissionLevel)) {
 			return true;
 		}
 		return false;

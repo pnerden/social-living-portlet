@@ -114,6 +114,10 @@ public class EventEntryModelImpl extends BaseModelImpl<EventEntry>
 	 * @return the normal model instance
 	 */
 	public static EventEntry toModel(EventEntrySoap soapModel) {
+		if (soapModel == null) {
+			return null;
+		}
+
 		EventEntry model = new EventEntryImpl();
 
 		model.setEventEntryId(soapModel.getEventEntryId());
@@ -145,6 +149,10 @@ public class EventEntryModelImpl extends BaseModelImpl<EventEntry>
 	 * @return the normal model instances
 	 */
 	public static List<EventEntry> toModels(EventEntrySoap[] soapModels) {
+		if (soapModels == null) {
+			return null;
+		}
+
 		List<EventEntry> models = new ArrayList<EventEntry>(soapModels.length);
 
 		for (EventEntrySoap soapModel : soapModels) {
@@ -576,17 +584,6 @@ public class EventEntryModelImpl extends BaseModelImpl<EventEntry>
 	}
 
 	@Override
-	public EventEntry toEscapedModel() {
-		if (_escapedModelProxy == null) {
-			_escapedModelProxy = (EventEntry)ProxyUtil.newProxyInstance(_classLoader,
-					_escapedModelProxyInterfaces,
-					new AutoEscapeBeanHandler(this));
-		}
-
-		return _escapedModelProxy;
-	}
-
-	@Override
 	public ExpandoBridge getExpandoBridge() {
 		return ExpandoBridgeFactoryUtil.getExpandoBridge(getCompanyId(),
 			EventEntry.class.getName(), getPrimaryKey());
@@ -597,6 +594,17 @@ public class EventEntryModelImpl extends BaseModelImpl<EventEntry>
 		ExpandoBridge expandoBridge = getExpandoBridge();
 
 		expandoBridge.setAttributes(serviceContext);
+	}
+
+	@Override
+	public EventEntry toEscapedModel() {
+		if (_escapedModelProxy == null) {
+			_escapedModelProxy = (EventEntry)ProxyUtil.newProxyInstance(_classLoader,
+					_escapedModelProxyInterfaces,
+					new AutoEscapeBeanHandler(this));
+		}
+
+		return _escapedModelProxy;
 	}
 
 	@Override

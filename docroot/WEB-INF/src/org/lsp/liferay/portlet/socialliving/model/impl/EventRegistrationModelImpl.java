@@ -89,9 +89,10 @@ public class EventRegistrationModelImpl extends BaseModelImpl<EventRegistration>
 	public static final boolean COLUMN_BITMASK_ENABLED = GetterUtil.getBoolean(com.liferay.util.service.ServiceProps.get(
 				"value.object.column.bitmask.enabled.org.lsp.liferay.portlet.socialliving.model.EventRegistration"),
 			true);
-	public static long EVENTENTRYID_COLUMN_BITMASK = 1L;
-	public static long STATUS_COLUMN_BITMASK = 2L;
-	public static long USERID_COLUMN_BITMASK = 4L;
+	public static long COMPANYID_COLUMN_BITMASK = 1L;
+	public static long EVENTENTRYID_COLUMN_BITMASK = 2L;
+	public static long STATUS_COLUMN_BITMASK = 4L;
+	public static long USERID_COLUMN_BITMASK = 8L;
 	public static final long LOCK_EXPIRATION_TIME = GetterUtil.getLong(com.liferay.util.service.ServiceProps.get(
 				"lock.expiration.time.org.lsp.liferay.portlet.socialliving.model.EventRegistration"));
 
@@ -216,7 +217,19 @@ public class EventRegistrationModelImpl extends BaseModelImpl<EventRegistration>
 	}
 
 	public void setCompanyId(long companyId) {
+		_columnBitmask |= COMPANYID_COLUMN_BITMASK;
+
+		if (!_setOriginalCompanyId) {
+			_setOriginalCompanyId = true;
+
+			_originalCompanyId = _companyId;
+		}
+
 		_companyId = companyId;
+	}
+
+	public long getOriginalCompanyId() {
+		return _originalCompanyId;
 	}
 
 	public long getGroupId() {
@@ -344,17 +357,6 @@ public class EventRegistrationModelImpl extends BaseModelImpl<EventRegistration>
 	}
 
 	@Override
-	public EventRegistration toEscapedModel() {
-		if (_escapedModelProxy == null) {
-			_escapedModelProxy = (EventRegistration)ProxyUtil.newProxyInstance(_classLoader,
-					_escapedModelProxyInterfaces,
-					new AutoEscapeBeanHandler(this));
-		}
-
-		return _escapedModelProxy;
-	}
-
-	@Override
 	public ExpandoBridge getExpandoBridge() {
 		return ExpandoBridgeFactoryUtil.getExpandoBridge(getCompanyId(),
 			EventRegistration.class.getName(), getPrimaryKey());
@@ -365,6 +367,17 @@ public class EventRegistrationModelImpl extends BaseModelImpl<EventRegistration>
 		ExpandoBridge expandoBridge = getExpandoBridge();
 
 		expandoBridge.setAttributes(serviceContext);
+	}
+
+	@Override
+	public EventRegistration toEscapedModel() {
+		if (_escapedModelProxy == null) {
+			_escapedModelProxy = (EventRegistration)ProxyUtil.newProxyInstance(_classLoader,
+					_escapedModelProxyInterfaces,
+					new AutoEscapeBeanHandler(this));
+		}
+
+		return _escapedModelProxy;
 	}
 
 	@Override
@@ -435,6 +448,10 @@ public class EventRegistrationModelImpl extends BaseModelImpl<EventRegistration>
 	@Override
 	public void resetOriginalValues() {
 		EventRegistrationModelImpl eventRegistrationModelImpl = this;
+
+		eventRegistrationModelImpl._originalCompanyId = eventRegistrationModelImpl._companyId;
+
+		eventRegistrationModelImpl._setOriginalCompanyId = false;
 
 		eventRegistrationModelImpl._originalUserId = eventRegistrationModelImpl._userId;
 
@@ -593,6 +610,8 @@ public class EventRegistrationModelImpl extends BaseModelImpl<EventRegistration>
 		};
 	private long _eventRegistrationId;
 	private long _companyId;
+	private long _originalCompanyId;
+	private boolean _setOriginalCompanyId;
 	private long _groupId;
 	private long _userId;
 	private String _userUuid;

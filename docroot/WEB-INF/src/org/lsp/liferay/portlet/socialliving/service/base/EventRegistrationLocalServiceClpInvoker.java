@@ -121,13 +121,21 @@ public class EventRegistrationLocalServiceClpInvoker {
 
 		_methodParameterTypes53 = new String[] { "long", "int", "int", "int" };
 
-		_methodName54 = "getEventRegistrationsCount";
+		_methodName54 = "getEventPositiveRegistrations";
 
-		_methodParameterTypes54 = new String[] { "long", "int" };
+		_methodParameterTypes54 = new String[] { "long", "long" };
 
-		_methodName55 = "updateEventRegistration";
+		_methodName55 = "getEventRegistrations";
 
-		_methodParameterTypes55 = new String[] {
+		_methodParameterTypes55 = new String[] { "long", "long", "int" };
+
+		_methodName56 = "getEventRegistrationsCount";
+
+		_methodParameterTypes56 = new String[] { "long", "int" };
+
+		_methodName57 = "updateEventRegistration";
+
+		_methodParameterTypes57 = new String[] {
 				"long", "long", "int", "java.lang.String"
 			};
 	}
@@ -247,12 +255,25 @@ public class EventRegistrationLocalServiceClpInvoker {
 
 		if (_methodName54.equals(name) &&
 				Arrays.deepEquals(_methodParameterTypes54, parameterTypes)) {
-			return EventRegistrationLocalServiceUtil.getEventRegistrationsCount(((Long)arguments[0]).longValue(),
-				((Integer)arguments[1]).intValue());
+			return EventRegistrationLocalServiceUtil.getEventPositiveRegistrations(((Long)arguments[0]).longValue(),
+				((Long)arguments[1]).longValue());
 		}
 
 		if (_methodName55.equals(name) &&
 				Arrays.deepEquals(_methodParameterTypes55, parameterTypes)) {
+			return EventRegistrationLocalServiceUtil.getEventRegistrations(((Long)arguments[0]).longValue(),
+				((Long)arguments[1]).longValue(),
+				((Integer)arguments[2]).intValue());
+		}
+
+		if (_methodName56.equals(name) &&
+				Arrays.deepEquals(_methodParameterTypes56, parameterTypes)) {
+			return EventRegistrationLocalServiceUtil.getEventRegistrationsCount(((Long)arguments[0]).longValue(),
+				((Integer)arguments[1]).intValue());
+		}
+
+		if (_methodName57.equals(name) &&
+				Arrays.deepEquals(_methodParameterTypes57, parameterTypes)) {
 			return EventRegistrationLocalServiceUtil.updateEventRegistration(((Long)arguments[0]).longValue(),
 				((Long)arguments[1]).longValue(),
 				((Integer)arguments[2]).intValue(),
@@ -306,4 +327,8 @@ public class EventRegistrationLocalServiceClpInvoker {
 	private String[] _methodParameterTypes54;
 	private String _methodName55;
 	private String[] _methodParameterTypes55;
+	private String _methodName56;
+	private String[] _methodParameterTypes56;
+	private String _methodName57;
+	private String[] _methodParameterTypes57;
 }

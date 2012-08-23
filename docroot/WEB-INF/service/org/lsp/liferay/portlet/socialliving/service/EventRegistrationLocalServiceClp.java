@@ -123,13 +123,21 @@ public class EventRegistrationLocalServiceClp
 
 		_methodParameterTypes20 = new String[] { "long", "int", "int", "int" };
 
-		_methodName21 = "getEventRegistrationsCount";
+		_methodName21 = "getEventPositiveRegistrations";
 
-		_methodParameterTypes21 = new String[] { "long", "int" };
+		_methodParameterTypes21 = new String[] { "long", "long" };
 
-		_methodName22 = "updateEventRegistration";
+		_methodName22 = "getEventRegistrations";
 
-		_methodParameterTypes22 = new String[] {
+		_methodParameterTypes22 = new String[] { "long", "long", "int" };
+
+		_methodName23 = "getEventRegistrationsCount";
+
+		_methodParameterTypes23 = new String[] { "long", "int" };
+
+		_methodName24 = "updateEventRegistration";
+
+		_methodParameterTypes24 = new String[] {
 				"long", "long", "int", "java.lang.String"
 			};
 	}
@@ -732,13 +740,70 @@ public class EventRegistrationLocalServiceClp
 		return (java.util.List<org.lsp.liferay.portlet.socialliving.model.EventRegistration>)ClpSerializer.translateOutput(returnObj);
 	}
 
-	public int getEventRegistrationsCount(long eventEntryId, int status)
+	public java.util.List<org.lsp.liferay.portlet.socialliving.model.EventRegistration> getEventPositiveRegistrations(
+		long companyId, long userId)
 		throws com.liferay.portal.kernel.exception.SystemException {
 		Object returnObj = null;
 
 		try {
 			returnObj = _invokableLocalService.invokeMethod(_methodName21,
-					_methodParameterTypes21,
+					_methodParameterTypes21, new Object[] { companyId, userId });
+		}
+		catch (Throwable t) {
+			t = ClpSerializer.translateThrowable(t);
+
+			if (t instanceof com.liferay.portal.kernel.exception.SystemException) {
+				throw (com.liferay.portal.kernel.exception.SystemException)t;
+			}
+
+			if (t instanceof RuntimeException) {
+				throw (RuntimeException)t;
+			}
+			else {
+				throw new RuntimeException(t.getClass().getName() +
+					" is not a valid exception");
+			}
+		}
+
+		return (java.util.List<org.lsp.liferay.portlet.socialliving.model.EventRegistration>)ClpSerializer.translateOutput(returnObj);
+	}
+
+	public java.util.List<org.lsp.liferay.portlet.socialliving.model.EventRegistration> getEventRegistrations(
+		long companyId, long userId, int status)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		Object returnObj = null;
+
+		try {
+			returnObj = _invokableLocalService.invokeMethod(_methodName22,
+					_methodParameterTypes22,
+					new Object[] { companyId, userId, status });
+		}
+		catch (Throwable t) {
+			t = ClpSerializer.translateThrowable(t);
+
+			if (t instanceof com.liferay.portal.kernel.exception.SystemException) {
+				throw (com.liferay.portal.kernel.exception.SystemException)t;
+			}
+
+			if (t instanceof RuntimeException) {
+				throw (RuntimeException)t;
+			}
+			else {
+				throw new RuntimeException(t.getClass().getName() +
+					" is not a valid exception");
+			}
+		}
+
+		return (java.util.List<org.lsp.liferay.portlet.socialliving.model.EventRegistration>)ClpSerializer.translateOutput(returnObj);
+	}
+
+	public int getEventRegistrationsCount(long eventEntryId, int status)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		Object returnObj = null;
+
+		try {
+			returnObj = _invokableLocalService.invokeMethod(_methodName23,
+					_methodParameterTypes23,
 					new Object[] { eventEntryId, status });
 		}
 		catch (Throwable t) {
@@ -767,8 +832,8 @@ public class EventRegistrationLocalServiceClp
 		Object returnObj = null;
 
 		try {
-			returnObj = _invokableLocalService.invokeMethod(_methodName22,
-					_methodParameterTypes22,
+			returnObj = _invokableLocalService.invokeMethod(_methodName24,
+					_methodParameterTypes24,
 					new Object[] {
 						userId,
 						
@@ -847,4 +912,8 @@ public class EventRegistrationLocalServiceClp
 	private String[] _methodParameterTypes21;
 	private String _methodName22;
 	private String[] _methodParameterTypes22;
+	private String _methodName23;
+	private String[] _methodParameterTypes23;
+	private String _methodName24;
+	private String[] _methodParameterTypes24;
 }

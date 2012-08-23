@@ -963,10 +963,6 @@ public class EventEntryPersistenceImpl extends BasePersistenceImpl<EventEntry>
 	/**
 	 * Returns the first event entry in the ordered set where companyId = &#63; and groupId = &#63;.
 	 *
-	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
-	 * </p>
-	 *
 	 * @param companyId the company ID
 	 * @param groupId the group ID
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
@@ -977,35 +973,51 @@ public class EventEntryPersistenceImpl extends BasePersistenceImpl<EventEntry>
 	public EventEntry findByGlobalFinder_First(long companyId, long groupId,
 		OrderByComparator orderByComparator)
 		throws NoSuchEventEntryException, SystemException {
+		EventEntry eventEntry = fetchByGlobalFinder_First(companyId, groupId,
+				orderByComparator);
+
+		if (eventEntry != null) {
+			return eventEntry;
+		}
+
+		StringBundler msg = new StringBundler(6);
+
+		msg.append(_NO_SUCH_ENTITY_WITH_KEY);
+
+		msg.append("companyId=");
+		msg.append(companyId);
+
+		msg.append(", groupId=");
+		msg.append(groupId);
+
+		msg.append(StringPool.CLOSE_CURLY_BRACE);
+
+		throw new NoSuchEventEntryException(msg.toString());
+	}
+
+	/**
+	 * Returns the first event entry in the ordered set where companyId = &#63; and groupId = &#63;.
+	 *
+	 * @param companyId the company ID
+	 * @param groupId the group ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the first matching event entry, or <code>null</code> if a matching event entry could not be found
+	 * @throws SystemException if a system exception occurred
+	 */
+	public EventEntry fetchByGlobalFinder_First(long companyId, long groupId,
+		OrderByComparator orderByComparator) throws SystemException {
 		List<EventEntry> list = findByGlobalFinder(companyId, groupId, 0, 1,
 				orderByComparator);
 
-		if (list.isEmpty()) {
-			StringBundler msg = new StringBundler(6);
-
-			msg.append(_NO_SUCH_ENTITY_WITH_KEY);
-
-			msg.append("companyId=");
-			msg.append(companyId);
-
-			msg.append(", groupId=");
-			msg.append(groupId);
-
-			msg.append(StringPool.CLOSE_CURLY_BRACE);
-
-			throw new NoSuchEventEntryException(msg.toString());
-		}
-		else {
+		if (!list.isEmpty()) {
 			return list.get(0);
 		}
+
+		return null;
 	}
 
 	/**
 	 * Returns the last event entry in the ordered set where companyId = &#63; and groupId = &#63;.
-	 *
-	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
-	 * </p>
 	 *
 	 * @param companyId the company ID
 	 * @param groupId the group ID
@@ -1017,37 +1029,53 @@ public class EventEntryPersistenceImpl extends BasePersistenceImpl<EventEntry>
 	public EventEntry findByGlobalFinder_Last(long companyId, long groupId,
 		OrderByComparator orderByComparator)
 		throws NoSuchEventEntryException, SystemException {
+		EventEntry eventEntry = fetchByGlobalFinder_Last(companyId, groupId,
+				orderByComparator);
+
+		if (eventEntry != null) {
+			return eventEntry;
+		}
+
+		StringBundler msg = new StringBundler(6);
+
+		msg.append(_NO_SUCH_ENTITY_WITH_KEY);
+
+		msg.append("companyId=");
+		msg.append(companyId);
+
+		msg.append(", groupId=");
+		msg.append(groupId);
+
+		msg.append(StringPool.CLOSE_CURLY_BRACE);
+
+		throw new NoSuchEventEntryException(msg.toString());
+	}
+
+	/**
+	 * Returns the last event entry in the ordered set where companyId = &#63; and groupId = &#63;.
+	 *
+	 * @param companyId the company ID
+	 * @param groupId the group ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the last matching event entry, or <code>null</code> if a matching event entry could not be found
+	 * @throws SystemException if a system exception occurred
+	 */
+	public EventEntry fetchByGlobalFinder_Last(long companyId, long groupId,
+		OrderByComparator orderByComparator) throws SystemException {
 		int count = countByGlobalFinder(companyId, groupId);
 
 		List<EventEntry> list = findByGlobalFinder(companyId, groupId,
 				count - 1, count, orderByComparator);
 
-		if (list.isEmpty()) {
-			StringBundler msg = new StringBundler(6);
-
-			msg.append(_NO_SUCH_ENTITY_WITH_KEY);
-
-			msg.append("companyId=");
-			msg.append(companyId);
-
-			msg.append(", groupId=");
-			msg.append(groupId);
-
-			msg.append(StringPool.CLOSE_CURLY_BRACE);
-
-			throw new NoSuchEventEntryException(msg.toString());
-		}
-		else {
+		if (!list.isEmpty()) {
 			return list.get(0);
 		}
+
+		return null;
 	}
 
 	/**
 	 * Returns the event entries before and after the current event entry in the ordered set where companyId = &#63; and groupId = &#63;.
-	 *
-	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
-	 * </p>
 	 *
 	 * @param eventEntryId the primary key of the current event entry
 	 * @param companyId the company ID
@@ -1326,10 +1354,6 @@ public class EventEntryPersistenceImpl extends BasePersistenceImpl<EventEntry>
 	/**
 	 * Returns the first event entry in the ordered set where groupId &ne; &#63;.
 	 *
-	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
-	 * </p>
-	 *
 	 * @param groupId the group ID
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	 * @return the first matching event entry
@@ -1339,32 +1363,47 @@ public class EventEntryPersistenceImpl extends BasePersistenceImpl<EventEntry>
 	public EventEntry findByAllButGroupId_First(long groupId,
 		OrderByComparator orderByComparator)
 		throws NoSuchEventEntryException, SystemException {
+		EventEntry eventEntry = fetchByAllButGroupId_First(groupId,
+				orderByComparator);
+
+		if (eventEntry != null) {
+			return eventEntry;
+		}
+
+		StringBundler msg = new StringBundler(4);
+
+		msg.append(_NO_SUCH_ENTITY_WITH_KEY);
+
+		msg.append("groupId=");
+		msg.append(groupId);
+
+		msg.append(StringPool.CLOSE_CURLY_BRACE);
+
+		throw new NoSuchEventEntryException(msg.toString());
+	}
+
+	/**
+	 * Returns the first event entry in the ordered set where groupId &ne; &#63;.
+	 *
+	 * @param groupId the group ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the first matching event entry, or <code>null</code> if a matching event entry could not be found
+	 * @throws SystemException if a system exception occurred
+	 */
+	public EventEntry fetchByAllButGroupId_First(long groupId,
+		OrderByComparator orderByComparator) throws SystemException {
 		List<EventEntry> list = findByAllButGroupId(groupId, 0, 1,
 				orderByComparator);
 
-		if (list.isEmpty()) {
-			StringBundler msg = new StringBundler(4);
-
-			msg.append(_NO_SUCH_ENTITY_WITH_KEY);
-
-			msg.append("groupId=");
-			msg.append(groupId);
-
-			msg.append(StringPool.CLOSE_CURLY_BRACE);
-
-			throw new NoSuchEventEntryException(msg.toString());
-		}
-		else {
+		if (!list.isEmpty()) {
 			return list.get(0);
 		}
+
+		return null;
 	}
 
 	/**
 	 * Returns the last event entry in the ordered set where groupId &ne; &#63;.
-	 *
-	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
-	 * </p>
 	 *
 	 * @param groupId the group ID
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
@@ -1375,34 +1414,49 @@ public class EventEntryPersistenceImpl extends BasePersistenceImpl<EventEntry>
 	public EventEntry findByAllButGroupId_Last(long groupId,
 		OrderByComparator orderByComparator)
 		throws NoSuchEventEntryException, SystemException {
+		EventEntry eventEntry = fetchByAllButGroupId_Last(groupId,
+				orderByComparator);
+
+		if (eventEntry != null) {
+			return eventEntry;
+		}
+
+		StringBundler msg = new StringBundler(4);
+
+		msg.append(_NO_SUCH_ENTITY_WITH_KEY);
+
+		msg.append("groupId=");
+		msg.append(groupId);
+
+		msg.append(StringPool.CLOSE_CURLY_BRACE);
+
+		throw new NoSuchEventEntryException(msg.toString());
+	}
+
+	/**
+	 * Returns the last event entry in the ordered set where groupId &ne; &#63;.
+	 *
+	 * @param groupId the group ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the last matching event entry, or <code>null</code> if a matching event entry could not be found
+	 * @throws SystemException if a system exception occurred
+	 */
+	public EventEntry fetchByAllButGroupId_Last(long groupId,
+		OrderByComparator orderByComparator) throws SystemException {
 		int count = countByAllButGroupId(groupId);
 
 		List<EventEntry> list = findByAllButGroupId(groupId, count - 1, count,
 				orderByComparator);
 
-		if (list.isEmpty()) {
-			StringBundler msg = new StringBundler(4);
-
-			msg.append(_NO_SUCH_ENTITY_WITH_KEY);
-
-			msg.append("groupId=");
-			msg.append(groupId);
-
-			msg.append(StringPool.CLOSE_CURLY_BRACE);
-
-			throw new NoSuchEventEntryException(msg.toString());
-		}
-		else {
+		if (!list.isEmpty()) {
 			return list.get(0);
 		}
+
+		return null;
 	}
 
 	/**
 	 * Returns the event entries before and after the current event entry in the ordered set where groupId &ne; &#63;.
-	 *
-	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
-	 * </p>
 	 *
 	 * @param eventEntryId the primary key of the current event entry
 	 * @param groupId the group ID
@@ -1696,10 +1750,6 @@ public class EventEntryPersistenceImpl extends BasePersistenceImpl<EventEntry>
 	/**
 	 * Returns the first event entry in the ordered set where companyId = &#63; and groupId = &#63;.
 	 *
-	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
-	 * </p>
-	 *
 	 * @param companyId the company ID
 	 * @param groupId the group ID
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
@@ -1710,35 +1760,51 @@ public class EventEntryPersistenceImpl extends BasePersistenceImpl<EventEntry>
 	public EventEntry findByGroupId_First(long companyId, long groupId,
 		OrderByComparator orderByComparator)
 		throws NoSuchEventEntryException, SystemException {
+		EventEntry eventEntry = fetchByGroupId_First(companyId, groupId,
+				orderByComparator);
+
+		if (eventEntry != null) {
+			return eventEntry;
+		}
+
+		StringBundler msg = new StringBundler(6);
+
+		msg.append(_NO_SUCH_ENTITY_WITH_KEY);
+
+		msg.append("companyId=");
+		msg.append(companyId);
+
+		msg.append(", groupId=");
+		msg.append(groupId);
+
+		msg.append(StringPool.CLOSE_CURLY_BRACE);
+
+		throw new NoSuchEventEntryException(msg.toString());
+	}
+
+	/**
+	 * Returns the first event entry in the ordered set where companyId = &#63; and groupId = &#63;.
+	 *
+	 * @param companyId the company ID
+	 * @param groupId the group ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the first matching event entry, or <code>null</code> if a matching event entry could not be found
+	 * @throws SystemException if a system exception occurred
+	 */
+	public EventEntry fetchByGroupId_First(long companyId, long groupId,
+		OrderByComparator orderByComparator) throws SystemException {
 		List<EventEntry> list = findByGroupId(companyId, groupId, 0, 1,
 				orderByComparator);
 
-		if (list.isEmpty()) {
-			StringBundler msg = new StringBundler(6);
-
-			msg.append(_NO_SUCH_ENTITY_WITH_KEY);
-
-			msg.append("companyId=");
-			msg.append(companyId);
-
-			msg.append(", groupId=");
-			msg.append(groupId);
-
-			msg.append(StringPool.CLOSE_CURLY_BRACE);
-
-			throw new NoSuchEventEntryException(msg.toString());
-		}
-		else {
+		if (!list.isEmpty()) {
 			return list.get(0);
 		}
+
+		return null;
 	}
 
 	/**
 	 * Returns the last event entry in the ordered set where companyId = &#63; and groupId = &#63;.
-	 *
-	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
-	 * </p>
 	 *
 	 * @param companyId the company ID
 	 * @param groupId the group ID
@@ -1750,37 +1816,53 @@ public class EventEntryPersistenceImpl extends BasePersistenceImpl<EventEntry>
 	public EventEntry findByGroupId_Last(long companyId, long groupId,
 		OrderByComparator orderByComparator)
 		throws NoSuchEventEntryException, SystemException {
+		EventEntry eventEntry = fetchByGroupId_Last(companyId, groupId,
+				orderByComparator);
+
+		if (eventEntry != null) {
+			return eventEntry;
+		}
+
+		StringBundler msg = new StringBundler(6);
+
+		msg.append(_NO_SUCH_ENTITY_WITH_KEY);
+
+		msg.append("companyId=");
+		msg.append(companyId);
+
+		msg.append(", groupId=");
+		msg.append(groupId);
+
+		msg.append(StringPool.CLOSE_CURLY_BRACE);
+
+		throw new NoSuchEventEntryException(msg.toString());
+	}
+
+	/**
+	 * Returns the last event entry in the ordered set where companyId = &#63; and groupId = &#63;.
+	 *
+	 * @param companyId the company ID
+	 * @param groupId the group ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the last matching event entry, or <code>null</code> if a matching event entry could not be found
+	 * @throws SystemException if a system exception occurred
+	 */
+	public EventEntry fetchByGroupId_Last(long companyId, long groupId,
+		OrderByComparator orderByComparator) throws SystemException {
 		int count = countByGroupId(companyId, groupId);
 
 		List<EventEntry> list = findByGroupId(companyId, groupId, count - 1,
 				count, orderByComparator);
 
-		if (list.isEmpty()) {
-			StringBundler msg = new StringBundler(6);
-
-			msg.append(_NO_SUCH_ENTITY_WITH_KEY);
-
-			msg.append("companyId=");
-			msg.append(companyId);
-
-			msg.append(", groupId=");
-			msg.append(groupId);
-
-			msg.append(StringPool.CLOSE_CURLY_BRACE);
-
-			throw new NoSuchEventEntryException(msg.toString());
-		}
-		else {
+		if (!list.isEmpty()) {
 			return list.get(0);
 		}
+
+		return null;
 	}
 
 	/**
 	 * Returns the event entries before and after the current event entry in the ordered set where companyId = &#63; and groupId = &#63;.
-	 *
-	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
-	 * </p>
 	 *
 	 * @param eventEntryId the primary key of the current event entry
 	 * @param companyId the company ID
@@ -2066,10 +2148,6 @@ public class EventEntryPersistenceImpl extends BasePersistenceImpl<EventEntry>
 	/**
 	 * Returns the first event entry in the ordered set where companyId = &#63;.
 	 *
-	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
-	 * </p>
-	 *
 	 * @param companyId the company ID
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	 * @return the first matching event entry
@@ -2079,32 +2157,47 @@ public class EventEntryPersistenceImpl extends BasePersistenceImpl<EventEntry>
 	public EventEntry findByCompanyId_First(long companyId,
 		OrderByComparator orderByComparator)
 		throws NoSuchEventEntryException, SystemException {
+		EventEntry eventEntry = fetchByCompanyId_First(companyId,
+				orderByComparator);
+
+		if (eventEntry != null) {
+			return eventEntry;
+		}
+
+		StringBundler msg = new StringBundler(4);
+
+		msg.append(_NO_SUCH_ENTITY_WITH_KEY);
+
+		msg.append("companyId=");
+		msg.append(companyId);
+
+		msg.append(StringPool.CLOSE_CURLY_BRACE);
+
+		throw new NoSuchEventEntryException(msg.toString());
+	}
+
+	/**
+	 * Returns the first event entry in the ordered set where companyId = &#63;.
+	 *
+	 * @param companyId the company ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the first matching event entry, or <code>null</code> if a matching event entry could not be found
+	 * @throws SystemException if a system exception occurred
+	 */
+	public EventEntry fetchByCompanyId_First(long companyId,
+		OrderByComparator orderByComparator) throws SystemException {
 		List<EventEntry> list = findByCompanyId(companyId, 0, 1,
 				orderByComparator);
 
-		if (list.isEmpty()) {
-			StringBundler msg = new StringBundler(4);
-
-			msg.append(_NO_SUCH_ENTITY_WITH_KEY);
-
-			msg.append("companyId=");
-			msg.append(companyId);
-
-			msg.append(StringPool.CLOSE_CURLY_BRACE);
-
-			throw new NoSuchEventEntryException(msg.toString());
-		}
-		else {
+		if (!list.isEmpty()) {
 			return list.get(0);
 		}
+
+		return null;
 	}
 
 	/**
 	 * Returns the last event entry in the ordered set where companyId = &#63;.
-	 *
-	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
-	 * </p>
 	 *
 	 * @param companyId the company ID
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
@@ -2115,34 +2208,49 @@ public class EventEntryPersistenceImpl extends BasePersistenceImpl<EventEntry>
 	public EventEntry findByCompanyId_Last(long companyId,
 		OrderByComparator orderByComparator)
 		throws NoSuchEventEntryException, SystemException {
+		EventEntry eventEntry = fetchByCompanyId_Last(companyId,
+				orderByComparator);
+
+		if (eventEntry != null) {
+			return eventEntry;
+		}
+
+		StringBundler msg = new StringBundler(4);
+
+		msg.append(_NO_SUCH_ENTITY_WITH_KEY);
+
+		msg.append("companyId=");
+		msg.append(companyId);
+
+		msg.append(StringPool.CLOSE_CURLY_BRACE);
+
+		throw new NoSuchEventEntryException(msg.toString());
+	}
+
+	/**
+	 * Returns the last event entry in the ordered set where companyId = &#63;.
+	 *
+	 * @param companyId the company ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the last matching event entry, or <code>null</code> if a matching event entry could not be found
+	 * @throws SystemException if a system exception occurred
+	 */
+	public EventEntry fetchByCompanyId_Last(long companyId,
+		OrderByComparator orderByComparator) throws SystemException {
 		int count = countByCompanyId(companyId);
 
 		List<EventEntry> list = findByCompanyId(companyId, count - 1, count,
 				orderByComparator);
 
-		if (list.isEmpty()) {
-			StringBundler msg = new StringBundler(4);
-
-			msg.append(_NO_SUCH_ENTITY_WITH_KEY);
-
-			msg.append("companyId=");
-			msg.append(companyId);
-
-			msg.append(StringPool.CLOSE_CURLY_BRACE);
-
-			throw new NoSuchEventEntryException(msg.toString());
-		}
-		else {
+		if (!list.isEmpty()) {
 			return list.get(0);
 		}
+
+		return null;
 	}
 
 	/**
 	 * Returns the event entries before and after the current event entry in the ordered set where companyId = &#63;.
-	 *
-	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
-	 * </p>
 	 *
 	 * @param eventEntryId the primary key of the current event entry
 	 * @param companyId the company ID
@@ -2421,10 +2529,6 @@ public class EventEntryPersistenceImpl extends BasePersistenceImpl<EventEntry>
 	/**
 	 * Returns the first event entry in the ordered set where userId = &#63;.
 	 *
-	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
-	 * </p>
-	 *
 	 * @param userId the user ID
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	 * @return the first matching event entry
@@ -2434,31 +2538,45 @@ public class EventEntryPersistenceImpl extends BasePersistenceImpl<EventEntry>
 	public EventEntry findByUserId_First(long userId,
 		OrderByComparator orderByComparator)
 		throws NoSuchEventEntryException, SystemException {
+		EventEntry eventEntry = fetchByUserId_First(userId, orderByComparator);
+
+		if (eventEntry != null) {
+			return eventEntry;
+		}
+
+		StringBundler msg = new StringBundler(4);
+
+		msg.append(_NO_SUCH_ENTITY_WITH_KEY);
+
+		msg.append("userId=");
+		msg.append(userId);
+
+		msg.append(StringPool.CLOSE_CURLY_BRACE);
+
+		throw new NoSuchEventEntryException(msg.toString());
+	}
+
+	/**
+	 * Returns the first event entry in the ordered set where userId = &#63;.
+	 *
+	 * @param userId the user ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the first matching event entry, or <code>null</code> if a matching event entry could not be found
+	 * @throws SystemException if a system exception occurred
+	 */
+	public EventEntry fetchByUserId_First(long userId,
+		OrderByComparator orderByComparator) throws SystemException {
 		List<EventEntry> list = findByUserId(userId, 0, 1, orderByComparator);
 
-		if (list.isEmpty()) {
-			StringBundler msg = new StringBundler(4);
-
-			msg.append(_NO_SUCH_ENTITY_WITH_KEY);
-
-			msg.append("userId=");
-			msg.append(userId);
-
-			msg.append(StringPool.CLOSE_CURLY_BRACE);
-
-			throw new NoSuchEventEntryException(msg.toString());
-		}
-		else {
+		if (!list.isEmpty()) {
 			return list.get(0);
 		}
+
+		return null;
 	}
 
 	/**
 	 * Returns the last event entry in the ordered set where userId = &#63;.
-	 *
-	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
-	 * </p>
 	 *
 	 * @param userId the user ID
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
@@ -2469,34 +2587,48 @@ public class EventEntryPersistenceImpl extends BasePersistenceImpl<EventEntry>
 	public EventEntry findByUserId_Last(long userId,
 		OrderByComparator orderByComparator)
 		throws NoSuchEventEntryException, SystemException {
+		EventEntry eventEntry = fetchByUserId_Last(userId, orderByComparator);
+
+		if (eventEntry != null) {
+			return eventEntry;
+		}
+
+		StringBundler msg = new StringBundler(4);
+
+		msg.append(_NO_SUCH_ENTITY_WITH_KEY);
+
+		msg.append("userId=");
+		msg.append(userId);
+
+		msg.append(StringPool.CLOSE_CURLY_BRACE);
+
+		throw new NoSuchEventEntryException(msg.toString());
+	}
+
+	/**
+	 * Returns the last event entry in the ordered set where userId = &#63;.
+	 *
+	 * @param userId the user ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the last matching event entry, or <code>null</code> if a matching event entry could not be found
+	 * @throws SystemException if a system exception occurred
+	 */
+	public EventEntry fetchByUserId_Last(long userId,
+		OrderByComparator orderByComparator) throws SystemException {
 		int count = countByUserId(userId);
 
 		List<EventEntry> list = findByUserId(userId, count - 1, count,
 				orderByComparator);
 
-		if (list.isEmpty()) {
-			StringBundler msg = new StringBundler(4);
-
-			msg.append(_NO_SUCH_ENTITY_WITH_KEY);
-
-			msg.append("userId=");
-			msg.append(userId);
-
-			msg.append(StringPool.CLOSE_CURLY_BRACE);
-
-			throw new NoSuchEventEntryException(msg.toString());
-		}
-		else {
+		if (!list.isEmpty()) {
 			return list.get(0);
 		}
+
+		return null;
 	}
 
 	/**
 	 * Returns the event entries before and after the current event entry in the ordered set where userId = &#63;.
-	 *
-	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
-	 * </p>
 	 *
 	 * @param eventEntryId the primary key of the current event entry
 	 * @param userId the user ID

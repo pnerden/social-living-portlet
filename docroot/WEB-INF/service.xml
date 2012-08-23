@@ -102,6 +102,11 @@
 			<finder-column name="eventEntryId" />
 			<finder-column name="status" />
 		</finder>
+		<finder name="UserId" return-type="Collection">
+			<finder-column name="companyId" />
+			<finder-column name="userId" />
+			<finder-column name="status" />
+		</finder>
 	</entity>
 	<entity name="ChannelEntry" local-service="true" remote-service="false">
 

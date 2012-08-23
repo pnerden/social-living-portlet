@@ -299,17 +299,6 @@ public class ChannelEntryModelImpl extends BaseModelImpl<ChannelEntry>
 	}
 
 	@Override
-	public ChannelEntry toEscapedModel() {
-		if (_escapedModelProxy == null) {
-			_escapedModelProxy = (ChannelEntry)ProxyUtil.newProxyInstance(_classLoader,
-					_escapedModelProxyInterfaces,
-					new AutoEscapeBeanHandler(this));
-		}
-
-		return _escapedModelProxy;
-	}
-
-	@Override
 	public ExpandoBridge getExpandoBridge() {
 		return ExpandoBridgeFactoryUtil.getExpandoBridge(getCompanyId(),
 			ChannelEntry.class.getName(), getPrimaryKey());
@@ -320,6 +309,17 @@ public class ChannelEntryModelImpl extends BaseModelImpl<ChannelEntry>
 		ExpandoBridge expandoBridge = getExpandoBridge();
 
 		expandoBridge.setAttributes(serviceContext);
+	}
+
+	@Override
+	public ChannelEntry toEscapedModel() {
+		if (_escapedModelProxy == null) {
+			_escapedModelProxy = (ChannelEntry)ProxyUtil.newProxyInstance(_classLoader,
+					_escapedModelProxyInterfaces,
+					new AutoEscapeBeanHandler(this));
+		}
+
+		return _escapedModelProxy;
 	}
 
 	@Override

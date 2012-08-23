@@ -288,6 +288,18 @@ public class EventRegistrationLocalServiceUtil {
 				   .getEventRegistrations(eventEntryId, status, start, end);
 	}
 
+	public static java.util.List<org.lsp.liferay.portlet.socialliving.model.EventRegistration> getEventPositiveRegistrations(
+		long companyId, long userId)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return getService().getEventPositiveRegistrations(companyId, userId);
+	}
+
+	public static java.util.List<org.lsp.liferay.portlet.socialliving.model.EventRegistration> getEventRegistrations(
+		long companyId, long userId, int status)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return getService().getEventRegistrations(companyId, userId, status);
+	}
+
 	public static int getEventRegistrationsCount(long eventEntryId, int status)
 		throws com.liferay.portal.kernel.exception.SystemException {
 		return getService().getEventRegistrationsCount(eventEntryId, status);

@@ -22,6 +22,28 @@
 			</guest-unsupported>
 		</permissions>
 	</portlet-resource>
+	<portlet-resource>
+		<portlet-name>3</portlet-name>
+		<permissions>
+			<supports>
+				<action-key>ACCESS_IN_CONTROL_PANEL</action-key>
+				<action-key>ADD_TO_PAGE</action-key>
+				<action-key>VIEW</action-key>
+			</supports>
+			<site-member-defaults>
+			</site-member-defaults>
+			<site-member-unsupported>
+				<action-key>ADD_TO_PAGE</action-key>
+			</site-member-unsupported>
+			<guest-defaults>
+			</guest-defaults>
+			<guest-unsupported>
+				<action-key>ACCESS_IN_CONTROL_PANEL</action-key>
+				<action-key>ADD_TO_PAGE</action-key>
+				<action-key>VIEW</action-key>
+			</guest-unsupported>
+		</permissions>
+	</portlet-resource>
 	<model-resource>
 		<model-name>org.lsp.liferay.portlet.socialliving.event</model-name>
 		<portlet-ref>
