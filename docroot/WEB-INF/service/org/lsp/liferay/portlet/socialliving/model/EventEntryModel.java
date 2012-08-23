@@ -334,6 +334,48 @@ public interface EventEntryModel extends BaseModel<EventEntry>, GroupedModel {
 	 */
 	public void setLocation(String location);
 
+	/**
+	 * Returns the with spouse of this event entry.
+	 *
+	 * @return the with spouse of this event entry
+	 */
+	public boolean getWithSpouse();
+
+	/**
+	 * Returns <code>true</code> if this event entry is with spouse.
+	 *
+	 * @return <code>true</code> if this event entry is with spouse; <code>false</code> otherwise
+	 */
+	public boolean isWithSpouse();
+
+	/**
+	 * Sets whether this event entry is with spouse.
+	 *
+	 * @param withSpouse the with spouse of this event entry
+	 */
+	public void setWithSpouse(boolean withSpouse);
+
+	/**
+	 * Returns the with children of this event entry.
+	 *
+	 * @return the with children of this event entry
+	 */
+	public boolean getWithChildren();
+
+	/**
+	 * Returns <code>true</code> if this event entry is with children.
+	 *
+	 * @return <code>true</code> if this event entry is with children; <code>false</code> otherwise
+	 */
+	public boolean isWithChildren();
+
+	/**
+	 * Sets whether this event entry is with children.
+	 *
+	 * @param withChildren the with children of this event entry
+	 */
+	public void setWithChildren(boolean withChildren);
+
 	public boolean isNew();
 
 	public void setNew(boolean n);

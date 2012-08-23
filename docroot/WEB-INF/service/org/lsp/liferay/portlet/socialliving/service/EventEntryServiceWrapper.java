@@ -62,7 +62,8 @@ public class EventEntryServiceWrapper implements EventEntryService,
 		int endDateMonth, int endDateDay, int endDateYear, int endDateHour,
 		int endDateMinute, int totalAttendees, int maxAttendees, double price,
 		byte[] thumbnail, int visibility, java.lang.String latitude,
-		java.lang.String longitude, java.lang.String location)
+		java.lang.String longitude, java.lang.String location,
+		boolean withSpouse, boolean withChildren)
 		throws com.liferay.portal.kernel.exception.PortalException,
 			com.liferay.portal.kernel.exception.SystemException {
 		return _eventEntryService.addEventEntry(groupId, userId, title,
@@ -70,7 +71,7 @@ public class EventEntryServiceWrapper implements EventEntryService,
 			startDateHour, startDateMinute, endDateMonth, endDateDay,
 			endDateYear, endDateHour, endDateMinute, totalAttendees,
 			maxAttendees, price, thumbnail, visibility, latitude, longitude,
-			location);
+			location, withSpouse, withChildren);
 	}
 
 	public org.lsp.liferay.portlet.socialliving.model.EventEntry deleteEventEntry(
@@ -105,6 +106,15 @@ public class EventEntryServiceWrapper implements EventEntryService,
 			visibility, permissionLevel);
 	}
 
+	public java.util.List<org.lsp.liferay.portlet.socialliving.model.EventEntry> getEventEntries(
+		com.liferay.portal.theme.ThemeDisplay themeDisplay, int filter,
+		int visibility, java.lang.String permissionLevel, boolean inTheFuture)
+		throws com.liferay.portal.kernel.exception.PortalException,
+			com.liferay.portal.kernel.exception.SystemException {
+		return _eventEntryService.getEventEntries(themeDisplay, filter,
+			visibility, permissionLevel, inTheFuture);
+	}
+
 	public int getVisibility(
 		org.lsp.liferay.portlet.socialliving.model.EventEntry eventEntry)
 		throws com.liferay.portal.kernel.exception.PortalException,
@@ -119,7 +129,8 @@ public class EventEntryServiceWrapper implements EventEntryService,
 		int endDateMonth, int endDateDay, int endDateYear, int endDateHour,
 		int endDateMinute, int totalAttendees, int maxAttendees, double price,
 		byte[] thumbnail, int visibility, java.lang.String latitude,
-		java.lang.String longitude, java.lang.String location)
+		java.lang.String longitude, java.lang.String location,
+		boolean withSpouse, boolean withChildren)
 		throws com.liferay.portal.kernel.exception.PortalException,
 			com.liferay.portal.kernel.exception.SystemException {
 		return _eventEntryService.updateEventEntry(userId, eventEntryId, title,
@@ -127,7 +138,7 @@ public class EventEntryServiceWrapper implements EventEntryService,
 			startDateHour, startDateMinute, endDateMonth, endDateDay,
 			endDateYear, endDateHour, endDateMinute, totalAttendees,
 			maxAttendees, price, thumbnail, visibility, latitude, longitude,
-			location);
+			location, withSpouse, withChildren);
 	}
 
 	/**

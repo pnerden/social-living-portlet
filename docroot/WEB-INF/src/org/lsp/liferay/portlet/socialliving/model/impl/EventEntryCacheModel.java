@@ -35,7 +35,7 @@ public class EventEntryCacheModel implements CacheModel<EventEntry>,
 	Serializable {
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(37);
+		StringBundler sb = new StringBundler(41);
 
 		sb.append("{eventEntryId=");
 		sb.append(eventEntryId);
@@ -73,6 +73,10 @@ public class EventEntryCacheModel implements CacheModel<EventEntry>,
 		sb.append(longitude);
 		sb.append(", location=");
 		sb.append(location);
+		sb.append(", withSpouse=");
+		sb.append(withSpouse);
+		sb.append(", withChildren=");
+		sb.append(withChildren);
 		sb.append("}");
 
 		return sb.toString();
@@ -161,6 +165,9 @@ public class EventEntryCacheModel implements CacheModel<EventEntry>,
 			eventEntryImpl.setLocation(location);
 		}
 
+		eventEntryImpl.setWithSpouse(withSpouse);
+		eventEntryImpl.setWithChildren(withChildren);
+
 		eventEntryImpl.resetOriginalValues();
 
 		return eventEntryImpl;
@@ -184,4 +191,6 @@ public class EventEntryCacheModel implements CacheModel<EventEntry>,
 	public String latitude;
 	public String longitude;
 	public String location;
+	public boolean withSpouse;
+	public boolean withChildren;
 }

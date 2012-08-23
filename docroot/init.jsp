@@ -34,6 +34,7 @@ page import="com.liferay.portal.kernel.messaging.MessageBusUtil" %><%@
 page import="com.liferay.portal.kernel.portlet.LiferayPortletURL" %><%@
 page import="com.liferay.portal.kernel.util.CalendarFactoryUtil" %><%@
 page import="com.liferay.portal.kernel.util.Constants" %><%@
+page import="com.liferay.portal.kernel.util.FastDateFormatConstants" %><%@
 page import="com.liferay.portal.kernel.util.FastDateFormatFactoryUtil" %><%@
 page import="com.liferay.portal.kernel.util.GetterUtil" %><%@
 page import="com.liferay.portal.kernel.util.HtmlUtil" %><%@
@@ -92,6 +93,7 @@ page import="java.text.NumberFormat" %>
 
 <%@ page import="java.util.ArrayList" %><%@
 page import="java.util.Calendar" %><%@
+page import="java.util.Collections" %><%@
 page import="java.util.Iterator" %><%@
 page import="java.util.LinkedHashMap" %><%@
 page import="java.util.List" %><%@
@@ -124,7 +126,7 @@ else if (group.isUser()) {
 }
 
 Format dateFormatDate = FastDateFormatFactoryUtil.getDate(locale, timeZone);
-Format dateFormatDateTime = FastDateFormatFactoryUtil.getDateTime(locale, timeZone);
+Format dateFormatDateTime = FastDateFormatFactoryUtil.getDateTime(FastDateFormatConstants.FULL, FastDateFormatConstants.FULL, locale, timeZone);
 
 NumberFormat numberFormat = NumberFormat.getNumberInstance(locale);
 NumberFormat percentFormat = NumberFormat.getPercentInstance(locale);

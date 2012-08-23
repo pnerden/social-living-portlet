@@ -55,6 +55,8 @@
 			<basic name="latitude" />
 			<basic name="longitude" />
 			<basic name="location" />
+			<basic name="withSpouse" />
+			<basic name="withChildren" />
 			<transient name="modelAttributes" />
 			<transient name="primaryKey" />
 			<transient name="primaryKeyObj" />

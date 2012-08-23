@@ -120,7 +120,7 @@ public class EventEntryLocalServiceClp implements EventEntryLocalService {
 				"long", "long", "java.lang.String", "java.lang.String", "int",
 				"int", "int", "int", "int", "int", "int", "int", "int", "int",
 				"int", "int", "double", "byte[][]", "int", "java.lang.String",
-				"java.lang.String", "java.lang.String"
+				"java.lang.String", "java.lang.String", "boolean", "boolean"
 			};
 
 		_methodName20 = "deleteEventEntry";
@@ -135,29 +135,33 @@ public class EventEntryLocalServiceClp implements EventEntryLocalService {
 
 		_methodParameterTypes22 = new String[] { "long", "long", "int" };
 
-		_methodName23 = "getEventEntriesByCompany";
+		_methodName23 = "getEventEntries";
 
-		_methodParameterTypes23 = new String[] { "long" };
+		_methodParameterTypes23 = new String[] { "long", "long", "int", "boolean" };
 
-		_methodName24 = "getEventEntriesByGroup";
+		_methodName24 = "getEventEntriesByCompany";
 
-		_methodParameterTypes24 = new String[] { "long", "long" };
+		_methodParameterTypes24 = new String[] { "long" };
 
-		_methodName25 = "getEventEntriesByAllButGroup";
+		_methodName25 = "getEventEntriesByGroup";
 
-		_methodParameterTypes25 = new String[] { "long" };
+		_methodParameterTypes25 = new String[] { "long", "long" };
 
-		_methodName26 = "getEventEntriesByUser";
+		_methodName26 = "getEventEntriesByAllButGroup";
 
 		_methodParameterTypes26 = new String[] { "long" };
 
-		_methodName27 = "updateEventEntry";
+		_methodName27 = "getEventEntriesByUser";
 
-		_methodParameterTypes27 = new String[] {
+		_methodParameterTypes27 = new String[] { "long" };
+
+		_methodName28 = "updateEventEntry";
+
+		_methodParameterTypes28 = new String[] {
 				"long", "long", "java.lang.String", "java.lang.String", "int",
 				"int", "int", "int", "int", "int", "int", "int", "int", "int",
 				"int", "int", "double", "byte[][]", "int", "java.lang.String",
-				"java.lang.String", "java.lang.String"
+				"java.lang.String", "java.lang.String", "boolean", "boolean"
 			};
 	}
 
@@ -695,7 +699,8 @@ public class EventEntryLocalServiceClp implements EventEntryLocalService {
 		int endDateMonth, int endDateDay, int endDateYear, int endDateHour,
 		int endDateMinute, int totalAttendees, int maxAttendees, double price,
 		byte[] thumbnail, int visibility, java.lang.String latitude,
-		java.lang.String longitude, java.lang.String location)
+		java.lang.String longitude, java.lang.String location,
+		boolean withSpouse, boolean withChildren)
 		throws com.liferay.portal.kernel.exception.PortalException,
 			com.liferay.portal.kernel.exception.SystemException {
 		Object returnObj = null;
@@ -746,7 +751,11 @@ public class EventEntryLocalServiceClp implements EventEntryLocalService {
 						
 					ClpSerializer.translateInput(longitude),
 						
-					ClpSerializer.translateInput(location)
+					ClpSerializer.translateInput(location),
+						
+					withSpouse,
+						
+					withChildren
 					});
 		}
 		catch (Throwable t) {
@@ -842,7 +851,8 @@ public class EventEntryLocalServiceClp implements EventEntryLocalService {
 
 	public java.util.List<org.lsp.liferay.portlet.socialliving.model.EventEntry> getEventEntries(
 		long companyId, long groupId, int visibility)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException,
+			com.liferay.portal.kernel.exception.SystemException {
 		Object returnObj = null;
 
 		try {
@@ -852,6 +862,44 @@ public class EventEntryLocalServiceClp implements EventEntryLocalService {
 		}
 		catch (Throwable t) {
 			t = ClpSerializer.translateThrowable(t);
+
+			if (t instanceof com.liferay.portal.kernel.exception.PortalException) {
+				throw (com.liferay.portal.kernel.exception.PortalException)t;
+			}
+
+			if (t instanceof com.liferay.portal.kernel.exception.SystemException) {
+				throw (com.liferay.portal.kernel.exception.SystemException)t;
+			}
+
+			if (t instanceof RuntimeException) {
+				throw (RuntimeException)t;
+			}
+			else {
+				throw new RuntimeException(t.getClass().getName() +
+					" is not a valid exception");
+			}
+		}
+
+		return (java.util.List<org.lsp.liferay.portlet.socialliving.model.EventEntry>)ClpSerializer.translateOutput(returnObj);
+	}
+
+	public java.util.List<org.lsp.liferay.portlet.socialliving.model.EventEntry> getEventEntries(
+		long companyId, long groupId, int visibility, boolean inTheFuture)
+		throws com.liferay.portal.kernel.exception.PortalException,
+			com.liferay.portal.kernel.exception.SystemException {
+		Object returnObj = null;
+
+		try {
+			returnObj = _invokableLocalService.invokeMethod(_methodName23,
+					_methodParameterTypes23,
+					new Object[] { companyId, groupId, visibility, inTheFuture });
+		}
+		catch (Throwable t) {
+			t = ClpSerializer.translateThrowable(t);
+
+			if (t instanceof com.liferay.portal.kernel.exception.PortalException) {
+				throw (com.liferay.portal.kernel.exception.PortalException)t;
+			}
 
 			if (t instanceof com.liferay.portal.kernel.exception.SystemException) {
 				throw (com.liferay.portal.kernel.exception.SystemException)t;
@@ -875,8 +923,8 @@ public class EventEntryLocalServiceClp implements EventEntryLocalService {
 		Object returnObj = null;
 
 		try {
-			returnObj = _invokableLocalService.invokeMethod(_methodName23,
-					_methodParameterTypes23, new Object[] { companyId });
+			returnObj = _invokableLocalService.invokeMethod(_methodName24,
+					_methodParameterTypes24, new Object[] { companyId });
 		}
 		catch (Throwable t) {
 			t = ClpSerializer.translateThrowable(t);
@@ -903,8 +951,8 @@ public class EventEntryLocalServiceClp implements EventEntryLocalService {
 		Object returnObj = null;
 
 		try {
-			returnObj = _invokableLocalService.invokeMethod(_methodName24,
-					_methodParameterTypes24, new Object[] { companyId, groupId });
+			returnObj = _invokableLocalService.invokeMethod(_methodName25,
+					_methodParameterTypes25, new Object[] { companyId, groupId });
 		}
 		catch (Throwable t) {
 			t = ClpSerializer.translateThrowable(t);
@@ -931,8 +979,8 @@ public class EventEntryLocalServiceClp implements EventEntryLocalService {
 		Object returnObj = null;
 
 		try {
-			returnObj = _invokableLocalService.invokeMethod(_methodName25,
-					_methodParameterTypes25, new Object[] { groupId });
+			returnObj = _invokableLocalService.invokeMethod(_methodName26,
+					_methodParameterTypes26, new Object[] { groupId });
 		}
 		catch (Throwable t) {
 			t = ClpSerializer.translateThrowable(t);
@@ -958,8 +1006,8 @@ public class EventEntryLocalServiceClp implements EventEntryLocalService {
 		Object returnObj = null;
 
 		try {
-			returnObj = _invokableLocalService.invokeMethod(_methodName26,
-					_methodParameterTypes26, new Object[] { userId });
+			returnObj = _invokableLocalService.invokeMethod(_methodName27,
+					_methodParameterTypes27, new Object[] { userId });
 		}
 		catch (Throwable t) {
 			t = ClpSerializer.translateThrowable(t);
@@ -987,14 +1035,15 @@ public class EventEntryLocalServiceClp implements EventEntryLocalService {
 		int endDateMonth, int endDateDay, int endDateYear, int endDateHour,
 		int endDateMinute, int totalAttendees, int maxAttendees, double price,
 		byte[] thumbnail, int visibility, java.lang.String latitude,
-		java.lang.String longitude, java.lang.String location)
+		java.lang.String longitude, java.lang.String location,
+		boolean withSpouse, boolean withChildren)
 		throws com.liferay.portal.kernel.exception.PortalException,
 			com.liferay.portal.kernel.exception.SystemException {
 		Object returnObj = null;
 
 		try {
-			returnObj = _invokableLocalService.invokeMethod(_methodName27,
-					_methodParameterTypes27,
+			returnObj = _invokableLocalService.invokeMethod(_methodName28,
+					_methodParameterTypes28,
 					new Object[] {
 						userId,
 						
@@ -1038,7 +1087,11 @@ public class EventEntryLocalServiceClp implements EventEntryLocalService {
 						
 					ClpSerializer.translateInput(longitude),
 						
-					ClpSerializer.translateInput(location)
+					ClpSerializer.translateInput(location),
+						
+					withSpouse,
+						
+					withChildren
 					});
 		}
 		catch (Throwable t) {
@@ -1119,4 +1172,6 @@ public class EventEntryLocalServiceClp implements EventEntryLocalService {
 	private String[] _methodParameterTypes26;
 	private String _methodName27;
 	private String[] _methodParameterTypes27;
+	private String _methodName28;
+	private String[] _methodParameterTypes28;
 }

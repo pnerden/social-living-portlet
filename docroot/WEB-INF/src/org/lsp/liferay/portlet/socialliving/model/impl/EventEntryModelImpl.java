@@ -84,9 +84,11 @@ public class EventEntryModelImpl extends BaseModelImpl<EventEntry>
 			{ "thumbnailId", Types.BIGINT },
 			{ "latitude", Types.VARCHAR },
 			{ "longitude", Types.VARCHAR },
-			{ "location", Types.VARCHAR }
+			{ "location", Types.VARCHAR },
+			{ "withSpouse", Types.BOOLEAN },
+			{ "withChildren", Types.BOOLEAN }
 		};
-	public static final String TABLE_SQL_CREATE = "create table LSPSL_EventEntry (eventEntryId LONG not null primary key,companyId LONG,groupId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,title VARCHAR(75) null,description TEXT null,startDate DATE null,endDate DATE null,totalAttendees INTEGER,maxAttendees INTEGER,price DOUBLE,thumbnailId LONG,latitude VARCHAR(75) null,longitude VARCHAR(75) null,location TEXT null)";
+	public static final String TABLE_SQL_CREATE = "create table LSPSL_EventEntry (eventEntryId LONG not null primary key,companyId LONG,groupId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,title VARCHAR(75) null,description TEXT null,startDate DATE null,endDate DATE null,totalAttendees INTEGER,maxAttendees INTEGER,price DOUBLE,thumbnailId LONG,latitude VARCHAR(75) null,longitude VARCHAR(75) null,location TEXT null,withSpouse BOOLEAN,withChildren BOOLEAN)";
 	public static final String TABLE_SQL_DROP = "drop table LSPSL_EventEntry";
 	public static final String ORDER_BY_JPQL = " ORDER BY eventEntry.startDate ASC";
 	public static final String ORDER_BY_SQL = " ORDER BY LSPSL_EventEntry.startDate ASC";
@@ -103,9 +105,10 @@ public class EventEntryModelImpl extends BaseModelImpl<EventEntry>
 				"value.object.column.bitmask.enabled.org.lsp.liferay.portlet.socialliving.model.EventEntry"),
 			true);
 	public static long COMPANYID_COLUMN_BITMASK = 1L;
-	public static long EVENTENTRYID_COLUMN_BITMASK = 2L;
-	public static long GROUPID_COLUMN_BITMASK = 4L;
-	public static long USERID_COLUMN_BITMASK = 8L;
+	public static long ENDDATE_COLUMN_BITMASK = 2L;
+	public static long EVENTENTRYID_COLUMN_BITMASK = 4L;
+	public static long GROUPID_COLUMN_BITMASK = 8L;
+	public static long USERID_COLUMN_BITMASK = 16L;
 
 	/**
 	 * Converts the soap model instance into a normal model instance.
@@ -138,6 +141,8 @@ public class EventEntryModelImpl extends BaseModelImpl<EventEntry>
 		model.setLatitude(soapModel.getLatitude());
 		model.setLongitude(soapModel.getLongitude());
 		model.setLocation(soapModel.getLocation());
+		model.setWithSpouse(soapModel.getWithSpouse());
+		model.setWithChildren(soapModel.getWithChildren());
 
 		return model;
 	}
@@ -214,6 +219,8 @@ public class EventEntryModelImpl extends BaseModelImpl<EventEntry>
 		attributes.put("latitude", getLatitude());
 		attributes.put("longitude", getLongitude());
 		attributes.put("location", getLocation());
+		attributes.put("withSpouse", getWithSpouse());
+		attributes.put("withChildren", getWithChildren());
 
 		return attributes;
 	}
@@ -326,6 +333,18 @@ public class EventEntryModelImpl extends BaseModelImpl<EventEntry>
 
 		if (location != null) {
 			setLocation(location);
+		}
+
+		Boolean withSpouse = (Boolean)attributes.get("withSpouse");
+
+		if (withSpouse != null) {
+			setWithSpouse(withSpouse);
+		}
+
+		Boolean withChildren = (Boolean)attributes.get("withChildren");
+
+		if (withChildren != null) {
+			setWithChildren(withChildren);
 		}
 	}
 
@@ -498,7 +517,17 @@ public class EventEntryModelImpl extends BaseModelImpl<EventEntry>
 	}
 
 	public void setEndDate(Date endDate) {
+		_columnBitmask |= ENDDATE_COLUMN_BITMASK;
+
+		if (_originalEndDate == null) {
+			_originalEndDate = _endDate;
+		}
+
 		_endDate = endDate;
+	}
+
+	public Date getOriginalEndDate() {
+		return _originalEndDate;
 	}
 
 	@JSON
@@ -579,6 +608,32 @@ public class EventEntryModelImpl extends BaseModelImpl<EventEntry>
 		_location = location;
 	}
 
+	@JSON
+	public boolean getWithSpouse() {
+		return _withSpouse;
+	}
+
+	public boolean isWithSpouse() {
+		return _withSpouse;
+	}
+
+	public void setWithSpouse(boolean withSpouse) {
+		_withSpouse = withSpouse;
+	}
+
+	@JSON
+	public boolean getWithChildren() {
+		return _withChildren;
+	}
+
+	public boolean isWithChildren() {
+		return _withChildren;
+	}
+
+	public void setWithChildren(boolean withChildren) {
+		_withChildren = withChildren;
+	}
+
 	public long getColumnBitmask() {
 		return _columnBitmask;
 	}
@@ -629,6 +684,8 @@ public class EventEntryModelImpl extends BaseModelImpl<EventEntry>
 		eventEntryImpl.setLatitude(getLatitude());
 		eventEntryImpl.setLongitude(getLongitude());
 		eventEntryImpl.setLocation(getLocation());
+		eventEntryImpl.setWithSpouse(getWithSpouse());
+		eventEntryImpl.setWithChildren(getWithChildren());
 
 		eventEntryImpl.resetOriginalValues();
 
@@ -696,6 +753,8 @@ public class EventEntryModelImpl extends BaseModelImpl<EventEntry>
 		eventEntryModelImpl._originalUserId = eventEntryModelImpl._userId;
 
 		eventEntryModelImpl._setOriginalUserId = false;
+
+		eventEntryModelImpl._originalEndDate = eventEntryModelImpl._endDate;
 
 		eventEntryModelImpl._columnBitmask = 0;
 	}
@@ -804,12 +863,16 @@ public class EventEntryModelImpl extends BaseModelImpl<EventEntry>
 			eventEntryCacheModel.location = null;
 		}
 
+		eventEntryCacheModel.withSpouse = getWithSpouse();
+
+		eventEntryCacheModel.withChildren = getWithChildren();
+
 		return eventEntryCacheModel;
 	}
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(37);
+		StringBundler sb = new StringBundler(41);
 
 		sb.append("{eventEntryId=");
 		sb.append(getEventEntryId());
@@ -847,13 +910,17 @@ public class EventEntryModelImpl extends BaseModelImpl<EventEntry>
 		sb.append(getLongitude());
 		sb.append(", location=");
 		sb.append(getLocation());
+		sb.append(", withSpouse=");
+		sb.append(getWithSpouse());
+		sb.append(", withChildren=");
+		sb.append(getWithChildren());
 		sb.append("}");
 
 		return sb.toString();
 	}
 
 	public String toXmlString() {
-		StringBundler sb = new StringBundler(58);
+		StringBundler sb = new StringBundler(64);
 
 		sb.append("<model><model-name>");
 		sb.append("org.lsp.liferay.portlet.socialliving.model.EventEntry");
@@ -931,6 +998,14 @@ public class EventEntryModelImpl extends BaseModelImpl<EventEntry>
 			"<column><column-name>location</column-name><column-value><![CDATA[");
 		sb.append(getLocation());
 		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>withSpouse</column-name><column-value><![CDATA[");
+		sb.append(getWithSpouse());
+		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>withChildren</column-name><column-value><![CDATA[");
+		sb.append(getWithChildren());
+		sb.append("]]></column-value></column>");
 
 		sb.append("</model>");
 
@@ -961,6 +1036,7 @@ public class EventEntryModelImpl extends BaseModelImpl<EventEntry>
 	private String _description;
 	private Date _startDate;
 	private Date _endDate;
+	private Date _originalEndDate;
 	private int _totalAttendees;
 	private int _maxAttendees;
 	private double _price;
@@ -968,6 +1044,8 @@ public class EventEntryModelImpl extends BaseModelImpl<EventEntry>
 	private String _latitude;
 	private String _longitude;
 	private String _location;
+	private boolean _withSpouse;
+	private boolean _withChildren;
 	private long _columnBitmask;
 	private EventEntry _escapedModelProxy;
 }

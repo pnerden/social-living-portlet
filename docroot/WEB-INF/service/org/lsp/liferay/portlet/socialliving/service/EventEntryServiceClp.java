@@ -37,7 +37,7 @@ public class EventEntryServiceClp implements EventEntryService {
 				"long", "long", "java.lang.String", "java.lang.String", "int",
 				"int", "int", "int", "int", "int", "int", "int", "int", "int",
 				"int", "int", "double", "byte[][]", "int", "java.lang.String",
-				"java.lang.String", "java.lang.String"
+				"java.lang.String", "java.lang.String", "boolean", "boolean"
 			};
 
 		_methodName4 = "deleteEventEntry";
@@ -61,19 +61,26 @@ public class EventEntryServiceClp implements EventEntryService {
 				"java.lang.String"
 			};
 
-		_methodName8 = "getVisibility";
+		_methodName8 = "getEventEntries";
 
 		_methodParameterTypes8 = new String[] {
+				"com.liferay.portal.theme.ThemeDisplay", "int", "int",
+				"java.lang.String", "boolean"
+			};
+
+		_methodName9 = "getVisibility";
+
+		_methodParameterTypes9 = new String[] {
 				"org.lsp.liferay.portlet.socialliving.model.EventEntry"
 			};
 
-		_methodName9 = "updateEventEntry";
+		_methodName10 = "updateEventEntry";
 
-		_methodParameterTypes9 = new String[] {
+		_methodParameterTypes10 = new String[] {
 				"long", "long", "java.lang.String", "java.lang.String", "int",
 				"int", "int", "int", "int", "int", "int", "int", "int", "int",
 				"int", "int", "double", "byte[][]", "int", "java.lang.String",
-				"java.lang.String", "java.lang.String"
+				"java.lang.String", "java.lang.String", "boolean", "boolean"
 			};
 	}
 
@@ -131,7 +138,8 @@ public class EventEntryServiceClp implements EventEntryService {
 		int endDateMonth, int endDateDay, int endDateYear, int endDateHour,
 		int endDateMinute, int totalAttendees, int maxAttendees, double price,
 		byte[] thumbnail, int visibility, java.lang.String latitude,
-		java.lang.String longitude, java.lang.String location)
+		java.lang.String longitude, java.lang.String location,
+		boolean withSpouse, boolean withChildren)
 		throws com.liferay.portal.kernel.exception.PortalException,
 			com.liferay.portal.kernel.exception.SystemException {
 		Object returnObj = null;
@@ -182,7 +190,11 @@ public class EventEntryServiceClp implements EventEntryService {
 						
 					ClpSerializer.translateInput(longitude),
 						
-					ClpSerializer.translateInput(location)
+					ClpSerializer.translateInput(location),
+						
+					withSpouse,
+						
+					withChildren
 					});
 		}
 		catch (Throwable t) {
@@ -360,8 +372,9 @@ public class EventEntryServiceClp implements EventEntryService {
 		return (java.util.List<org.lsp.liferay.portlet.socialliving.model.EventEntry>)ClpSerializer.translateOutput(returnObj);
 	}
 
-	public int getVisibility(
-		org.lsp.liferay.portlet.socialliving.model.EventEntry eventEntry)
+	public java.util.List<org.lsp.liferay.portlet.socialliving.model.EventEntry> getEventEntries(
+		com.liferay.portal.theme.ThemeDisplay themeDisplay, int filter,
+		int visibility, java.lang.String permissionLevel, boolean inTheFuture)
 		throws com.liferay.portal.kernel.exception.PortalException,
 			com.liferay.portal.kernel.exception.SystemException {
 		Object returnObj = null;
@@ -369,6 +382,50 @@ public class EventEntryServiceClp implements EventEntryService {
 		try {
 			returnObj = _invokableService.invokeMethod(_methodName8,
 					_methodParameterTypes8,
+					new Object[] {
+						ClpSerializer.translateInput(themeDisplay),
+						
+					filter,
+						
+					visibility,
+						
+					ClpSerializer.translateInput(permissionLevel),
+						
+					inTheFuture
+					});
+		}
+		catch (Throwable t) {
+			t = ClpSerializer.translateThrowable(t);
+
+			if (t instanceof com.liferay.portal.kernel.exception.PortalException) {
+				throw (com.liferay.portal.kernel.exception.PortalException)t;
+			}
+
+			if (t instanceof com.liferay.portal.kernel.exception.SystemException) {
+				throw (com.liferay.portal.kernel.exception.SystemException)t;
+			}
+
+			if (t instanceof RuntimeException) {
+				throw (RuntimeException)t;
+			}
+			else {
+				throw new RuntimeException(t.getClass().getName() +
+					" is not a valid exception");
+			}
+		}
+
+		return (java.util.List<org.lsp.liferay.portlet.socialliving.model.EventEntry>)ClpSerializer.translateOutput(returnObj);
+	}
+
+	public int getVisibility(
+		org.lsp.liferay.portlet.socialliving.model.EventEntry eventEntry)
+		throws com.liferay.portal.kernel.exception.PortalException,
+			com.liferay.portal.kernel.exception.SystemException {
+		Object returnObj = null;
+
+		try {
+			returnObj = _invokableService.invokeMethod(_methodName9,
+					_methodParameterTypes9,
 					new Object[] { ClpSerializer.translateInput(eventEntry) });
 		}
 		catch (Throwable t) {
@@ -401,14 +458,15 @@ public class EventEntryServiceClp implements EventEntryService {
 		int endDateMonth, int endDateDay, int endDateYear, int endDateHour,
 		int endDateMinute, int totalAttendees, int maxAttendees, double price,
 		byte[] thumbnail, int visibility, java.lang.String latitude,
-		java.lang.String longitude, java.lang.String location)
+		java.lang.String longitude, java.lang.String location,
+		boolean withSpouse, boolean withChildren)
 		throws com.liferay.portal.kernel.exception.PortalException,
 			com.liferay.portal.kernel.exception.SystemException {
 		Object returnObj = null;
 
 		try {
-			returnObj = _invokableService.invokeMethod(_methodName9,
-					_methodParameterTypes9,
+			returnObj = _invokableService.invokeMethod(_methodName10,
+					_methodParameterTypes10,
 					new Object[] {
 						userId,
 						
@@ -452,7 +510,11 @@ public class EventEntryServiceClp implements EventEntryService {
 						
 					ClpSerializer.translateInput(longitude),
 						
-					ClpSerializer.translateInput(location)
+					ClpSerializer.translateInput(location),
+						
+					withSpouse,
+						
+					withChildren
 					});
 		}
 		catch (Throwable t) {
@@ -497,4 +559,6 @@ public class EventEntryServiceClp implements EventEntryService {
 	private String[] _methodParameterTypes8;
 	private String _methodName9;
 	private String[] _methodParameterTypes9;
+	private String _methodName10;
+	private String[] _methodParameterTypes10;
 }

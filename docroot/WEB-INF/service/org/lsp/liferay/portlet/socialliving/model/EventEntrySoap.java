@@ -49,6 +49,8 @@ public class EventEntrySoap implements Serializable {
 		soapModel.setLatitude(model.getLatitude());
 		soapModel.setLongitude(model.getLongitude());
 		soapModel.setLocation(model.getLocation());
+		soapModel.setWithSpouse(model.getWithSpouse());
+		soapModel.setWithChildren(model.getWithChildren());
 
 		return soapModel;
 	}
@@ -245,6 +247,30 @@ public class EventEntrySoap implements Serializable {
 		_location = location;
 	}
 
+	public boolean getWithSpouse() {
+		return _withSpouse;
+	}
+
+	public boolean isWithSpouse() {
+		return _withSpouse;
+	}
+
+	public void setWithSpouse(boolean withSpouse) {
+		_withSpouse = withSpouse;
+	}
+
+	public boolean getWithChildren() {
+		return _withChildren;
+	}
+
+	public boolean isWithChildren() {
+		return _withChildren;
+	}
+
+	public void setWithChildren(boolean withChildren) {
+		_withChildren = withChildren;
+	}
+
 	private long _eventEntryId;
 	private long _companyId;
 	private long _groupId;
@@ -263,4 +289,6 @@ public class EventEntrySoap implements Serializable {
 	private String _latitude;
 	private String _longitude;
 	private String _location;
+	private boolean _withSpouse;
+	private boolean _withChildren;
 }

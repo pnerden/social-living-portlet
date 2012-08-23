@@ -36,6 +36,8 @@
 		<field name="location" type="String">
 			<hint name="max-length">10000</hint>
 		</field>
+		<field name="withSpouse" type="boolean" />
+		<field name="withChildren" type="boolean" />
 	</model>
 	<model name="org.lsp.liferay.portlet.socialliving.model.EventRegistration">
 		<field name="eventRegistrationId" type="long" />

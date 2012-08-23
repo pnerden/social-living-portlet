@@ -37,7 +37,7 @@ public class EventEntryServiceClpInvoker {
 				"long", "long", "java.lang.String", "java.lang.String", "int",
 				"int", "int", "int", "int", "int", "int", "int", "int", "int",
 				"int", "int", "double", "byte[][]", "int", "java.lang.String",
-				"java.lang.String", "java.lang.String"
+				"java.lang.String", "java.lang.String", "boolean", "boolean"
 			};
 
 		_methodName37 = "deleteEventEntry";
@@ -61,19 +61,26 @@ public class EventEntryServiceClpInvoker {
 				"java.lang.String"
 			};
 
-		_methodName41 = "getVisibility";
+		_methodName41 = "getEventEntries";
 
 		_methodParameterTypes41 = new String[] {
+				"com.liferay.portal.theme.ThemeDisplay", "int", "int",
+				"java.lang.String", "boolean"
+			};
+
+		_methodName42 = "getVisibility";
+
+		_methodParameterTypes42 = new String[] {
 				"org.lsp.liferay.portlet.socialliving.model.EventEntry"
 			};
 
-		_methodName42 = "updateEventEntry";
+		_methodName43 = "updateEventEntry";
 
-		_methodParameterTypes42 = new String[] {
+		_methodParameterTypes43 = new String[] {
 				"long", "long", "java.lang.String", "java.lang.String", "int",
 				"int", "int", "int", "int", "int", "int", "int", "int", "int",
 				"int", "int", "double", "byte[][]", "int", "java.lang.String",
-				"java.lang.String", "java.lang.String"
+				"java.lang.String", "java.lang.String", "boolean", "boolean"
 			};
 	}
 
@@ -109,7 +116,10 @@ public class EventEntryServiceClpInvoker {
 				((Double)arguments[16]).doubleValue(), (byte[])arguments[17],
 				((Integer)arguments[18]).intValue(),
 				(java.lang.String)arguments[19],
-				(java.lang.String)arguments[20], (java.lang.String)arguments[21]);
+				(java.lang.String)arguments[20],
+				(java.lang.String)arguments[21],
+				((Boolean)arguments[22]).booleanValue(),
+				((Boolean)arguments[23]).booleanValue());
 		}
 
 		if (_methodName37.equals(name) &&
@@ -141,11 +151,20 @@ public class EventEntryServiceClpInvoker {
 
 		if (_methodName41.equals(name) &&
 				Arrays.deepEquals(_methodParameterTypes41, parameterTypes)) {
-			return EventEntryServiceUtil.getVisibility((org.lsp.liferay.portlet.socialliving.model.EventEntry)arguments[0]);
+			return EventEntryServiceUtil.getEventEntries((com.liferay.portal.theme.ThemeDisplay)arguments[0],
+				((Integer)arguments[1]).intValue(),
+				((Integer)arguments[2]).intValue(),
+				(java.lang.String)arguments[3],
+				((Boolean)arguments[4]).booleanValue());
 		}
 
 		if (_methodName42.equals(name) &&
 				Arrays.deepEquals(_methodParameterTypes42, parameterTypes)) {
+			return EventEntryServiceUtil.getVisibility((org.lsp.liferay.portlet.socialliving.model.EventEntry)arguments[0]);
+		}
+
+		if (_methodName43.equals(name) &&
+				Arrays.deepEquals(_methodParameterTypes43, parameterTypes)) {
 			return EventEntryServiceUtil.updateEventEntry(((Long)arguments[0]).longValue(),
 				((Long)arguments[1]).longValue(),
 				(java.lang.String)arguments[2], (java.lang.String)arguments[3],
@@ -164,7 +183,10 @@ public class EventEntryServiceClpInvoker {
 				((Double)arguments[16]).doubleValue(), (byte[])arguments[17],
 				((Integer)arguments[18]).intValue(),
 				(java.lang.String)arguments[19],
-				(java.lang.String)arguments[20], (java.lang.String)arguments[21]);
+				(java.lang.String)arguments[20],
+				(java.lang.String)arguments[21],
+				((Boolean)arguments[22]).booleanValue(),
+				((Boolean)arguments[23]).booleanValue());
 		}
 
 		throw new UnsupportedOperationException();
@@ -188,4 +210,6 @@ public class EventEntryServiceClpInvoker {
 	private String[] _methodParameterTypes41;
 	private String _methodName42;
 	private String[] _methodParameterTypes42;
+	private String _methodName43;
+	private String[] _methodParameterTypes43;
 }

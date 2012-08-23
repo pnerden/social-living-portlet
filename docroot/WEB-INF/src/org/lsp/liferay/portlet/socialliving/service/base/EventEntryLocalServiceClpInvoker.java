@@ -119,7 +119,7 @@ public class EventEntryLocalServiceClpInvoker {
 				"long", "long", "java.lang.String", "java.lang.String", "int",
 				"int", "int", "int", "int", "int", "int", "int", "int", "int",
 				"int", "int", "double", "byte[][]", "int", "java.lang.String",
-				"java.lang.String", "java.lang.String"
+				"java.lang.String", "java.lang.String", "boolean", "boolean"
 			};
 
 		_methodName53 = "deleteEventEntry";
@@ -134,29 +134,33 @@ public class EventEntryLocalServiceClpInvoker {
 
 		_methodParameterTypes55 = new String[] { "long", "long", "int" };
 
-		_methodName56 = "getEventEntriesByCompany";
+		_methodName56 = "getEventEntries";
 
-		_methodParameterTypes56 = new String[] { "long" };
+		_methodParameterTypes56 = new String[] { "long", "long", "int", "boolean" };
 
-		_methodName57 = "getEventEntriesByGroup";
+		_methodName57 = "getEventEntriesByCompany";
 
-		_methodParameterTypes57 = new String[] { "long", "long" };
+		_methodParameterTypes57 = new String[] { "long" };
 
-		_methodName58 = "getEventEntriesByAllButGroup";
+		_methodName58 = "getEventEntriesByGroup";
 
-		_methodParameterTypes58 = new String[] { "long" };
+		_methodParameterTypes58 = new String[] { "long", "long" };
 
-		_methodName59 = "getEventEntriesByUser";
+		_methodName59 = "getEventEntriesByAllButGroup";
 
 		_methodParameterTypes59 = new String[] { "long" };
 
-		_methodName60 = "updateEventEntry";
+		_methodName60 = "getEventEntriesByUser";
 
-		_methodParameterTypes60 = new String[] {
+		_methodParameterTypes60 = new String[] { "long" };
+
+		_methodName61 = "updateEventEntry";
+
+		_methodParameterTypes61 = new String[] {
 				"long", "long", "java.lang.String", "java.lang.String", "int",
 				"int", "int", "int", "int", "int", "int", "int", "int", "int",
 				"int", "int", "double", "byte[][]", "int", "java.lang.String",
-				"java.lang.String", "java.lang.String"
+				"java.lang.String", "java.lang.String", "boolean", "boolean"
 			};
 	}
 
@@ -279,7 +283,10 @@ public class EventEntryLocalServiceClpInvoker {
 				((Double)arguments[16]).doubleValue(), (byte[])arguments[17],
 				((Integer)arguments[18]).intValue(),
 				(java.lang.String)arguments[19],
-				(java.lang.String)arguments[20], (java.lang.String)arguments[21]);
+				(java.lang.String)arguments[20],
+				(java.lang.String)arguments[21],
+				((Boolean)arguments[22]).booleanValue(),
+				((Boolean)arguments[23]).booleanValue());
 		}
 
 		if (_methodName53.equals(name) &&
@@ -303,27 +310,35 @@ public class EventEntryLocalServiceClpInvoker {
 
 		if (_methodName56.equals(name) &&
 				Arrays.deepEquals(_methodParameterTypes56, parameterTypes)) {
-			return EventEntryLocalServiceUtil.getEventEntriesByCompany(((Long)arguments[0]).longValue());
+			return EventEntryLocalServiceUtil.getEventEntries(((Long)arguments[0]).longValue(),
+				((Long)arguments[1]).longValue(),
+				((Integer)arguments[2]).intValue(),
+				((Boolean)arguments[3]).booleanValue());
 		}
 
 		if (_methodName57.equals(name) &&
 				Arrays.deepEquals(_methodParameterTypes57, parameterTypes)) {
-			return EventEntryLocalServiceUtil.getEventEntriesByGroup(((Long)arguments[0]).longValue(),
-				((Long)arguments[1]).longValue());
+			return EventEntryLocalServiceUtil.getEventEntriesByCompany(((Long)arguments[0]).longValue());
 		}
 
 		if (_methodName58.equals(name) &&
 				Arrays.deepEquals(_methodParameterTypes58, parameterTypes)) {
-			return EventEntryLocalServiceUtil.getEventEntriesByAllButGroup(((Long)arguments[0]).longValue());
+			return EventEntryLocalServiceUtil.getEventEntriesByGroup(((Long)arguments[0]).longValue(),
+				((Long)arguments[1]).longValue());
 		}
 
 		if (_methodName59.equals(name) &&
 				Arrays.deepEquals(_methodParameterTypes59, parameterTypes)) {
-			return EventEntryLocalServiceUtil.getEventEntriesByUser(((Long)arguments[0]).longValue());
+			return EventEntryLocalServiceUtil.getEventEntriesByAllButGroup(((Long)arguments[0]).longValue());
 		}
 
 		if (_methodName60.equals(name) &&
 				Arrays.deepEquals(_methodParameterTypes60, parameterTypes)) {
+			return EventEntryLocalServiceUtil.getEventEntriesByUser(((Long)arguments[0]).longValue());
+		}
+
+		if (_methodName61.equals(name) &&
+				Arrays.deepEquals(_methodParameterTypes61, parameterTypes)) {
 			return EventEntryLocalServiceUtil.updateEventEntry(((Long)arguments[0]).longValue(),
 				((Long)arguments[1]).longValue(),
 				(java.lang.String)arguments[2], (java.lang.String)arguments[3],
@@ -342,7 +357,10 @@ public class EventEntryLocalServiceClpInvoker {
 				((Double)arguments[16]).doubleValue(), (byte[])arguments[17],
 				((Integer)arguments[18]).intValue(),
 				(java.lang.String)arguments[19],
-				(java.lang.String)arguments[20], (java.lang.String)arguments[21]);
+				(java.lang.String)arguments[20],
+				(java.lang.String)arguments[21],
+				((Boolean)arguments[22]).booleanValue(),
+				((Boolean)arguments[23]).booleanValue());
 		}
 
 		throw new UnsupportedOperationException();
@@ -402,4 +420,6 @@ public class EventEntryLocalServiceClpInvoker {
 	private String[] _methodParameterTypes59;
 	private String _methodName60;
 	private String[] _methodParameterTypes60;
+	private String _methodName61;
+	private String[] _methodParameterTypes61;
 }

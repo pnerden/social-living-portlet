@@ -61,12 +61,13 @@ public class EventEntryServiceImpl extends EventEntryServiceBaseImpl {
 			int endDateYear, int endDateHour, int endDateMinute,
 			int totalAttendees, int maxAttendees, double price,
 			byte[] thumbnail, int visibility,
-			String latitude, String longitude, String location)
+			String latitude, String longitude, String location,
+			boolean withSpouse, boolean withChildren)
 		throws PortalException, SystemException {
 
 		PermissionChecker permissionChecker = getPermissionChecker();
 		if (permissionChecker.hasPermission(groupId, "org.lsp.liferay.portlet.socialliving.event", groupId, EventConstants.ADD_EVENT)) {
-			return eventEntryLocalService.addEventEntry(groupId, userId, title, description, startDateMonth, startDateDay, startDateYear, startDateHour, startDateMinute, endDateMonth, endDateDay, endDateYear, endDateHour, endDateMinute, totalAttendees, maxAttendees, price, thumbnail, visibility, latitude, longitude, location);
+			return eventEntryLocalService.addEventEntry(groupId, userId, title, description, startDateMonth, startDateDay, startDateYear, startDateHour, startDateMinute, endDateMonth, endDateDay, endDateYear, endDateHour, endDateMinute, totalAttendees, maxAttendees, price, thumbnail, visibility, latitude, longitude, location, withSpouse, withChildren);
 		}
 		throw new PortalException("You have no right to add this resource");
 	}
@@ -94,11 +95,15 @@ public class EventEntryServiceImpl extends EventEntryServiceBaseImpl {
 	}
 	
 	public List<EventEntry> getEventEntries(ThemeDisplay themeDisplay, int filter, int visibility, String permissionLevel) throws SystemException, PortalException {
+		return getEventEntries(themeDisplay, filter, visibility, permissionLevel, true);
+	}
+	
+	public List<EventEntry> getEventEntries(ThemeDisplay themeDisplay, int filter, int visibility, String permissionLevel, boolean inTheFuture) throws SystemException, PortalException {
 		switch (filter) {
 		case EventConstants.FILTER_MY_EVENTS:
 			return getEventEntriesByUserId(themeDisplay.getUserId(), permissionLevel);
 		case EventConstants.FILTER_ALL_EVENTS:
-			return getEventEntries(themeDisplay, visibility, permissionLevel);
+			return getEventEntries(themeDisplay, visibility, permissionLevel, inTheFuture);
 		default:
 			return null;
 		}
@@ -127,13 +132,14 @@ public class EventEntryServiceImpl extends EventEntryServiceBaseImpl {
 			int endDateDay, int endDateYear, int endDateHour, int endDateMinute,
 			int totalAttendees, int maxAttendees, double price,
 			byte[] thumbnail, int visibility,
-			String latitude, String longitude, String location)
+			String latitude, String longitude, String location,
+			boolean withSpouse, boolean withChildren)
 		throws PortalException, SystemException {
 
 		PermissionChecker permissionChecker = getPermissionChecker();
 		EventEntry eventEntry = eventEntryLocalService.getEventEntry(eventEntryId);
 		if (permissionChecker.hasPermission(eventEntry.getGroupId(), EventEntry.class.getName(), eventEntry.getEventEntryId(), ActionKeys.UPDATE)) {
-			return eventEntryLocalService.updateEventEntry(userId, eventEntryId, title, description, startDateMonth, startDateDay, startDateYear, startDateHour, startDateMinute, endDateMonth, endDateDay, endDateYear, endDateHour, endDateMinute, totalAttendees, maxAttendees, price, thumbnail, visibility, latitude, longitude, location);
+			return eventEntryLocalService.updateEventEntry(userId, eventEntryId, title, description, startDateMonth, startDateDay, startDateYear, startDateHour, startDateMinute, endDateMonth, endDateDay, endDateYear, endDateHour, endDateMinute, totalAttendees, maxAttendees, price, thumbnail, visibility, latitude, longitude, location, withSpouse, withChildren);
 		}
 		throw new PortalException("You have no right to update this resource");
 	}
@@ -142,30 +148,12 @@ public class EventEntryServiceImpl extends EventEntryServiceBaseImpl {
 		return filterByPermission(eventEntryLocalService.getEventEntriesByUser(userId), ActionKeys.UPDATE);	
 	}
 	
-	private List<EventEntry> getEventEntries(ThemeDisplay themeDisplay, int displayVisibility, String permissionLevel) throws SystemException, PortalException {
+	private List<EventEntry> getEventEntries(ThemeDisplay themeDisplay, int displayVisibility, String permissionLevel, boolean inTheFuture) throws SystemException, PortalException {
 		
 		long companyId = themeDisplay.getCompanyId();
 		long groupId = themeDisplay.getScopeGroupIdOrLiveGroupId();
 		
-		List<EventEntry> result = null;
-		
-		switch (displayVisibility) {
-        case EventConstants.VISIBILITY_ALL:
-        	result = eventEntryLocalService.getEventEntriesByCompany(companyId);
-        	break;
-        case EventConstants.VISIBILITY_GROUP:
-        	result = eventEntryLocalService.getEventEntriesByGroup(companyId, groupId);
-        	break;
-        case EventConstants.VISIBILITY_OTHERGROUPS:
-        	result = eventEntryLocalService.getEventEntriesByAllButGroup(groupId);
-        	break;
-        case EventConstants.VISIBILITY_DEFAULT:
-        		// By default, view as if VISIBILITY_GROUP was set
-        	result = eventEntryLocalService.getEventEntriesByGroup(companyId, groupId);
-        	break;
-        default:
-        	throw new SystemException("Not Implemented VISIBILITY");
-        }
+		List<EventEntry> result = eventEntryLocalService.getEventEntries(companyId, groupId, displayVisibility, inTheFuture);
 		
 		return filterByPermission(result, permissionLevel);
 

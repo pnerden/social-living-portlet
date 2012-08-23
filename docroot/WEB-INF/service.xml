@@ -31,6 +31,8 @@
 		<column name="latitude" type="String" />
 		<column name="longitude" type="String" />
 		<column name="location" type="String" />
+		<column name="withSpouse" type="boolean" />
+		<column name="withChildren" type="boolean" />
 
 		<!-- Order -->
 
@@ -50,13 +52,16 @@
 		</finder>
 		<finder name="AllButGroupId" return-type="Collection">
 			<finder-column name="groupId" comparator="!=" />
+			<finder-column name="endDate" comparator="&gt;" />
 		</finder>
 		<finder name="GroupId" return-type="Collection">
 			<finder-column name="companyId" />
 			<finder-column name="groupId" />
+			<finder-column name="endDate" comparator="&gt;" />
 		</finder>
 		<finder name="CompanyId" return-type="Collection">
 			<finder-column name="companyId" />
+			<finder-column name="endDate" comparator="&gt;" />
 		</finder>
 		<finder name="UserId" return-type="Collection">
 			<finder-column name="userId" />

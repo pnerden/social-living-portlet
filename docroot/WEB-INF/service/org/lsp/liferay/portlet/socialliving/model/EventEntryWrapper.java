@@ -63,6 +63,8 @@ public class EventEntryWrapper implements EventEntry, ModelWrapper<EventEntry> {
 		attributes.put("latitude", getLatitude());
 		attributes.put("longitude", getLongitude());
 		attributes.put("location", getLocation());
+		attributes.put("withSpouse", getWithSpouse());
+		attributes.put("withChildren", getWithChildren());
 
 		return attributes;
 	}
@@ -174,6 +176,18 @@ public class EventEntryWrapper implements EventEntry, ModelWrapper<EventEntry> {
 
 		if (location != null) {
 			setLocation(location);
+		}
+
+		Boolean withSpouse = (Boolean)attributes.get("withSpouse");
+
+		if (withSpouse != null) {
+			setWithSpouse(withSpouse);
+		}
+
+		Boolean withChildren = (Boolean)attributes.get("withChildren");
+
+		if (withChildren != null) {
+			setWithChildren(withChildren);
 		}
 	}
 
@@ -537,6 +551,60 @@ public class EventEntryWrapper implements EventEntry, ModelWrapper<EventEntry> {
 	*/
 	public void setLocation(java.lang.String location) {
 		_eventEntry.setLocation(location);
+	}
+
+	/**
+	* Returns the with spouse of this event entry.
+	*
+	* @return the with spouse of this event entry
+	*/
+	public boolean getWithSpouse() {
+		return _eventEntry.getWithSpouse();
+	}
+
+	/**
+	* Returns <code>true</code> if this event entry is with spouse.
+	*
+	* @return <code>true</code> if this event entry is with spouse; <code>false</code> otherwise
+	*/
+	public boolean isWithSpouse() {
+		return _eventEntry.isWithSpouse();
+	}
+
+	/**
+	* Sets whether this event entry is with spouse.
+	*
+	* @param withSpouse the with spouse of this event entry
+	*/
+	public void setWithSpouse(boolean withSpouse) {
+		_eventEntry.setWithSpouse(withSpouse);
+	}
+
+	/**
+	* Returns the with children of this event entry.
+	*
+	* @return the with children of this event entry
+	*/
+	public boolean getWithChildren() {
+		return _eventEntry.getWithChildren();
+	}
+
+	/**
+	* Returns <code>true</code> if this event entry is with children.
+	*
+	* @return <code>true</code> if this event entry is with children; <code>false</code> otherwise
+	*/
+	public boolean isWithChildren() {
+		return _eventEntry.isWithChildren();
+	}
+
+	/**
+	* Sets whether this event entry is with children.
+	*
+	* @param withChildren the with children of this event entry
+	*/
+	public void setWithChildren(boolean withChildren) {
+		_eventEntry.setWithChildren(withChildren);
 	}
 
 	public boolean isNew() {

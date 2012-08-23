@@ -40,6 +40,8 @@
 		<property name="latitude" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="longitude" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="location" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="withSpouse" type="com.liferay.portal.dao.orm.hibernate.BooleanType" />
+		<property name="withChildren" type="com.liferay.portal.dao.orm.hibernate.BooleanType" />
 	</class>
 	<class name="org.lsp.liferay.portlet.socialliving.model.impl.EventRegistrationImpl" table="LSPSL_EventRegistration">
 		<cache usage="read-write" />

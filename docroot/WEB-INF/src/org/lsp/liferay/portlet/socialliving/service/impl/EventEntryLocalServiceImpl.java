@@ -14,6 +14,7 @@
 
 package org.lsp.liferay.portlet.socialliving.service.impl;
 
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -32,6 +33,7 @@ import com.liferay.portal.model.Role;
 import com.liferay.portal.model.RoleConstants;
 import com.liferay.portal.model.User;
 import com.liferay.portal.security.permission.ActionKeys;
+import com.liferay.portal.service.CompanyLocalServiceUtil;
 import com.liferay.portal.service.ImageLocalServiceUtil;
 import com.liferay.portal.service.ResourceLocalServiceUtil;
 import com.liferay.portal.service.ResourcePermissionLocalServiceUtil;
@@ -66,7 +68,8 @@ public class EventEntryLocalServiceImpl extends EventEntryLocalServiceBaseImpl {
 			int endDateYear, int endDateHour, int endDateMinute,
 			int totalAttendees, int maxAttendees, double price,
 			byte[] thumbnail, int visibility,
-			String latitude, String longitude, String location)
+			String latitude, String longitude, String location,
+			boolean withSpouse, boolean withChildren)
 		throws PortalException, SystemException {
 
 		User user = userLocalService.getUserById(userId);
@@ -103,6 +106,8 @@ public class EventEntryLocalServiceImpl extends EventEntryLocalServiceBaseImpl {
 		eventEntry.setLatitude(latitude);
 		eventEntry.setLongitude(longitude);
 		eventEntry.setLocation(location);
+		eventEntry.setWithSpouse(withSpouse);
+		eventEntry.setWithChildren(withChildren);
 
 		if ((thumbnail != null) && (thumbnail.length > 0)) {
 			eventEntry.setThumbnailId(counterLocalService.increment());
@@ -143,18 +148,29 @@ public class EventEntryLocalServiceImpl extends EventEntryLocalServiceBaseImpl {
 			return eventEntryPersistence.findByEntryFinder(companyId, eventEntryId);
 	}
 
-	public List<EventEntry> getEventEntries(long companyId, long groupId, int visibility)
-            throws SystemException {
-            switch (visibility) {
+	public List<EventEntry> getEventEntries(long companyId, long groupId, int visibility) throws SystemException, PortalException {
+		return getEventEntries(companyId, groupId, visibility, true);
+	}
+	
+	public List<EventEntry> getEventEntries(long companyId, long groupId, int visibility, boolean inTheFuture)
+            throws SystemException, PortalException {
+            
+		Calendar cal = Calendar.getInstance(CompanyLocalServiceUtil.getCompany(companyId).getTimeZone(), CompanyLocalServiceUtil.getCompany(companyId).getLocale());
+		if (!inTheFuture) { 
+			cal.set(1970, 1, 1);
+		}
+		
+		switch (visibility) {
+                       
             case EventConstants.VISIBILITY_ALL:
-                    return eventEntryPersistence.findByCompanyId(companyId);
+                    return eventEntryPersistence.findByCompanyId(companyId, cal.getTime());
             case EventConstants.VISIBILITY_GROUP:
-                    return eventEntryPersistence.findByGroupId(companyId, groupId);
+                    return eventEntryPersistence.findByGroupId(companyId, groupId, cal.getTime());
             case EventConstants.VISIBILITY_OTHERGROUPS:
-                    return eventEntryPersistence.findByAllButGroupId(groupId);
+                    return eventEntryPersistence.findByAllButGroupId(groupId, cal.getTime());
             case EventConstants.VISIBILITY_DEFAULT:
             		// By default, view as if VISIBILITY_GROUP was set
-            		return eventEntryPersistence.findByGroupId(companyId, groupId);
+            		return eventEntryPersistence.findByGroupId(companyId, groupId, cal.getTime());
             default:
                     throw new SystemException("Not Implemented VISIBILITY");
             }
@@ -163,22 +179,27 @@ public class EventEntryLocalServiceImpl extends EventEntryLocalServiceBaseImpl {
 
     public List<EventEntry> getEventEntriesByCompany(long companyId)
             throws SystemException {
-            return eventEntryPersistence.findByCompanyId(companyId);
+    		Calendar cal = Calendar.getInstance();
+    		cal.set(1970, 1, 1);
+            return eventEntryPersistence.findByCompanyId(companyId, cal.getTime());
     }
 
     public List<EventEntry> getEventEntriesByGroup(long companyId, long groupId)
                     throws SystemException {
-    	return eventEntryPersistence.findByGroupId(companyId, groupId);
+    	Calendar cal = Calendar.getInstance();
+		cal.set(1970, 1, 1);
+    	return eventEntryPersistence.findByGroupId(companyId, groupId, cal.getTime());
     }
     
     public List<EventEntry> getEventEntriesByAllButGroup(long groupId)
     		throws SystemException {
-    	return eventEntryPersistence.findByAllButGroupId(groupId);
+    	Calendar cal = Calendar.getInstance();
+		cal.set(1970, 1, 1);
+    	return eventEntryPersistence.findByAllButGroupId(groupId, cal.getTime());
     }
 
 	public List<EventEntry> getEventEntriesByUser(long userId)
 		throws SystemException {
-
 		return eventEntryPersistence.findByUserId(userId);
 	}
 
@@ -189,7 +210,8 @@ public class EventEntryLocalServiceImpl extends EventEntryLocalServiceBaseImpl {
 			int endDateDay, int endDateYear, int endDateHour, int endDateMinute,
 			int totalAttendees, int maxAttendees, double price,
 			byte[] thumbnail, int visibility,
-			String latitude, String longitude, String location)
+			String latitude, String longitude, String location,
+			boolean withSpouse, boolean withChildren)
 		throws PortalException, SystemException {
 
 		User user = userLocalService.getUserById(userId);
@@ -217,6 +239,8 @@ public class EventEntryLocalServiceImpl extends EventEntryLocalServiceBaseImpl {
 		eventEntry.setLatitude(latitude);
 		eventEntry.setLongitude(longitude);
 		eventEntry.setLocation(location);
+		eventEntry.setWithSpouse(withSpouse);
+		eventEntry.setWithChildren(withChildren);
 
 		if ((thumbnail != null) && (thumbnail.length > 0) &&
 			(eventEntry.getThumbnailId() == 0)) {

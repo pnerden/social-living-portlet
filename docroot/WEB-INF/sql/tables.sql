@@ -27,7 +27,9 @@ create table LSPSL_EventEntry (
 	thumbnailId LONG,
 	latitude VARCHAR(75) null,
 	longitude VARCHAR(75) null,
-	location TEXT null
+	location TEXT null,
+	withSpouse BOOLEAN,
+	withChildren BOOLEAN
 );
 
 create table LSPSL_EventRegistration (

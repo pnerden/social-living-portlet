@@ -85,8 +85,42 @@ for (int i = 0; i < eventEntries.size(); i++) {
 <aui:layout>
 	<aui:column columnWidth="<%= ((displaymaponview == EventConstants.DISPLAY_MAP_ON_VIEW) || (displaymaponview == EventConstants.DEFAULT_DISPLAY_MAP_ON_VIEW)) ? 33 : 50 %>" first="true" id="eventThumbnailColumn" >
 		<a href="<%= viewEventEntryURL %>" id="eventThumbnail"><img alt="<liferay-ui:message key="view-event" />" src="<%= thumbnailURL %>" /></a>
+		<br />
+		<%
+		if (eventEntry.getWithSpouse()) {
+		%>
+		<img alt="with-spouse" src="<%=request.getContextPath()%>/common/images/spouse-allowed.png" />
+		<%
+		} else {
+		%>
+		<img alt="without-spouse" src="<%=request.getContextPath()%>/common/images/spouse-not-allowed.png" />
+		<%
+		}
+		%>
+		&nbsp;
+		<%
+		if (eventEntry.getWithChildren()) {
+		%>
+		<img alt="with-children" src="<%=request.getContextPath()%>/common/images/children-allowed.png" />
+		<%
+		} else {
+		%>
+		<img alt="without-children" src="<%=request.getContextPath()%>/common/images/children-not-allowed.png" />
+		<%
+		}
+		%>
 	</aui:column>
 	<aui:column columnWidth="<%= ((displaymaponview == EventConstants.DISPLAY_MAP_ON_VIEW) || (displaymaponview == EventConstants.DEFAULT_DISPLAY_MAP_ON_VIEW)) ? 33 : 50 %>" last="<%= ((displaymaponview == EventConstants.DISPLAY_MAP_ON_VIEW) || (displaymaponview == EventConstants.DEFAULT_DISPLAY_MAP_ON_VIEW)) ? false : true %>" id="eventDetailsColumn" >
+		<h2>
+		<%
+		if (displayVisibility != EventConstants.VISIBILITY_GROUP) {
+		%>
+			<liferay-ui:message key="group" />&nbsp;<%= GroupLocalServiceUtil.getGroup(eventEntry.getGroupId()).getName()%><br />
+		<%
+		}
+		%>
+			<%=eventEntry.getTitle()%>
+		</h2>		
 		<c:if test="<%= EventEntryServiceUtil.getVisibility(eventEntry) == EventConstants.VISIBILITY_GROUP %>">
 			<span class="portlet-msg-info"><liferay-ui:message key="private" /></span>
 		</c:if>
@@ -109,7 +143,39 @@ for (int i = 0; i < eventEntries.size(); i++) {
 			</tr>
 			<tr>
 				<td class="eventFirstTD"><liferay-ui:message key="date" /></td>
-				<td><%= dateFormatDateTime.format(eventEntry.getStartDate()) %> &#150; <%= dateFormatDateTime.format(eventEntry.getEndDate()) %></td>
+				<td><liferay-ui:message key="from" /> : <%= dateFormatDateTime.format(eventEntry.getStartDate()) %> <br /><liferay-ui:message key="to" /> : <%= dateFormatDateTime.format(eventEntry.getEndDate()) %></td>
+			</tr>
+			<tr>
+				<td class="eventFirstTD"><liferay-ui:message key="price" /></td>
+				<td><%= (eventEntry.getPrice() > 0) ? eventEntry.getPrice() : LanguageUtil.get(pageContext, "free") %></td>
+			</tr>
+			<tr>
+				<td class="eventFirstTD"><liferay-ui:message key="details" /></td>
+				<td>
+					<%
+					if (eventEntry.getWithSpouse()) {
+					%>
+					<liferay-ui:message key="spouse-allowed" />
+					<%
+					} else {
+					%>
+					<liferay-ui:message key="spouse-not-allowed" />
+					<%
+					}
+					%>
+					<br />
+					<%
+					if (eventEntry.getWithChildren()) {
+					%>
+					<liferay-ui:message key="children-allowed" />
+					<%
+					} else {
+					%>
+					<liferay-ui:message key="children-not-allowed" />
+					<%
+					}
+					%>
+				</td>
 			</tr>
 		</table>
 		<c:if test="<%= yesTotal > 1 %>">

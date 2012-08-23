@@ -86,6 +86,8 @@ public class EventEntryClp extends BaseModelImpl<EventEntry>
 		attributes.put("latitude", getLatitude());
 		attributes.put("longitude", getLongitude());
 		attributes.put("location", getLocation());
+		attributes.put("withSpouse", getWithSpouse());
+		attributes.put("withChildren", getWithChildren());
 
 		return attributes;
 	}
@@ -198,6 +200,18 @@ public class EventEntryClp extends BaseModelImpl<EventEntry>
 
 		if (location != null) {
 			setLocation(location);
+		}
+
+		Boolean withSpouse = (Boolean)attributes.get("withSpouse");
+
+		if (withSpouse != null) {
+			setWithSpouse(withSpouse);
+		}
+
+		Boolean withChildren = (Boolean)attributes.get("withChildren");
+
+		if (withChildren != null) {
+			setWithChildren(withChildren);
 		}
 	}
 
@@ -353,6 +367,30 @@ public class EventEntryClp extends BaseModelImpl<EventEntry>
 		_location = location;
 	}
 
+	public boolean getWithSpouse() {
+		return _withSpouse;
+	}
+
+	public boolean isWithSpouse() {
+		return _withSpouse;
+	}
+
+	public void setWithSpouse(boolean withSpouse) {
+		_withSpouse = withSpouse;
+	}
+
+	public boolean getWithChildren() {
+		return _withChildren;
+	}
+
+	public boolean isWithChildren() {
+		return _withChildren;
+	}
+
+	public void setWithChildren(boolean withChildren) {
+		_withChildren = withChildren;
+	}
+
 	public BaseModel<?> getEventEntryRemoteModel() {
 		return _eventEntryRemoteModel;
 	}
@@ -398,6 +436,8 @@ public class EventEntryClp extends BaseModelImpl<EventEntry>
 		clone.setLatitude(getLatitude());
 		clone.setLongitude(getLongitude());
 		clone.setLocation(getLocation());
+		clone.setWithSpouse(getWithSpouse());
+		clone.setWithChildren(getWithChildren());
 
 		return clone;
 	}
@@ -446,7 +486,7 @@ public class EventEntryClp extends BaseModelImpl<EventEntry>
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(37);
+		StringBundler sb = new StringBundler(41);
 
 		sb.append("{eventEntryId=");
 		sb.append(getEventEntryId());
@@ -484,13 +524,17 @@ public class EventEntryClp extends BaseModelImpl<EventEntry>
 		sb.append(getLongitude());
 		sb.append(", location=");
 		sb.append(getLocation());
+		sb.append(", withSpouse=");
+		sb.append(getWithSpouse());
+		sb.append(", withChildren=");
+		sb.append(getWithChildren());
 		sb.append("}");
 
 		return sb.toString();
 	}
 
 	public String toXmlString() {
-		StringBundler sb = new StringBundler(58);
+		StringBundler sb = new StringBundler(64);
 
 		sb.append("<model><model-name>");
 		sb.append("org.lsp.liferay.portlet.socialliving.model.EventEntry");
@@ -568,6 +612,14 @@ public class EventEntryClp extends BaseModelImpl<EventEntry>
 			"<column><column-name>location</column-name><column-value><![CDATA[");
 		sb.append(getLocation());
 		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>withSpouse</column-name><column-value><![CDATA[");
+		sb.append(getWithSpouse());
+		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>withChildren</column-name><column-value><![CDATA[");
+		sb.append(getWithChildren());
+		sb.append("]]></column-value></column>");
 
 		sb.append("</model>");
 
@@ -593,5 +645,7 @@ public class EventEntryClp extends BaseModelImpl<EventEntry>
 	private String _latitude;
 	private String _longitude;
 	private String _location;
+	private boolean _withSpouse;
+	private boolean _withChildren;
 	private BaseModel<?> _eventEntryRemoteModel;
 }

@@ -10,7 +10,7 @@
 		<friendly-url-routes>org/lsp/liferay/portlet/socialliving/events/portlet/events-friendly-url-routes.xml</friendly-url-routes>
 		<header-portlet-css>/events/css/main.css</header-portlet-css>
 		<header-portlet-javascript>/events/js/events.js</header-portlet-javascript>
-		<css-class-wrapper>social-living-portlet-events</css-class-wrapper>
+		<css-class-wrapper>social-living-portlet social-living-portlet-events</css-class-wrapper>
 		<add-default-resource>true</add-default-resource>
 	</portlet>
 	<portlet>
@@ -19,7 +19,7 @@
 		<private-request-attributes>true</private-request-attributes>
 		<header-portlet-css>/events_map/css/events_map.css</header-portlet-css>
 		<header-portlet-javascript>/events_map/js/events_map.js</header-portlet-javascript>
-		<css-class-wrapper>social-living-portlet-events-map</css-class-wrapper>
+		<css-class-wrapper>social-living-portlet social-living-portlet-events-map</css-class-wrapper>
 		<add-default-resource>true</add-default-resource>
 	</portlet>
 	<portlet>
@@ -29,7 +29,7 @@
 		<control-panel-entry-weight>2.0</control-panel-entry-weight>
 		<header-portlet-css>/events_management/css/events_management.css</header-portlet-css>
 		<header-portlet-javascript>/events_management/js/events_management.js</header-portlet-javascript>
-		<css-class-wrapper>social-living-portlet-events-management</css-class-wrapper>
+		<css-class-wrapper>social-living-portlet social-living-portlet-events-management</css-class-wrapper>
 		<add-default-resource>true</add-default-resource>
 	</portlet>
 	<role-mapper>

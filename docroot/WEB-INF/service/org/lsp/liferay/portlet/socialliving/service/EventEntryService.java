@@ -71,7 +71,8 @@ public interface EventEntryService extends BaseService, InvokableService {
 		int endDateMonth, int endDateDay, int endDateYear, int endDateHour,
 		int endDateMinute, int totalAttendees, int maxAttendees, double price,
 		byte[] thumbnail, int visibility, java.lang.String latitude,
-		java.lang.String longitude, java.lang.String location)
+		java.lang.String longitude, java.lang.String location,
+		boolean withSpouse, boolean withChildren)
 		throws com.liferay.portal.kernel.exception.PortalException,
 			com.liferay.portal.kernel.exception.SystemException;
 
@@ -101,6 +102,13 @@ public interface EventEntryService extends BaseService, InvokableService {
 			com.liferay.portal.kernel.exception.SystemException;
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public java.util.List<org.lsp.liferay.portlet.socialliving.model.EventEntry> getEventEntries(
+		com.liferay.portal.theme.ThemeDisplay themeDisplay, int filter,
+		int visibility, java.lang.String permissionLevel, boolean inTheFuture)
+		throws com.liferay.portal.kernel.exception.PortalException,
+			com.liferay.portal.kernel.exception.SystemException;
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public int getVisibility(
 		org.lsp.liferay.portlet.socialliving.model.EventEntry eventEntry)
 		throws com.liferay.portal.kernel.exception.PortalException,
@@ -113,7 +121,8 @@ public interface EventEntryService extends BaseService, InvokableService {
 		int endDateMonth, int endDateDay, int endDateYear, int endDateHour,
 		int endDateMinute, int totalAttendees, int maxAttendees, double price,
 		byte[] thumbnail, int visibility, java.lang.String latitude,
-		java.lang.String longitude, java.lang.String location)
+		java.lang.String longitude, java.lang.String location,
+		boolean withSpouse, boolean withChildren)
 		throws com.liferay.portal.kernel.exception.PortalException,
 			com.liferay.portal.kernel.exception.SystemException;
 }

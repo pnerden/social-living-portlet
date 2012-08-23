@@ -72,15 +72,16 @@ public class EventEntryServiceSoap {
 		int endDateMonth, int endDateDay, int endDateYear, int endDateHour,
 		int endDateMinute, int totalAttendees, int maxAttendees, double price,
 		byte[] thumbnail, int visibility, java.lang.String latitude,
-		java.lang.String longitude, java.lang.String location)
-		throws RemoteException {
+		java.lang.String longitude, java.lang.String location,
+		boolean withSpouse, boolean withChildren) throws RemoteException {
 		try {
 			org.lsp.liferay.portlet.socialliving.model.EventEntry returnValue = EventEntryServiceUtil.addEventEntry(groupId,
 					userId, title, description, startDateMonth, startDateDay,
 					startDateYear, startDateHour, startDateMinute,
 					endDateMonth, endDateDay, endDateYear, endDateHour,
 					endDateMinute, totalAttendees, maxAttendees, price,
-					thumbnail, visibility, latitude, longitude, location);
+					thumbnail, visibility, latitude, longitude, location,
+					withSpouse, withChildren);
 
 			return org.lsp.liferay.portlet.socialliving.model.EventEntrySoap.toSoapModel(returnValue);
 		}
@@ -144,15 +145,16 @@ public class EventEntryServiceSoap {
 		int endDateMonth, int endDateDay, int endDateYear, int endDateHour,
 		int endDateMinute, int totalAttendees, int maxAttendees, double price,
 		byte[] thumbnail, int visibility, java.lang.String latitude,
-		java.lang.String longitude, java.lang.String location)
-		throws RemoteException {
+		java.lang.String longitude, java.lang.String location,
+		boolean withSpouse, boolean withChildren) throws RemoteException {
 		try {
 			org.lsp.liferay.portlet.socialliving.model.EventEntry returnValue = EventEntryServiceUtil.updateEventEntry(userId,
 					eventEntryId, title, description, startDateMonth,
 					startDateDay, startDateYear, startDateHour,
 					startDateMinute, endDateMonth, endDateDay, endDateYear,
 					endDateHour, endDateMinute, totalAttendees, maxAttendees,
-					price, thumbnail, visibility, latitude, longitude, location);
+					price, thumbnail, visibility, latitude, longitude,
+					location, withSpouse, withChildren);
 
 			return org.lsp.liferay.portlet.socialliving.model.EventEntrySoap.toSoapModel(returnValue);
 		}

@@ -271,41 +271,44 @@ public interface EventEntryPersistence extends BasePersistence<EventEntry> {
 			org.lsp.liferay.portlet.socialliving.NoSuchEventEntryException;
 
 	/**
-	* Returns all the event entries where groupId &ne; &#63;.
+	* Returns all the event entries where groupId &ne; &#63; and endDate &gt; &#63;.
 	*
 	* @param groupId the group ID
+	* @param endDate the end date
 	* @return the matching event entries
 	* @throws SystemException if a system exception occurred
 	*/
 	public java.util.List<org.lsp.liferay.portlet.socialliving.model.EventEntry> findByAllButGroupId(
-		long groupId)
+		long groupId, java.util.Date endDate)
 		throws com.liferay.portal.kernel.exception.SystemException;
 
 	/**
-	* Returns a range of all the event entries where groupId &ne; &#63;.
+	* Returns a range of all the event entries where groupId &ne; &#63; and endDate &gt; &#63;.
 	*
 	* <p>
 	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
 	* </p>
 	*
 	* @param groupId the group ID
+	* @param endDate the end date
 	* @param start the lower bound of the range of event entries
 	* @param end the upper bound of the range of event entries (not inclusive)
 	* @return the range of matching event entries
 	* @throws SystemException if a system exception occurred
 	*/
 	public java.util.List<org.lsp.liferay.portlet.socialliving.model.EventEntry> findByAllButGroupId(
-		long groupId, int start, int end)
+		long groupId, java.util.Date endDate, int start, int end)
 		throws com.liferay.portal.kernel.exception.SystemException;
 
 	/**
-	* Returns an ordered range of all the event entries where groupId &ne; &#63;.
+	* Returns an ordered range of all the event entries where groupId &ne; &#63; and endDate &gt; &#63;.
 	*
 	* <p>
 	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
 	* </p>
 	*
 	* @param groupId the group ID
+	* @param endDate the end date
 	* @param start the lower bound of the range of event entries
 	* @param end the upper bound of the range of event entries (not inclusive)
 	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
@@ -313,96 +316,102 @@ public interface EventEntryPersistence extends BasePersistence<EventEntry> {
 	* @throws SystemException if a system exception occurred
 	*/
 	public java.util.List<org.lsp.liferay.portlet.socialliving.model.EventEntry> findByAllButGroupId(
-		long groupId, int start, int end,
+		long groupId, java.util.Date endDate, int start, int end,
 		com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
 		throws com.liferay.portal.kernel.exception.SystemException;
 
 	/**
-	* Returns the first event entry in the ordered set where groupId &ne; &#63;.
+	* Returns the first event entry in the ordered set where groupId &ne; &#63; and endDate &gt; &#63;.
 	*
 	* @param groupId the group ID
+	* @param endDate the end date
 	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	* @return the first matching event entry
 	* @throws org.lsp.liferay.portlet.socialliving.NoSuchEventEntryException if a matching event entry could not be found
 	* @throws SystemException if a system exception occurred
 	*/
 	public org.lsp.liferay.portlet.socialliving.model.EventEntry findByAllButGroupId_First(
-		long groupId,
+		long groupId, java.util.Date endDate,
 		com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
 		throws com.liferay.portal.kernel.exception.SystemException,
 			org.lsp.liferay.portlet.socialliving.NoSuchEventEntryException;
 
 	/**
-	* Returns the first event entry in the ordered set where groupId &ne; &#63;.
+	* Returns the first event entry in the ordered set where groupId &ne; &#63; and endDate &gt; &#63;.
 	*
 	* @param groupId the group ID
+	* @param endDate the end date
 	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	* @return the first matching event entry, or <code>null</code> if a matching event entry could not be found
 	* @throws SystemException if a system exception occurred
 	*/
 	public org.lsp.liferay.portlet.socialliving.model.EventEntry fetchByAllButGroupId_First(
-		long groupId,
+		long groupId, java.util.Date endDate,
 		com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
 		throws com.liferay.portal.kernel.exception.SystemException;
 
 	/**
-	* Returns the last event entry in the ordered set where groupId &ne; &#63;.
+	* Returns the last event entry in the ordered set where groupId &ne; &#63; and endDate &gt; &#63;.
 	*
 	* @param groupId the group ID
+	* @param endDate the end date
 	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	* @return the last matching event entry
 	* @throws org.lsp.liferay.portlet.socialliving.NoSuchEventEntryException if a matching event entry could not be found
 	* @throws SystemException if a system exception occurred
 	*/
 	public org.lsp.liferay.portlet.socialliving.model.EventEntry findByAllButGroupId_Last(
-		long groupId,
+		long groupId, java.util.Date endDate,
 		com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
 		throws com.liferay.portal.kernel.exception.SystemException,
 			org.lsp.liferay.portlet.socialliving.NoSuchEventEntryException;
 
 	/**
-	* Returns the last event entry in the ordered set where groupId &ne; &#63;.
+	* Returns the last event entry in the ordered set where groupId &ne; &#63; and endDate &gt; &#63;.
 	*
 	* @param groupId the group ID
+	* @param endDate the end date
 	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	* @return the last matching event entry, or <code>null</code> if a matching event entry could not be found
 	* @throws SystemException if a system exception occurred
 	*/
 	public org.lsp.liferay.portlet.socialliving.model.EventEntry fetchByAllButGroupId_Last(
-		long groupId,
+		long groupId, java.util.Date endDate,
 		com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
 		throws com.liferay.portal.kernel.exception.SystemException;
 
 	/**
-	* Returns the event entries before and after the current event entry in the ordered set where groupId &ne; &#63;.
+	* Returns the event entries before and after the current event entry in the ordered set where groupId &ne; &#63; and endDate &gt; &#63;.
 	*
 	* @param eventEntryId the primary key of the current event entry
 	* @param groupId the group ID
+	* @param endDate the end date
 	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	* @return the previous, current, and next event entry
 	* @throws org.lsp.liferay.portlet.socialliving.NoSuchEventEntryException if a event entry with the primary key could not be found
 	* @throws SystemException if a system exception occurred
 	*/
 	public org.lsp.liferay.portlet.socialliving.model.EventEntry[] findByAllButGroupId_PrevAndNext(
-		long eventEntryId, long groupId,
+		long eventEntryId, long groupId, java.util.Date endDate,
 		com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
 		throws com.liferay.portal.kernel.exception.SystemException,
 			org.lsp.liferay.portlet.socialliving.NoSuchEventEntryException;
 
 	/**
-	* Returns all the event entries where companyId = &#63; and groupId = &#63;.
+	* Returns all the event entries where companyId = &#63; and groupId = &#63; and endDate &gt; &#63;.
 	*
 	* @param companyId the company ID
 	* @param groupId the group ID
+	* @param endDate the end date
 	* @return the matching event entries
 	* @throws SystemException if a system exception occurred
 	*/
 	public java.util.List<org.lsp.liferay.portlet.socialliving.model.EventEntry> findByGroupId(
-		long companyId, long groupId)
+		long companyId, long groupId, java.util.Date endDate)
 		throws com.liferay.portal.kernel.exception.SystemException;
 
 	/**
-	* Returns a range of all the event entries where companyId = &#63; and groupId = &#63;.
+	* Returns a range of all the event entries where companyId = &#63; and groupId = &#63; and endDate &gt; &#63;.
 	*
 	* <p>
 	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
@@ -410,17 +419,18 @@ public interface EventEntryPersistence extends BasePersistence<EventEntry> {
 	*
 	* @param companyId the company ID
 	* @param groupId the group ID
+	* @param endDate the end date
 	* @param start the lower bound of the range of event entries
 	* @param end the upper bound of the range of event entries (not inclusive)
 	* @return the range of matching event entries
 	* @throws SystemException if a system exception occurred
 	*/
 	public java.util.List<org.lsp.liferay.portlet.socialliving.model.EventEntry> findByGroupId(
-		long companyId, long groupId, int start, int end)
+		long companyId, long groupId, java.util.Date endDate, int start, int end)
 		throws com.liferay.portal.kernel.exception.SystemException;
 
 	/**
-	* Returns an ordered range of all the event entries where companyId = &#63; and groupId = &#63;.
+	* Returns an ordered range of all the event entries where companyId = &#63; and groupId = &#63; and endDate &gt; &#63;.
 	*
 	* <p>
 	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
@@ -428,6 +438,7 @@ public interface EventEntryPersistence extends BasePersistence<EventEntry> {
 	*
 	* @param companyId the company ID
 	* @param groupId the group ID
+	* @param endDate the end date
 	* @param start the lower bound of the range of event entries
 	* @param end the upper bound of the range of event entries (not inclusive)
 	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
@@ -435,76 +446,82 @@ public interface EventEntryPersistence extends BasePersistence<EventEntry> {
 	* @throws SystemException if a system exception occurred
 	*/
 	public java.util.List<org.lsp.liferay.portlet.socialliving.model.EventEntry> findByGroupId(
-		long companyId, long groupId, int start, int end,
+		long companyId, long groupId, java.util.Date endDate, int start,
+		int end,
 		com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
 		throws com.liferay.portal.kernel.exception.SystemException;
 
 	/**
-	* Returns the first event entry in the ordered set where companyId = &#63; and groupId = &#63;.
+	* Returns the first event entry in the ordered set where companyId = &#63; and groupId = &#63; and endDate &gt; &#63;.
 	*
 	* @param companyId the company ID
 	* @param groupId the group ID
+	* @param endDate the end date
 	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	* @return the first matching event entry
 	* @throws org.lsp.liferay.portlet.socialliving.NoSuchEventEntryException if a matching event entry could not be found
 	* @throws SystemException if a system exception occurred
 	*/
 	public org.lsp.liferay.portlet.socialliving.model.EventEntry findByGroupId_First(
-		long companyId, long groupId,
+		long companyId, long groupId, java.util.Date endDate,
 		com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
 		throws com.liferay.portal.kernel.exception.SystemException,
 			org.lsp.liferay.portlet.socialliving.NoSuchEventEntryException;
 
 	/**
-	* Returns the first event entry in the ordered set where companyId = &#63; and groupId = &#63;.
+	* Returns the first event entry in the ordered set where companyId = &#63; and groupId = &#63; and endDate &gt; &#63;.
 	*
 	* @param companyId the company ID
 	* @param groupId the group ID
+	* @param endDate the end date
 	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	* @return the first matching event entry, or <code>null</code> if a matching event entry could not be found
 	* @throws SystemException if a system exception occurred
 	*/
 	public org.lsp.liferay.portlet.socialliving.model.EventEntry fetchByGroupId_First(
-		long companyId, long groupId,
+		long companyId, long groupId, java.util.Date endDate,
 		com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
 		throws com.liferay.portal.kernel.exception.SystemException;
 
 	/**
-	* Returns the last event entry in the ordered set where companyId = &#63; and groupId = &#63;.
+	* Returns the last event entry in the ordered set where companyId = &#63; and groupId = &#63; and endDate &gt; &#63;.
 	*
 	* @param companyId the company ID
 	* @param groupId the group ID
+	* @param endDate the end date
 	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	* @return the last matching event entry
 	* @throws org.lsp.liferay.portlet.socialliving.NoSuchEventEntryException if a matching event entry could not be found
 	* @throws SystemException if a system exception occurred
 	*/
 	public org.lsp.liferay.portlet.socialliving.model.EventEntry findByGroupId_Last(
-		long companyId, long groupId,
+		long companyId, long groupId, java.util.Date endDate,
 		com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
 		throws com.liferay.portal.kernel.exception.SystemException,
 			org.lsp.liferay.portlet.socialliving.NoSuchEventEntryException;
 
 	/**
-	* Returns the last event entry in the ordered set where companyId = &#63; and groupId = &#63;.
+	* Returns the last event entry in the ordered set where companyId = &#63; and groupId = &#63; and endDate &gt; &#63;.
 	*
 	* @param companyId the company ID
 	* @param groupId the group ID
+	* @param endDate the end date
 	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	* @return the last matching event entry, or <code>null</code> if a matching event entry could not be found
 	* @throws SystemException if a system exception occurred
 	*/
 	public org.lsp.liferay.portlet.socialliving.model.EventEntry fetchByGroupId_Last(
-		long companyId, long groupId,
+		long companyId, long groupId, java.util.Date endDate,
 		com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
 		throws com.liferay.portal.kernel.exception.SystemException;
 
 	/**
-	* Returns the event entries before and after the current event entry in the ordered set where companyId = &#63; and groupId = &#63;.
+	* Returns the event entries before and after the current event entry in the ordered set where companyId = &#63; and groupId = &#63; and endDate &gt; &#63;.
 	*
 	* @param eventEntryId the primary key of the current event entry
 	* @param companyId the company ID
 	* @param groupId the group ID
+	* @param endDate the end date
 	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	* @return the previous, current, and next event entry
 	* @throws org.lsp.liferay.portlet.socialliving.NoSuchEventEntryException if a event entry with the primary key could not be found
@@ -512,46 +529,50 @@ public interface EventEntryPersistence extends BasePersistence<EventEntry> {
 	*/
 	public org.lsp.liferay.portlet.socialliving.model.EventEntry[] findByGroupId_PrevAndNext(
 		long eventEntryId, long companyId, long groupId,
+		java.util.Date endDate,
 		com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
 		throws com.liferay.portal.kernel.exception.SystemException,
 			org.lsp.liferay.portlet.socialliving.NoSuchEventEntryException;
 
 	/**
-	* Returns all the event entries where companyId = &#63;.
+	* Returns all the event entries where companyId = &#63; and endDate &gt; &#63;.
 	*
 	* @param companyId the company ID
+	* @param endDate the end date
 	* @return the matching event entries
 	* @throws SystemException if a system exception occurred
 	*/
 	public java.util.List<org.lsp.liferay.portlet.socialliving.model.EventEntry> findByCompanyId(
-		long companyId)
+		long companyId, java.util.Date endDate)
 		throws com.liferay.portal.kernel.exception.SystemException;
 
 	/**
-	* Returns a range of all the event entries where companyId = &#63;.
+	* Returns a range of all the event entries where companyId = &#63; and endDate &gt; &#63;.
 	*
 	* <p>
 	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
 	* </p>
 	*
 	* @param companyId the company ID
+	* @param endDate the end date
 	* @param start the lower bound of the range of event entries
 	* @param end the upper bound of the range of event entries (not inclusive)
 	* @return the range of matching event entries
 	* @throws SystemException if a system exception occurred
 	*/
 	public java.util.List<org.lsp.liferay.portlet.socialliving.model.EventEntry> findByCompanyId(
-		long companyId, int start, int end)
+		long companyId, java.util.Date endDate, int start, int end)
 		throws com.liferay.portal.kernel.exception.SystemException;
 
 	/**
-	* Returns an ordered range of all the event entries where companyId = &#63;.
+	* Returns an ordered range of all the event entries where companyId = &#63; and endDate &gt; &#63;.
 	*
 	* <p>
 	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
 	* </p>
 	*
 	* @param companyId the company ID
+	* @param endDate the end date
 	* @param start the lower bound of the range of event entries
 	* @param end the upper bound of the range of event entries (not inclusive)
 	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
@@ -559,78 +580,83 @@ public interface EventEntryPersistence extends BasePersistence<EventEntry> {
 	* @throws SystemException if a system exception occurred
 	*/
 	public java.util.List<org.lsp.liferay.portlet.socialliving.model.EventEntry> findByCompanyId(
-		long companyId, int start, int end,
+		long companyId, java.util.Date endDate, int start, int end,
 		com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
 		throws com.liferay.portal.kernel.exception.SystemException;
 
 	/**
-	* Returns the first event entry in the ordered set where companyId = &#63;.
+	* Returns the first event entry in the ordered set where companyId = &#63; and endDate &gt; &#63;.
 	*
 	* @param companyId the company ID
+	* @param endDate the end date
 	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	* @return the first matching event entry
 	* @throws org.lsp.liferay.portlet.socialliving.NoSuchEventEntryException if a matching event entry could not be found
 	* @throws SystemException if a system exception occurred
 	*/
 	public org.lsp.liferay.portlet.socialliving.model.EventEntry findByCompanyId_First(
-		long companyId,
+		long companyId, java.util.Date endDate,
 		com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
 		throws com.liferay.portal.kernel.exception.SystemException,
 			org.lsp.liferay.portlet.socialliving.NoSuchEventEntryException;
 
 	/**
-	* Returns the first event entry in the ordered set where companyId = &#63;.
+	* Returns the first event entry in the ordered set where companyId = &#63; and endDate &gt; &#63;.
 	*
 	* @param companyId the company ID
+	* @param endDate the end date
 	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	* @return the first matching event entry, or <code>null</code> if a matching event entry could not be found
 	* @throws SystemException if a system exception occurred
 	*/
 	public org.lsp.liferay.portlet.socialliving.model.EventEntry fetchByCompanyId_First(
-		long companyId,
+		long companyId, java.util.Date endDate,
 		com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
 		throws com.liferay.portal.kernel.exception.SystemException;
 
 	/**
-	* Returns the last event entry in the ordered set where companyId = &#63;.
+	* Returns the last event entry in the ordered set where companyId = &#63; and endDate &gt; &#63;.
 	*
 	* @param companyId the company ID
+	* @param endDate the end date
 	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	* @return the last matching event entry
 	* @throws org.lsp.liferay.portlet.socialliving.NoSuchEventEntryException if a matching event entry could not be found
 	* @throws SystemException if a system exception occurred
 	*/
 	public org.lsp.liferay.portlet.socialliving.model.EventEntry findByCompanyId_Last(
-		long companyId,
+		long companyId, java.util.Date endDate,
 		com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
 		throws com.liferay.portal.kernel.exception.SystemException,
 			org.lsp.liferay.portlet.socialliving.NoSuchEventEntryException;
 
 	/**
-	* Returns the last event entry in the ordered set where companyId = &#63;.
+	* Returns the last event entry in the ordered set where companyId = &#63; and endDate &gt; &#63;.
 	*
 	* @param companyId the company ID
+	* @param endDate the end date
 	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	* @return the last matching event entry, or <code>null</code> if a matching event entry could not be found
 	* @throws SystemException if a system exception occurred
 	*/
 	public org.lsp.liferay.portlet.socialliving.model.EventEntry fetchByCompanyId_Last(
-		long companyId,
+		long companyId, java.util.Date endDate,
 		com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
 		throws com.liferay.portal.kernel.exception.SystemException;
 
 	/**
-	* Returns the event entries before and after the current event entry in the ordered set where companyId = &#63;.
+	* Returns the event entries before and after the current event entry in the ordered set where companyId = &#63; and endDate &gt; &#63;.
 	*
 	* @param eventEntryId the primary key of the current event entry
 	* @param companyId the company ID
+	* @param endDate the end date
 	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	* @return the previous, current, and next event entry
 	* @throws org.lsp.liferay.portlet.socialliving.NoSuchEventEntryException if a event entry with the primary key could not be found
 	* @throws SystemException if a system exception occurred
 	*/
 	public org.lsp.liferay.portlet.socialliving.model.EventEntry[] findByCompanyId_PrevAndNext(
-		long eventEntryId, long companyId,
+		long eventEntryId, long companyId, java.util.Date endDate,
 		com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
 		throws com.liferay.portal.kernel.exception.SystemException,
 			org.lsp.liferay.portlet.socialliving.NoSuchEventEntryException;
@@ -820,31 +846,35 @@ public interface EventEntryPersistence extends BasePersistence<EventEntry> {
 		throws com.liferay.portal.kernel.exception.SystemException;
 
 	/**
-	* Removes all the event entries where groupId &ne; &#63; from the database.
+	* Removes all the event entries where groupId &ne; &#63; and endDate &gt; &#63; from the database.
 	*
 	* @param groupId the group ID
+	* @param endDate the end date
 	* @throws SystemException if a system exception occurred
 	*/
-	public void removeByAllButGroupId(long groupId)
+	public void removeByAllButGroupId(long groupId, java.util.Date endDate)
 		throws com.liferay.portal.kernel.exception.SystemException;
 
 	/**
-	* Removes all the event entries where companyId = &#63; and groupId = &#63; from the database.
+	* Removes all the event entries where companyId = &#63; and groupId = &#63; and endDate &gt; &#63; from the database.
 	*
 	* @param companyId the company ID
 	* @param groupId the group ID
+	* @param endDate the end date
 	* @throws SystemException if a system exception occurred
 	*/
-	public void removeByGroupId(long companyId, long groupId)
+	public void removeByGroupId(long companyId, long groupId,
+		java.util.Date endDate)
 		throws com.liferay.portal.kernel.exception.SystemException;
 
 	/**
-	* Removes all the event entries where companyId = &#63; from the database.
+	* Removes all the event entries where companyId = &#63; and endDate &gt; &#63; from the database.
 	*
 	* @param companyId the company ID
+	* @param endDate the end date
 	* @throws SystemException if a system exception occurred
 	*/
-	public void removeByCompanyId(long companyId)
+	public void removeByCompanyId(long companyId, java.util.Date endDate)
 		throws com.liferay.portal.kernel.exception.SystemException;
 
 	/**
@@ -887,34 +917,38 @@ public interface EventEntryPersistence extends BasePersistence<EventEntry> {
 		throws com.liferay.portal.kernel.exception.SystemException;
 
 	/**
-	* Returns the number of event entries where groupId &ne; &#63;.
+	* Returns the number of event entries where groupId &ne; &#63; and endDate &gt; &#63;.
 	*
 	* @param groupId the group ID
+	* @param endDate the end date
 	* @return the number of matching event entries
 	* @throws SystemException if a system exception occurred
 	*/
-	public int countByAllButGroupId(long groupId)
+	public int countByAllButGroupId(long groupId, java.util.Date endDate)
 		throws com.liferay.portal.kernel.exception.SystemException;
 
 	/**
-	* Returns the number of event entries where companyId = &#63; and groupId = &#63;.
+	* Returns the number of event entries where companyId = &#63; and groupId = &#63; and endDate &gt; &#63;.
 	*
 	* @param companyId the company ID
 	* @param groupId the group ID
+	* @param endDate the end date
 	* @return the number of matching event entries
 	* @throws SystemException if a system exception occurred
 	*/
-	public int countByGroupId(long companyId, long groupId)
+	public int countByGroupId(long companyId, long groupId,
+		java.util.Date endDate)
 		throws com.liferay.portal.kernel.exception.SystemException;
 
 	/**
-	* Returns the number of event entries where companyId = &#63;.
+	* Returns the number of event entries where companyId = &#63; and endDate &gt; &#63;.
 	*
 	* @param companyId the company ID
+	* @param endDate the end date
 	* @return the number of matching event entries
 	* @throws SystemException if a system exception occurred
 	*/
-	public int countByCompanyId(long companyId)
+	public int countByCompanyId(long companyId, java.util.Date endDate)
 		throws com.liferay.portal.kernel.exception.SystemException;
 
 	/**

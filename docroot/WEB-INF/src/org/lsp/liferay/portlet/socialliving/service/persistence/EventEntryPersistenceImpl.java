@@ -27,6 +27,7 @@ import com.liferay.portal.kernel.dao.orm.Session;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.util.CalendarUtil;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.InstanceFactory;
 import com.liferay.portal.kernel.util.OrderByComparator;
@@ -35,6 +36,7 @@ import com.liferay.portal.kernel.util.PropsUtil;
 import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.kernel.util.StringUtil;
+import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.model.CacheModel;
 import com.liferay.portal.model.ModelListener;
 import com.liferay.portal.service.persistence.BatchSessionUtil;
@@ -51,6 +53,7 @@ import java.io.Serializable;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -113,7 +116,7 @@ public class EventEntryPersistenceImpl extends BasePersistenceImpl<EventEntry>
 			EventEntryModelImpl.FINDER_CACHE_ENABLED, EventEntryImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByAllButGroupId",
 			new String[] {
-				Long.class.getName(),
+				Long.class.getName(), Date.class.getName(),
 				
 			"java.lang.Integer", "java.lang.Integer",
 				"com.liferay.portal.kernel.util.OrderByComparator"
@@ -122,47 +125,37 @@ public class EventEntryPersistenceImpl extends BasePersistenceImpl<EventEntry>
 		new FinderPath(EventEntryModelImpl.ENTITY_CACHE_ENABLED,
 			EventEntryModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "countByAllButGroupId",
-			new String[] { Long.class.getName() });
+			new String[] { Long.class.getName(), Date.class.getName() });
 	public static final FinderPath FINDER_PATH_WITH_PAGINATION_FIND_BY_GROUPID = new FinderPath(EventEntryModelImpl.ENTITY_CACHE_ENABLED,
 			EventEntryModelImpl.FINDER_CACHE_ENABLED, EventEntryImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByGroupId",
 			new String[] {
-				Long.class.getName(), Long.class.getName(),
+				Long.class.getName(), Long.class.getName(), Date.class.getName(),
 				
 			"java.lang.Integer", "java.lang.Integer",
 				"com.liferay.portal.kernel.util.OrderByComparator"
 			});
-	public static final FinderPath FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_GROUPID =
-		new FinderPath(EventEntryModelImpl.ENTITY_CACHE_ENABLED,
-			EventEntryModelImpl.FINDER_CACHE_ENABLED, EventEntryImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByGroupId",
-			new String[] { Long.class.getName(), Long.class.getName() },
-			EventEntryModelImpl.COMPANYID_COLUMN_BITMASK |
-			EventEntryModelImpl.GROUPID_COLUMN_BITMASK);
-	public static final FinderPath FINDER_PATH_COUNT_BY_GROUPID = new FinderPath(EventEntryModelImpl.ENTITY_CACHE_ENABLED,
+	public static final FinderPath FINDER_PATH_WITH_PAGINATION_COUNT_BY_GROUPID = new FinderPath(EventEntryModelImpl.ENTITY_CACHE_ENABLED,
 			EventEntryModelImpl.FINDER_CACHE_ENABLED, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByGroupId",
-			new String[] { Long.class.getName(), Long.class.getName() });
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "countByGroupId",
+			new String[] {
+				Long.class.getName(), Long.class.getName(), Date.class.getName()
+			});
 	public static final FinderPath FINDER_PATH_WITH_PAGINATION_FIND_BY_COMPANYID =
 		new FinderPath(EventEntryModelImpl.ENTITY_CACHE_ENABLED,
 			EventEntryModelImpl.FINDER_CACHE_ENABLED, EventEntryImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByCompanyId",
 			new String[] {
-				Long.class.getName(),
+				Long.class.getName(), Date.class.getName(),
 				
 			"java.lang.Integer", "java.lang.Integer",
 				"com.liferay.portal.kernel.util.OrderByComparator"
 			});
-	public static final FinderPath FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_COMPANYID =
+	public static final FinderPath FINDER_PATH_WITH_PAGINATION_COUNT_BY_COMPANYID =
 		new FinderPath(EventEntryModelImpl.ENTITY_CACHE_ENABLED,
-			EventEntryModelImpl.FINDER_CACHE_ENABLED, EventEntryImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByCompanyId",
-			new String[] { Long.class.getName() },
-			EventEntryModelImpl.COMPANYID_COLUMN_BITMASK);
-	public static final FinderPath FINDER_PATH_COUNT_BY_COMPANYID = new FinderPath(EventEntryModelImpl.ENTITY_CACHE_ENABLED,
 			EventEntryModelImpl.FINDER_CACHE_ENABLED, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByCompanyId",
-			new String[] { Long.class.getName() });
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "countByCompanyId",
+			new String[] { Long.class.getName(), Date.class.getName() });
 	public static final FinderPath FINDER_PATH_WITH_PAGINATION_FIND_BY_USERID = new FinderPath(EventEntryModelImpl.ENTITY_CACHE_ENABLED,
 			EventEntryModelImpl.FINDER_CACHE_ENABLED, EventEntryImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByUserId",
@@ -437,48 +430,6 @@ public class EventEntryPersistenceImpl extends BasePersistenceImpl<EventEntry>
 			}
 
 			if ((eventEntryModelImpl.getColumnBitmask() &
-					FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_GROUPID.getColumnBitmask()) != 0) {
-				Object[] args = new Object[] {
-						Long.valueOf(eventEntryModelImpl.getOriginalCompanyId()),
-						Long.valueOf(eventEntryModelImpl.getOriginalGroupId())
-					};
-
-				FinderCacheUtil.removeResult(FINDER_PATH_COUNT_BY_GROUPID, args);
-				FinderCacheUtil.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_GROUPID,
-					args);
-
-				args = new Object[] {
-						Long.valueOf(eventEntryModelImpl.getCompanyId()),
-						Long.valueOf(eventEntryModelImpl.getGroupId())
-					};
-
-				FinderCacheUtil.removeResult(FINDER_PATH_COUNT_BY_GROUPID, args);
-				FinderCacheUtil.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_GROUPID,
-					args);
-			}
-
-			if ((eventEntryModelImpl.getColumnBitmask() &
-					FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_COMPANYID.getColumnBitmask()) != 0) {
-				Object[] args = new Object[] {
-						Long.valueOf(eventEntryModelImpl.getOriginalCompanyId())
-					};
-
-				FinderCacheUtil.removeResult(FINDER_PATH_COUNT_BY_COMPANYID,
-					args);
-				FinderCacheUtil.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_COMPANYID,
-					args);
-
-				args = new Object[] {
-						Long.valueOf(eventEntryModelImpl.getCompanyId())
-					};
-
-				FinderCacheUtil.removeResult(FINDER_PATH_COUNT_BY_COMPANYID,
-					args);
-				FinderCacheUtil.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_COMPANYID,
-					args);
-			}
-
-			if ((eventEntryModelImpl.getColumnBitmask() &
 					FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_USERID.getColumnBitmask()) != 0) {
 				Object[] args = new Object[] {
 						Long.valueOf(eventEntryModelImpl.getOriginalUserId())
@@ -561,6 +512,8 @@ public class EventEntryPersistenceImpl extends BasePersistenceImpl<EventEntry>
 		eventEntryImpl.setLatitude(eventEntry.getLatitude());
 		eventEntryImpl.setLongitude(eventEntry.getLongitude());
 		eventEntryImpl.setLocation(eventEntry.getLocation());
+		eventEntryImpl.setWithSpouse(eventEntry.isWithSpouse());
+		eventEntryImpl.setWithChildren(eventEntry.isWithChildren());
 
 		return eventEntryImpl;
 	}
@@ -1226,456 +1179,73 @@ public class EventEntryPersistenceImpl extends BasePersistenceImpl<EventEntry>
 	}
 
 	/**
-	 * Returns all the event entries where groupId &ne; &#63;.
+	 * Returns all the event entries where groupId &ne; &#63; and endDate &gt; &#63;.
 	 *
 	 * @param groupId the group ID
+	 * @param endDate the end date
 	 * @return the matching event entries
 	 * @throws SystemException if a system exception occurred
 	 */
-	public List<EventEntry> findByAllButGroupId(long groupId)
+	public List<EventEntry> findByAllButGroupId(long groupId, Date endDate)
 		throws SystemException {
-		return findByAllButGroupId(groupId, QueryUtil.ALL_POS,
+		return findByAllButGroupId(groupId, endDate, QueryUtil.ALL_POS,
 			QueryUtil.ALL_POS, null);
 	}
 
 	/**
-	 * Returns a range of all the event entries where groupId &ne; &#63;.
+	 * Returns a range of all the event entries where groupId &ne; &#63; and endDate &gt; &#63;.
 	 *
 	 * <p>
 	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
 	 * </p>
 	 *
 	 * @param groupId the group ID
+	 * @param endDate the end date
 	 * @param start the lower bound of the range of event entries
 	 * @param end the upper bound of the range of event entries (not inclusive)
 	 * @return the range of matching event entries
 	 * @throws SystemException if a system exception occurred
 	 */
-	public List<EventEntry> findByAllButGroupId(long groupId, int start, int end)
-		throws SystemException {
-		return findByAllButGroupId(groupId, start, end, null);
-	}
-
-	/**
-	 * Returns an ordered range of all the event entries where groupId &ne; &#63;.
-	 *
-	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
-	 * </p>
-	 *
-	 * @param groupId the group ID
-	 * @param start the lower bound of the range of event entries
-	 * @param end the upper bound of the range of event entries (not inclusive)
-	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
-	 * @return the ordered range of matching event entries
-	 * @throws SystemException if a system exception occurred
-	 */
-	public List<EventEntry> findByAllButGroupId(long groupId, int start,
-		int end, OrderByComparator orderByComparator) throws SystemException {
-		FinderPath finderPath = null;
-		Object[] finderArgs = null;
-
-		finderPath = FINDER_PATH_WITH_PAGINATION_FIND_BY_ALLBUTGROUPID;
-		finderArgs = new Object[] { groupId, start, end, orderByComparator };
-
-		List<EventEntry> list = (List<EventEntry>)FinderCacheUtil.getResult(finderPath,
-				finderArgs, this);
-
-		if ((list != null) && !list.isEmpty()) {
-			for (EventEntry eventEntry : list) {
-				if ((groupId != eventEntry.getGroupId())) {
-					list = null;
-
-					break;
-				}
-			}
-		}
-
-		if (list == null) {
-			StringBundler query = null;
-
-			if (orderByComparator != null) {
-				query = new StringBundler(3 +
-						(orderByComparator.getOrderByFields().length * 3));
-			}
-			else {
-				query = new StringBundler(3);
-			}
-
-			query.append(_SQL_SELECT_EVENTENTRY_WHERE);
-
-			query.append(_FINDER_COLUMN_ALLBUTGROUPID_GROUPID_2);
-
-			if (orderByComparator != null) {
-				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
-					orderByComparator);
-			}
-
-			else {
-				query.append(EventEntryModelImpl.ORDER_BY_JPQL);
-			}
-
-			String sql = query.toString();
-
-			Session session = null;
-
-			try {
-				session = openSession();
-
-				Query q = session.createQuery(sql);
-
-				QueryPos qPos = QueryPos.getInstance(q);
-
-				qPos.add(groupId);
-
-				list = (List<EventEntry>)QueryUtil.list(q, getDialect(), start,
-						end);
-			}
-			catch (Exception e) {
-				throw processException(e);
-			}
-			finally {
-				if (list == null) {
-					FinderCacheUtil.removeResult(finderPath, finderArgs);
-				}
-				else {
-					cacheResult(list);
-
-					FinderCacheUtil.putResult(finderPath, finderArgs, list);
-				}
-
-				closeSession(session);
-			}
-		}
-
-		return list;
-	}
-
-	/**
-	 * Returns the first event entry in the ordered set where groupId &ne; &#63;.
-	 *
-	 * @param groupId the group ID
-	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-	 * @return the first matching event entry
-	 * @throws org.lsp.liferay.portlet.socialliving.NoSuchEventEntryException if a matching event entry could not be found
-	 * @throws SystemException if a system exception occurred
-	 */
-	public EventEntry findByAllButGroupId_First(long groupId,
-		OrderByComparator orderByComparator)
-		throws NoSuchEventEntryException, SystemException {
-		EventEntry eventEntry = fetchByAllButGroupId_First(groupId,
-				orderByComparator);
-
-		if (eventEntry != null) {
-			return eventEntry;
-		}
-
-		StringBundler msg = new StringBundler(4);
-
-		msg.append(_NO_SUCH_ENTITY_WITH_KEY);
-
-		msg.append("groupId=");
-		msg.append(groupId);
-
-		msg.append(StringPool.CLOSE_CURLY_BRACE);
-
-		throw new NoSuchEventEntryException(msg.toString());
-	}
-
-	/**
-	 * Returns the first event entry in the ordered set where groupId &ne; &#63;.
-	 *
-	 * @param groupId the group ID
-	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-	 * @return the first matching event entry, or <code>null</code> if a matching event entry could not be found
-	 * @throws SystemException if a system exception occurred
-	 */
-	public EventEntry fetchByAllButGroupId_First(long groupId,
-		OrderByComparator orderByComparator) throws SystemException {
-		List<EventEntry> list = findByAllButGroupId(groupId, 0, 1,
-				orderByComparator);
-
-		if (!list.isEmpty()) {
-			return list.get(0);
-		}
-
-		return null;
-	}
-
-	/**
-	 * Returns the last event entry in the ordered set where groupId &ne; &#63;.
-	 *
-	 * @param groupId the group ID
-	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-	 * @return the last matching event entry
-	 * @throws org.lsp.liferay.portlet.socialliving.NoSuchEventEntryException if a matching event entry could not be found
-	 * @throws SystemException if a system exception occurred
-	 */
-	public EventEntry findByAllButGroupId_Last(long groupId,
-		OrderByComparator orderByComparator)
-		throws NoSuchEventEntryException, SystemException {
-		EventEntry eventEntry = fetchByAllButGroupId_Last(groupId,
-				orderByComparator);
-
-		if (eventEntry != null) {
-			return eventEntry;
-		}
-
-		StringBundler msg = new StringBundler(4);
-
-		msg.append(_NO_SUCH_ENTITY_WITH_KEY);
-
-		msg.append("groupId=");
-		msg.append(groupId);
-
-		msg.append(StringPool.CLOSE_CURLY_BRACE);
-
-		throw new NoSuchEventEntryException(msg.toString());
-	}
-
-	/**
-	 * Returns the last event entry in the ordered set where groupId &ne; &#63;.
-	 *
-	 * @param groupId the group ID
-	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-	 * @return the last matching event entry, or <code>null</code> if a matching event entry could not be found
-	 * @throws SystemException if a system exception occurred
-	 */
-	public EventEntry fetchByAllButGroupId_Last(long groupId,
-		OrderByComparator orderByComparator) throws SystemException {
-		int count = countByAllButGroupId(groupId);
-
-		List<EventEntry> list = findByAllButGroupId(groupId, count - 1, count,
-				orderByComparator);
-
-		if (!list.isEmpty()) {
-			return list.get(0);
-		}
-
-		return null;
-	}
-
-	/**
-	 * Returns the event entries before and after the current event entry in the ordered set where groupId &ne; &#63;.
-	 *
-	 * @param eventEntryId the primary key of the current event entry
-	 * @param groupId the group ID
-	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-	 * @return the previous, current, and next event entry
-	 * @throws org.lsp.liferay.portlet.socialliving.NoSuchEventEntryException if a event entry with the primary key could not be found
-	 * @throws SystemException if a system exception occurred
-	 */
-	public EventEntry[] findByAllButGroupId_PrevAndNext(long eventEntryId,
-		long groupId, OrderByComparator orderByComparator)
-		throws NoSuchEventEntryException, SystemException {
-		EventEntry eventEntry = findByPrimaryKey(eventEntryId);
-
-		Session session = null;
-
-		try {
-			session = openSession();
-
-			EventEntry[] array = new EventEntryImpl[3];
-
-			array[0] = getByAllButGroupId_PrevAndNext(session, eventEntry,
-					groupId, orderByComparator, true);
-
-			array[1] = eventEntry;
-
-			array[2] = getByAllButGroupId_PrevAndNext(session, eventEntry,
-					groupId, orderByComparator, false);
-
-			return array;
-		}
-		catch (Exception e) {
-			throw processException(e);
-		}
-		finally {
-			closeSession(session);
-		}
-	}
-
-	protected EventEntry getByAllButGroupId_PrevAndNext(Session session,
-		EventEntry eventEntry, long groupId,
-		OrderByComparator orderByComparator, boolean previous) {
-		StringBundler query = null;
-
-		if (orderByComparator != null) {
-			query = new StringBundler(6 +
-					(orderByComparator.getOrderByFields().length * 6));
-		}
-		else {
-			query = new StringBundler(3);
-		}
-
-		query.append(_SQL_SELECT_EVENTENTRY_WHERE);
-
-		query.append(_FINDER_COLUMN_ALLBUTGROUPID_GROUPID_2);
-
-		if (orderByComparator != null) {
-			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
-
-			if (orderByConditionFields.length > 0) {
-				query.append(WHERE_AND);
-			}
-
-			for (int i = 0; i < orderByConditionFields.length; i++) {
-				query.append(_ORDER_BY_ENTITY_ALIAS);
-				query.append(orderByConditionFields[i]);
-
-				if ((i + 1) < orderByConditionFields.length) {
-					if (orderByComparator.isAscending() ^ previous) {
-						query.append(WHERE_GREATER_THAN_HAS_NEXT);
-					}
-					else {
-						query.append(WHERE_LESSER_THAN_HAS_NEXT);
-					}
-				}
-				else {
-					if (orderByComparator.isAscending() ^ previous) {
-						query.append(WHERE_GREATER_THAN);
-					}
-					else {
-						query.append(WHERE_LESSER_THAN);
-					}
-				}
-			}
-
-			query.append(ORDER_BY_CLAUSE);
-
-			String[] orderByFields = orderByComparator.getOrderByFields();
-
-			for (int i = 0; i < orderByFields.length; i++) {
-				query.append(_ORDER_BY_ENTITY_ALIAS);
-				query.append(orderByFields[i]);
-
-				if ((i + 1) < orderByFields.length) {
-					if (orderByComparator.isAscending() ^ previous) {
-						query.append(ORDER_BY_ASC_HAS_NEXT);
-					}
-					else {
-						query.append(ORDER_BY_DESC_HAS_NEXT);
-					}
-				}
-				else {
-					if (orderByComparator.isAscending() ^ previous) {
-						query.append(ORDER_BY_ASC);
-					}
-					else {
-						query.append(ORDER_BY_DESC);
-					}
-				}
-			}
-		}
-
-		else {
-			query.append(EventEntryModelImpl.ORDER_BY_JPQL);
-		}
-
-		String sql = query.toString();
-
-		Query q = session.createQuery(sql);
-
-		q.setFirstResult(0);
-		q.setMaxResults(2);
-
-		QueryPos qPos = QueryPos.getInstance(q);
-
-		qPos.add(groupId);
-
-		if (orderByComparator != null) {
-			Object[] values = orderByComparator.getOrderByConditionValues(eventEntry);
-
-			for (Object value : values) {
-				qPos.add(value);
-			}
-		}
-
-		List<EventEntry> list = q.list();
-
-		if (list.size() == 2) {
-			return list.get(1);
-		}
-		else {
-			return null;
-		}
-	}
-
-	/**
-	 * Returns all the event entries where companyId = &#63; and groupId = &#63;.
-	 *
-	 * @param companyId the company ID
-	 * @param groupId the group ID
-	 * @return the matching event entries
-	 * @throws SystemException if a system exception occurred
-	 */
-	public List<EventEntry> findByGroupId(long companyId, long groupId)
-		throws SystemException {
-		return findByGroupId(companyId, groupId, QueryUtil.ALL_POS,
-			QueryUtil.ALL_POS, null);
-	}
-
-	/**
-	 * Returns a range of all the event entries where companyId = &#63; and groupId = &#63;.
-	 *
-	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
-	 * </p>
-	 *
-	 * @param companyId the company ID
-	 * @param groupId the group ID
-	 * @param start the lower bound of the range of event entries
-	 * @param end the upper bound of the range of event entries (not inclusive)
-	 * @return the range of matching event entries
-	 * @throws SystemException if a system exception occurred
-	 */
-	public List<EventEntry> findByGroupId(long companyId, long groupId,
+	public List<EventEntry> findByAllButGroupId(long groupId, Date endDate,
 		int start, int end) throws SystemException {
-		return findByGroupId(companyId, groupId, start, end, null);
+		return findByAllButGroupId(groupId, endDate, start, end, null);
 	}
 
 	/**
-	 * Returns an ordered range of all the event entries where companyId = &#63; and groupId = &#63;.
+	 * Returns an ordered range of all the event entries where groupId &ne; &#63; and endDate &gt; &#63;.
 	 *
 	 * <p>
 	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
 	 * </p>
 	 *
-	 * @param companyId the company ID
 	 * @param groupId the group ID
+	 * @param endDate the end date
 	 * @param start the lower bound of the range of event entries
 	 * @param end the upper bound of the range of event entries (not inclusive)
 	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
 	 * @return the ordered range of matching event entries
 	 * @throws SystemException if a system exception occurred
 	 */
-	public List<EventEntry> findByGroupId(long companyId, long groupId,
+	public List<EventEntry> findByAllButGroupId(long groupId, Date endDate,
 		int start, int end, OrderByComparator orderByComparator)
 		throws SystemException {
 		FinderPath finderPath = null;
 		Object[] finderArgs = null;
 
-		if ((start == QueryUtil.ALL_POS) && (end == QueryUtil.ALL_POS) &&
-				(orderByComparator == null)) {
-			finderPath = FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_GROUPID;
-			finderArgs = new Object[] { companyId, groupId };
-		}
-		else {
-			finderPath = FINDER_PATH_WITH_PAGINATION_FIND_BY_GROUPID;
-			finderArgs = new Object[] {
-					companyId, groupId,
-					
-					start, end, orderByComparator
-				};
-		}
+		finderPath = FINDER_PATH_WITH_PAGINATION_FIND_BY_ALLBUTGROUPID;
+		finderArgs = new Object[] {
+				groupId, endDate,
+				
+				start, end, orderByComparator
+			};
 
 		List<EventEntry> list = (List<EventEntry>)FinderCacheUtil.getResult(finderPath,
 				finderArgs, this);
 
 		if ((list != null) && !list.isEmpty()) {
 			for (EventEntry eventEntry : list) {
-				if ((companyId != eventEntry.getCompanyId()) ||
-						(groupId != eventEntry.getGroupId())) {
+				if ((groupId != eventEntry.getGroupId()) ||
+						!Validator.equals(endDate, eventEntry.getEndDate())) {
 					list = null;
 
 					break;
@@ -1696,9 +1266,14 @@ public class EventEntryPersistenceImpl extends BasePersistenceImpl<EventEntry>
 
 			query.append(_SQL_SELECT_EVENTENTRY_WHERE);
 
-			query.append(_FINDER_COLUMN_GROUPID_COMPANYID_2);
+			query.append(_FINDER_COLUMN_ALLBUTGROUPID_GROUPID_2);
 
-			query.append(_FINDER_COLUMN_GROUPID_GROUPID_2);
+			if (endDate == null) {
+				query.append(_FINDER_COLUMN_ALLBUTGROUPID_ENDDATE_1);
+			}
+			else {
+				query.append(_FINDER_COLUMN_ALLBUTGROUPID_ENDDATE_2);
+			}
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -1720,9 +1295,11 @@ public class EventEntryPersistenceImpl extends BasePersistenceImpl<EventEntry>
 
 				QueryPos qPos = QueryPos.getInstance(q);
 
-				qPos.add(companyId);
-
 				qPos.add(groupId);
+
+				if (endDate != null) {
+					qPos.add(CalendarUtil.getTimestamp(endDate));
+				}
 
 				list = (List<EventEntry>)QueryUtil.list(q, getDialect(), start,
 						end);
@@ -1748,26 +1325,453 @@ public class EventEntryPersistenceImpl extends BasePersistenceImpl<EventEntry>
 	}
 
 	/**
-	 * Returns the first event entry in the ordered set where companyId = &#63; and groupId = &#63;.
+	 * Returns the first event entry in the ordered set where groupId &ne; &#63; and endDate &gt; &#63;.
+	 *
+	 * @param groupId the group ID
+	 * @param endDate the end date
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the first matching event entry
+	 * @throws org.lsp.liferay.portlet.socialliving.NoSuchEventEntryException if a matching event entry could not be found
+	 * @throws SystemException if a system exception occurred
+	 */
+	public EventEntry findByAllButGroupId_First(long groupId, Date endDate,
+		OrderByComparator orderByComparator)
+		throws NoSuchEventEntryException, SystemException {
+		EventEntry eventEntry = fetchByAllButGroupId_First(groupId, endDate,
+				orderByComparator);
+
+		if (eventEntry != null) {
+			return eventEntry;
+		}
+
+		StringBundler msg = new StringBundler(6);
+
+		msg.append(_NO_SUCH_ENTITY_WITH_KEY);
+
+		msg.append("groupId=");
+		msg.append(groupId);
+
+		msg.append(", endDate=");
+		msg.append(endDate);
+
+		msg.append(StringPool.CLOSE_CURLY_BRACE);
+
+		throw new NoSuchEventEntryException(msg.toString());
+	}
+
+	/**
+	 * Returns the first event entry in the ordered set where groupId &ne; &#63; and endDate &gt; &#63;.
+	 *
+	 * @param groupId the group ID
+	 * @param endDate the end date
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the first matching event entry, or <code>null</code> if a matching event entry could not be found
+	 * @throws SystemException if a system exception occurred
+	 */
+	public EventEntry fetchByAllButGroupId_First(long groupId, Date endDate,
+		OrderByComparator orderByComparator) throws SystemException {
+		List<EventEntry> list = findByAllButGroupId(groupId, endDate, 0, 1,
+				orderByComparator);
+
+		if (!list.isEmpty()) {
+			return list.get(0);
+		}
+
+		return null;
+	}
+
+	/**
+	 * Returns the last event entry in the ordered set where groupId &ne; &#63; and endDate &gt; &#63;.
+	 *
+	 * @param groupId the group ID
+	 * @param endDate the end date
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the last matching event entry
+	 * @throws org.lsp.liferay.portlet.socialliving.NoSuchEventEntryException if a matching event entry could not be found
+	 * @throws SystemException if a system exception occurred
+	 */
+	public EventEntry findByAllButGroupId_Last(long groupId, Date endDate,
+		OrderByComparator orderByComparator)
+		throws NoSuchEventEntryException, SystemException {
+		EventEntry eventEntry = fetchByAllButGroupId_Last(groupId, endDate,
+				orderByComparator);
+
+		if (eventEntry != null) {
+			return eventEntry;
+		}
+
+		StringBundler msg = new StringBundler(6);
+
+		msg.append(_NO_SUCH_ENTITY_WITH_KEY);
+
+		msg.append("groupId=");
+		msg.append(groupId);
+
+		msg.append(", endDate=");
+		msg.append(endDate);
+
+		msg.append(StringPool.CLOSE_CURLY_BRACE);
+
+		throw new NoSuchEventEntryException(msg.toString());
+	}
+
+	/**
+	 * Returns the last event entry in the ordered set where groupId &ne; &#63; and endDate &gt; &#63;.
+	 *
+	 * @param groupId the group ID
+	 * @param endDate the end date
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the last matching event entry, or <code>null</code> if a matching event entry could not be found
+	 * @throws SystemException if a system exception occurred
+	 */
+	public EventEntry fetchByAllButGroupId_Last(long groupId, Date endDate,
+		OrderByComparator orderByComparator) throws SystemException {
+		int count = countByAllButGroupId(groupId, endDate);
+
+		List<EventEntry> list = findByAllButGroupId(groupId, endDate,
+				count - 1, count, orderByComparator);
+
+		if (!list.isEmpty()) {
+			return list.get(0);
+		}
+
+		return null;
+	}
+
+	/**
+	 * Returns the event entries before and after the current event entry in the ordered set where groupId &ne; &#63; and endDate &gt; &#63;.
+	 *
+	 * @param eventEntryId the primary key of the current event entry
+	 * @param groupId the group ID
+	 * @param endDate the end date
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the previous, current, and next event entry
+	 * @throws org.lsp.liferay.portlet.socialliving.NoSuchEventEntryException if a event entry with the primary key could not be found
+	 * @throws SystemException if a system exception occurred
+	 */
+	public EventEntry[] findByAllButGroupId_PrevAndNext(long eventEntryId,
+		long groupId, Date endDate, OrderByComparator orderByComparator)
+		throws NoSuchEventEntryException, SystemException {
+		EventEntry eventEntry = findByPrimaryKey(eventEntryId);
+
+		Session session = null;
+
+		try {
+			session = openSession();
+
+			EventEntry[] array = new EventEntryImpl[3];
+
+			array[0] = getByAllButGroupId_PrevAndNext(session, eventEntry,
+					groupId, endDate, orderByComparator, true);
+
+			array[1] = eventEntry;
+
+			array[2] = getByAllButGroupId_PrevAndNext(session, eventEntry,
+					groupId, endDate, orderByComparator, false);
+
+			return array;
+		}
+		catch (Exception e) {
+			throw processException(e);
+		}
+		finally {
+			closeSession(session);
+		}
+	}
+
+	protected EventEntry getByAllButGroupId_PrevAndNext(Session session,
+		EventEntry eventEntry, long groupId, Date endDate,
+		OrderByComparator orderByComparator, boolean previous) {
+		StringBundler query = null;
+
+		if (orderByComparator != null) {
+			query = new StringBundler(6 +
+					(orderByComparator.getOrderByFields().length * 6));
+		}
+		else {
+			query = new StringBundler(3);
+		}
+
+		query.append(_SQL_SELECT_EVENTENTRY_WHERE);
+
+		query.append(_FINDER_COLUMN_ALLBUTGROUPID_GROUPID_2);
+
+		if (endDate == null) {
+			query.append(_FINDER_COLUMN_ALLBUTGROUPID_ENDDATE_1);
+		}
+		else {
+			query.append(_FINDER_COLUMN_ALLBUTGROUPID_ENDDATE_2);
+		}
+
+		if (orderByComparator != null) {
+			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
+
+			if (orderByConditionFields.length > 0) {
+				query.append(WHERE_AND);
+			}
+
+			for (int i = 0; i < orderByConditionFields.length; i++) {
+				query.append(_ORDER_BY_ENTITY_ALIAS);
+				query.append(orderByConditionFields[i]);
+
+				if ((i + 1) < orderByConditionFields.length) {
+					if (orderByComparator.isAscending() ^ previous) {
+						query.append(WHERE_GREATER_THAN_HAS_NEXT);
+					}
+					else {
+						query.append(WHERE_LESSER_THAN_HAS_NEXT);
+					}
+				}
+				else {
+					if (orderByComparator.isAscending() ^ previous) {
+						query.append(WHERE_GREATER_THAN);
+					}
+					else {
+						query.append(WHERE_LESSER_THAN);
+					}
+				}
+			}
+
+			query.append(ORDER_BY_CLAUSE);
+
+			String[] orderByFields = orderByComparator.getOrderByFields();
+
+			for (int i = 0; i < orderByFields.length; i++) {
+				query.append(_ORDER_BY_ENTITY_ALIAS);
+				query.append(orderByFields[i]);
+
+				if ((i + 1) < orderByFields.length) {
+					if (orderByComparator.isAscending() ^ previous) {
+						query.append(ORDER_BY_ASC_HAS_NEXT);
+					}
+					else {
+						query.append(ORDER_BY_DESC_HAS_NEXT);
+					}
+				}
+				else {
+					if (orderByComparator.isAscending() ^ previous) {
+						query.append(ORDER_BY_ASC);
+					}
+					else {
+						query.append(ORDER_BY_DESC);
+					}
+				}
+			}
+		}
+
+		else {
+			query.append(EventEntryModelImpl.ORDER_BY_JPQL);
+		}
+
+		String sql = query.toString();
+
+		Query q = session.createQuery(sql);
+
+		q.setFirstResult(0);
+		q.setMaxResults(2);
+
+		QueryPos qPos = QueryPos.getInstance(q);
+
+		qPos.add(groupId);
+
+		if (endDate != null) {
+			qPos.add(CalendarUtil.getTimestamp(endDate));
+		}
+
+		if (orderByComparator != null) {
+			Object[] values = orderByComparator.getOrderByConditionValues(eventEntry);
+
+			for (Object value : values) {
+				qPos.add(value);
+			}
+		}
+
+		List<EventEntry> list = q.list();
+
+		if (list.size() == 2) {
+			return list.get(1);
+		}
+		else {
+			return null;
+		}
+	}
+
+	/**
+	 * Returns all the event entries where companyId = &#63; and groupId = &#63; and endDate &gt; &#63;.
 	 *
 	 * @param companyId the company ID
 	 * @param groupId the group ID
+	 * @param endDate the end date
+	 * @return the matching event entries
+	 * @throws SystemException if a system exception occurred
+	 */
+	public List<EventEntry> findByGroupId(long companyId, long groupId,
+		Date endDate) throws SystemException {
+		return findByGroupId(companyId, groupId, endDate, QueryUtil.ALL_POS,
+			QueryUtil.ALL_POS, null);
+	}
+
+	/**
+	 * Returns a range of all the event entries where companyId = &#63; and groupId = &#63; and endDate &gt; &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+	 * </p>
+	 *
+	 * @param companyId the company ID
+	 * @param groupId the group ID
+	 * @param endDate the end date
+	 * @param start the lower bound of the range of event entries
+	 * @param end the upper bound of the range of event entries (not inclusive)
+	 * @return the range of matching event entries
+	 * @throws SystemException if a system exception occurred
+	 */
+	public List<EventEntry> findByGroupId(long companyId, long groupId,
+		Date endDate, int start, int end) throws SystemException {
+		return findByGroupId(companyId, groupId, endDate, start, end, null);
+	}
+
+	/**
+	 * Returns an ordered range of all the event entries where companyId = &#63; and groupId = &#63; and endDate &gt; &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+	 * </p>
+	 *
+	 * @param companyId the company ID
+	 * @param groupId the group ID
+	 * @param endDate the end date
+	 * @param start the lower bound of the range of event entries
+	 * @param end the upper bound of the range of event entries (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @return the ordered range of matching event entries
+	 * @throws SystemException if a system exception occurred
+	 */
+	public List<EventEntry> findByGroupId(long companyId, long groupId,
+		Date endDate, int start, int end, OrderByComparator orderByComparator)
+		throws SystemException {
+		FinderPath finderPath = null;
+		Object[] finderArgs = null;
+
+		finderPath = FINDER_PATH_WITH_PAGINATION_FIND_BY_GROUPID;
+		finderArgs = new Object[] {
+				companyId, groupId, endDate,
+				
+				start, end, orderByComparator
+			};
+
+		List<EventEntry> list = (List<EventEntry>)FinderCacheUtil.getResult(finderPath,
+				finderArgs, this);
+
+		if ((list != null) && !list.isEmpty()) {
+			for (EventEntry eventEntry : list) {
+				if ((companyId != eventEntry.getCompanyId()) ||
+						(groupId != eventEntry.getGroupId()) ||
+						!Validator.equals(endDate, eventEntry.getEndDate())) {
+					list = null;
+
+					break;
+				}
+			}
+		}
+
+		if (list == null) {
+			StringBundler query = null;
+
+			if (orderByComparator != null) {
+				query = new StringBundler(5 +
+						(orderByComparator.getOrderByFields().length * 3));
+			}
+			else {
+				query = new StringBundler(5);
+			}
+
+			query.append(_SQL_SELECT_EVENTENTRY_WHERE);
+
+			query.append(_FINDER_COLUMN_GROUPID_COMPANYID_2);
+
+			query.append(_FINDER_COLUMN_GROUPID_GROUPID_2);
+
+			if (endDate == null) {
+				query.append(_FINDER_COLUMN_GROUPID_ENDDATE_1);
+			}
+			else {
+				query.append(_FINDER_COLUMN_GROUPID_ENDDATE_2);
+			}
+
+			if (orderByComparator != null) {
+				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
+					orderByComparator);
+			}
+
+			else {
+				query.append(EventEntryModelImpl.ORDER_BY_JPQL);
+			}
+
+			String sql = query.toString();
+
+			Session session = null;
+
+			try {
+				session = openSession();
+
+				Query q = session.createQuery(sql);
+
+				QueryPos qPos = QueryPos.getInstance(q);
+
+				qPos.add(companyId);
+
+				qPos.add(groupId);
+
+				if (endDate != null) {
+					qPos.add(CalendarUtil.getTimestamp(endDate));
+				}
+
+				list = (List<EventEntry>)QueryUtil.list(q, getDialect(), start,
+						end);
+			}
+			catch (Exception e) {
+				throw processException(e);
+			}
+			finally {
+				if (list == null) {
+					FinderCacheUtil.removeResult(finderPath, finderArgs);
+				}
+				else {
+					cacheResult(list);
+
+					FinderCacheUtil.putResult(finderPath, finderArgs, list);
+				}
+
+				closeSession(session);
+			}
+		}
+
+		return list;
+	}
+
+	/**
+	 * Returns the first event entry in the ordered set where companyId = &#63; and groupId = &#63; and endDate &gt; &#63;.
+	 *
+	 * @param companyId the company ID
+	 * @param groupId the group ID
+	 * @param endDate the end date
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	 * @return the first matching event entry
 	 * @throws org.lsp.liferay.portlet.socialliving.NoSuchEventEntryException if a matching event entry could not be found
 	 * @throws SystemException if a system exception occurred
 	 */
 	public EventEntry findByGroupId_First(long companyId, long groupId,
-		OrderByComparator orderByComparator)
+		Date endDate, OrderByComparator orderByComparator)
 		throws NoSuchEventEntryException, SystemException {
 		EventEntry eventEntry = fetchByGroupId_First(companyId, groupId,
-				orderByComparator);
+				endDate, orderByComparator);
 
 		if (eventEntry != null) {
 			return eventEntry;
 		}
 
-		StringBundler msg = new StringBundler(6);
+		StringBundler msg = new StringBundler(8);
 
 		msg.append(_NO_SUCH_ENTITY_WITH_KEY);
 
@@ -1777,24 +1781,29 @@ public class EventEntryPersistenceImpl extends BasePersistenceImpl<EventEntry>
 		msg.append(", groupId=");
 		msg.append(groupId);
 
+		msg.append(", endDate=");
+		msg.append(endDate);
+
 		msg.append(StringPool.CLOSE_CURLY_BRACE);
 
 		throw new NoSuchEventEntryException(msg.toString());
 	}
 
 	/**
-	 * Returns the first event entry in the ordered set where companyId = &#63; and groupId = &#63;.
+	 * Returns the first event entry in the ordered set where companyId = &#63; and groupId = &#63; and endDate &gt; &#63;.
 	 *
 	 * @param companyId the company ID
 	 * @param groupId the group ID
+	 * @param endDate the end date
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	 * @return the first matching event entry, or <code>null</code> if a matching event entry could not be found
 	 * @throws SystemException if a system exception occurred
 	 */
 	public EventEntry fetchByGroupId_First(long companyId, long groupId,
-		OrderByComparator orderByComparator) throws SystemException {
-		List<EventEntry> list = findByGroupId(companyId, groupId, 0, 1,
-				orderByComparator);
+		Date endDate, OrderByComparator orderByComparator)
+		throws SystemException {
+		List<EventEntry> list = findByGroupId(companyId, groupId, endDate, 0,
+				1, orderByComparator);
 
 		if (!list.isEmpty()) {
 			return list.get(0);
@@ -1804,26 +1813,27 @@ public class EventEntryPersistenceImpl extends BasePersistenceImpl<EventEntry>
 	}
 
 	/**
-	 * Returns the last event entry in the ordered set where companyId = &#63; and groupId = &#63;.
+	 * Returns the last event entry in the ordered set where companyId = &#63; and groupId = &#63; and endDate &gt; &#63;.
 	 *
 	 * @param companyId the company ID
 	 * @param groupId the group ID
+	 * @param endDate the end date
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	 * @return the last matching event entry
 	 * @throws org.lsp.liferay.portlet.socialliving.NoSuchEventEntryException if a matching event entry could not be found
 	 * @throws SystemException if a system exception occurred
 	 */
 	public EventEntry findByGroupId_Last(long companyId, long groupId,
-		OrderByComparator orderByComparator)
+		Date endDate, OrderByComparator orderByComparator)
 		throws NoSuchEventEntryException, SystemException {
 		EventEntry eventEntry = fetchByGroupId_Last(companyId, groupId,
-				orderByComparator);
+				endDate, orderByComparator);
 
 		if (eventEntry != null) {
 			return eventEntry;
 		}
 
-		StringBundler msg = new StringBundler(6);
+		StringBundler msg = new StringBundler(8);
 
 		msg.append(_NO_SUCH_ENTITY_WITH_KEY);
 
@@ -1833,26 +1843,31 @@ public class EventEntryPersistenceImpl extends BasePersistenceImpl<EventEntry>
 		msg.append(", groupId=");
 		msg.append(groupId);
 
+		msg.append(", endDate=");
+		msg.append(endDate);
+
 		msg.append(StringPool.CLOSE_CURLY_BRACE);
 
 		throw new NoSuchEventEntryException(msg.toString());
 	}
 
 	/**
-	 * Returns the last event entry in the ordered set where companyId = &#63; and groupId = &#63;.
+	 * Returns the last event entry in the ordered set where companyId = &#63; and groupId = &#63; and endDate &gt; &#63;.
 	 *
 	 * @param companyId the company ID
 	 * @param groupId the group ID
+	 * @param endDate the end date
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	 * @return the last matching event entry, or <code>null</code> if a matching event entry could not be found
 	 * @throws SystemException if a system exception occurred
 	 */
 	public EventEntry fetchByGroupId_Last(long companyId, long groupId,
-		OrderByComparator orderByComparator) throws SystemException {
-		int count = countByGroupId(companyId, groupId);
+		Date endDate, OrderByComparator orderByComparator)
+		throws SystemException {
+		int count = countByGroupId(companyId, groupId, endDate);
 
-		List<EventEntry> list = findByGroupId(companyId, groupId, count - 1,
-				count, orderByComparator);
+		List<EventEntry> list = findByGroupId(companyId, groupId, endDate,
+				count - 1, count, orderByComparator);
 
 		if (!list.isEmpty()) {
 			return list.get(0);
@@ -1862,18 +1877,20 @@ public class EventEntryPersistenceImpl extends BasePersistenceImpl<EventEntry>
 	}
 
 	/**
-	 * Returns the event entries before and after the current event entry in the ordered set where companyId = &#63; and groupId = &#63;.
+	 * Returns the event entries before and after the current event entry in the ordered set where companyId = &#63; and groupId = &#63; and endDate &gt; &#63;.
 	 *
 	 * @param eventEntryId the primary key of the current event entry
 	 * @param companyId the company ID
 	 * @param groupId the group ID
+	 * @param endDate the end date
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	 * @return the previous, current, and next event entry
 	 * @throws org.lsp.liferay.portlet.socialliving.NoSuchEventEntryException if a event entry with the primary key could not be found
 	 * @throws SystemException if a system exception occurred
 	 */
 	public EventEntry[] findByGroupId_PrevAndNext(long eventEntryId,
-		long companyId, long groupId, OrderByComparator orderByComparator)
+		long companyId, long groupId, Date endDate,
+		OrderByComparator orderByComparator)
 		throws NoSuchEventEntryException, SystemException {
 		EventEntry eventEntry = findByPrimaryKey(eventEntryId);
 
@@ -1885,12 +1902,12 @@ public class EventEntryPersistenceImpl extends BasePersistenceImpl<EventEntry>
 			EventEntry[] array = new EventEntryImpl[3];
 
 			array[0] = getByGroupId_PrevAndNext(session, eventEntry, companyId,
-					groupId, orderByComparator, true);
+					groupId, endDate, orderByComparator, true);
 
 			array[1] = eventEntry;
 
 			array[2] = getByGroupId_PrevAndNext(session, eventEntry, companyId,
-					groupId, orderByComparator, false);
+					groupId, endDate, orderByComparator, false);
 
 			return array;
 		}
@@ -1903,7 +1920,7 @@ public class EventEntryPersistenceImpl extends BasePersistenceImpl<EventEntry>
 	}
 
 	protected EventEntry getByGroupId_PrevAndNext(Session session,
-		EventEntry eventEntry, long companyId, long groupId,
+		EventEntry eventEntry, long companyId, long groupId, Date endDate,
 		OrderByComparator orderByComparator, boolean previous) {
 		StringBundler query = null;
 
@@ -1920,6 +1937,13 @@ public class EventEntryPersistenceImpl extends BasePersistenceImpl<EventEntry>
 		query.append(_FINDER_COLUMN_GROUPID_COMPANYID_2);
 
 		query.append(_FINDER_COLUMN_GROUPID_GROUPID_2);
+
+		if (endDate == null) {
+			query.append(_FINDER_COLUMN_GROUPID_ENDDATE_1);
+		}
+		else {
+			query.append(_FINDER_COLUMN_GROUPID_ENDDATE_2);
+		}
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -1994,6 +2018,10 @@ public class EventEntryPersistenceImpl extends BasePersistenceImpl<EventEntry>
 
 		qPos.add(groupId);
 
+		if (endDate != null) {
+			qPos.add(CalendarUtil.getTimestamp(endDate));
+		}
+
 		if (orderByComparator != null) {
 			Object[] values = orderByComparator.getOrderByConditionValues(eventEntry);
 
@@ -2013,71 +2041,73 @@ public class EventEntryPersistenceImpl extends BasePersistenceImpl<EventEntry>
 	}
 
 	/**
-	 * Returns all the event entries where companyId = &#63;.
+	 * Returns all the event entries where companyId = &#63; and endDate &gt; &#63;.
 	 *
 	 * @param companyId the company ID
+	 * @param endDate the end date
 	 * @return the matching event entries
 	 * @throws SystemException if a system exception occurred
 	 */
-	public List<EventEntry> findByCompanyId(long companyId)
+	public List<EventEntry> findByCompanyId(long companyId, Date endDate)
 		throws SystemException {
-		return findByCompanyId(companyId, QueryUtil.ALL_POS, QueryUtil.ALL_POS,
-			null);
+		return findByCompanyId(companyId, endDate, QueryUtil.ALL_POS,
+			QueryUtil.ALL_POS, null);
 	}
 
 	/**
-	 * Returns a range of all the event entries where companyId = &#63;.
+	 * Returns a range of all the event entries where companyId = &#63; and endDate &gt; &#63;.
 	 *
 	 * <p>
 	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
 	 * </p>
 	 *
 	 * @param companyId the company ID
+	 * @param endDate the end date
 	 * @param start the lower bound of the range of event entries
 	 * @param end the upper bound of the range of event entries (not inclusive)
 	 * @return the range of matching event entries
 	 * @throws SystemException if a system exception occurred
 	 */
-	public List<EventEntry> findByCompanyId(long companyId, int start, int end)
-		throws SystemException {
-		return findByCompanyId(companyId, start, end, null);
+	public List<EventEntry> findByCompanyId(long companyId, Date endDate,
+		int start, int end) throws SystemException {
+		return findByCompanyId(companyId, endDate, start, end, null);
 	}
 
 	/**
-	 * Returns an ordered range of all the event entries where companyId = &#63;.
+	 * Returns an ordered range of all the event entries where companyId = &#63; and endDate &gt; &#63;.
 	 *
 	 * <p>
 	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
 	 * </p>
 	 *
 	 * @param companyId the company ID
+	 * @param endDate the end date
 	 * @param start the lower bound of the range of event entries
 	 * @param end the upper bound of the range of event entries (not inclusive)
 	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
 	 * @return the ordered range of matching event entries
 	 * @throws SystemException if a system exception occurred
 	 */
-	public List<EventEntry> findByCompanyId(long companyId, int start, int end,
-		OrderByComparator orderByComparator) throws SystemException {
+	public List<EventEntry> findByCompanyId(long companyId, Date endDate,
+		int start, int end, OrderByComparator orderByComparator)
+		throws SystemException {
 		FinderPath finderPath = null;
 		Object[] finderArgs = null;
 
-		if ((start == QueryUtil.ALL_POS) && (end == QueryUtil.ALL_POS) &&
-				(orderByComparator == null)) {
-			finderPath = FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_COMPANYID;
-			finderArgs = new Object[] { companyId };
-		}
-		else {
-			finderPath = FINDER_PATH_WITH_PAGINATION_FIND_BY_COMPANYID;
-			finderArgs = new Object[] { companyId, start, end, orderByComparator };
-		}
+		finderPath = FINDER_PATH_WITH_PAGINATION_FIND_BY_COMPANYID;
+		finderArgs = new Object[] {
+				companyId, endDate,
+				
+				start, end, orderByComparator
+			};
 
 		List<EventEntry> list = (List<EventEntry>)FinderCacheUtil.getResult(finderPath,
 				finderArgs, this);
 
 		if ((list != null) && !list.isEmpty()) {
 			for (EventEntry eventEntry : list) {
-				if ((companyId != eventEntry.getCompanyId())) {
+				if ((companyId != eventEntry.getCompanyId()) ||
+						!Validator.equals(endDate, eventEntry.getEndDate())) {
 					list = null;
 
 					break;
@@ -2089,16 +2119,23 @@ public class EventEntryPersistenceImpl extends BasePersistenceImpl<EventEntry>
 			StringBundler query = null;
 
 			if (orderByComparator != null) {
-				query = new StringBundler(3 +
+				query = new StringBundler(4 +
 						(orderByComparator.getOrderByFields().length * 3));
 			}
 			else {
-				query = new StringBundler(3);
+				query = new StringBundler(4);
 			}
 
 			query.append(_SQL_SELECT_EVENTENTRY_WHERE);
 
 			query.append(_FINDER_COLUMN_COMPANYID_COMPANYID_2);
+
+			if (endDate == null) {
+				query.append(_FINDER_COLUMN_COMPANYID_ENDDATE_1);
+			}
+			else {
+				query.append(_FINDER_COLUMN_COMPANYID_ENDDATE_2);
+			}
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -2121,6 +2158,10 @@ public class EventEntryPersistenceImpl extends BasePersistenceImpl<EventEntry>
 				QueryPos qPos = QueryPos.getInstance(q);
 
 				qPos.add(companyId);
+
+				if (endDate != null) {
+					qPos.add(CalendarUtil.getTimestamp(endDate));
+				}
 
 				list = (List<EventEntry>)QueryUtil.list(q, getDialect(), start,
 						end);
@@ -2146,30 +2187,34 @@ public class EventEntryPersistenceImpl extends BasePersistenceImpl<EventEntry>
 	}
 
 	/**
-	 * Returns the first event entry in the ordered set where companyId = &#63;.
+	 * Returns the first event entry in the ordered set where companyId = &#63; and endDate &gt; &#63;.
 	 *
 	 * @param companyId the company ID
+	 * @param endDate the end date
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	 * @return the first matching event entry
 	 * @throws org.lsp.liferay.portlet.socialliving.NoSuchEventEntryException if a matching event entry could not be found
 	 * @throws SystemException if a system exception occurred
 	 */
-	public EventEntry findByCompanyId_First(long companyId,
+	public EventEntry findByCompanyId_First(long companyId, Date endDate,
 		OrderByComparator orderByComparator)
 		throws NoSuchEventEntryException, SystemException {
-		EventEntry eventEntry = fetchByCompanyId_First(companyId,
+		EventEntry eventEntry = fetchByCompanyId_First(companyId, endDate,
 				orderByComparator);
 
 		if (eventEntry != null) {
 			return eventEntry;
 		}
 
-		StringBundler msg = new StringBundler(4);
+		StringBundler msg = new StringBundler(6);
 
 		msg.append(_NO_SUCH_ENTITY_WITH_KEY);
 
 		msg.append("companyId=");
 		msg.append(companyId);
+
+		msg.append(", endDate=");
+		msg.append(endDate);
 
 		msg.append(StringPool.CLOSE_CURLY_BRACE);
 
@@ -2177,16 +2222,17 @@ public class EventEntryPersistenceImpl extends BasePersistenceImpl<EventEntry>
 	}
 
 	/**
-	 * Returns the first event entry in the ordered set where companyId = &#63;.
+	 * Returns the first event entry in the ordered set where companyId = &#63; and endDate &gt; &#63;.
 	 *
 	 * @param companyId the company ID
+	 * @param endDate the end date
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	 * @return the first matching event entry, or <code>null</code> if a matching event entry could not be found
 	 * @throws SystemException if a system exception occurred
 	 */
-	public EventEntry fetchByCompanyId_First(long companyId,
+	public EventEntry fetchByCompanyId_First(long companyId, Date endDate,
 		OrderByComparator orderByComparator) throws SystemException {
-		List<EventEntry> list = findByCompanyId(companyId, 0, 1,
+		List<EventEntry> list = findByCompanyId(companyId, endDate, 0, 1,
 				orderByComparator);
 
 		if (!list.isEmpty()) {
@@ -2197,30 +2243,34 @@ public class EventEntryPersistenceImpl extends BasePersistenceImpl<EventEntry>
 	}
 
 	/**
-	 * Returns the last event entry in the ordered set where companyId = &#63;.
+	 * Returns the last event entry in the ordered set where companyId = &#63; and endDate &gt; &#63;.
 	 *
 	 * @param companyId the company ID
+	 * @param endDate the end date
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	 * @return the last matching event entry
 	 * @throws org.lsp.liferay.portlet.socialliving.NoSuchEventEntryException if a matching event entry could not be found
 	 * @throws SystemException if a system exception occurred
 	 */
-	public EventEntry findByCompanyId_Last(long companyId,
+	public EventEntry findByCompanyId_Last(long companyId, Date endDate,
 		OrderByComparator orderByComparator)
 		throws NoSuchEventEntryException, SystemException {
-		EventEntry eventEntry = fetchByCompanyId_Last(companyId,
+		EventEntry eventEntry = fetchByCompanyId_Last(companyId, endDate,
 				orderByComparator);
 
 		if (eventEntry != null) {
 			return eventEntry;
 		}
 
-		StringBundler msg = new StringBundler(4);
+		StringBundler msg = new StringBundler(6);
 
 		msg.append(_NO_SUCH_ENTITY_WITH_KEY);
 
 		msg.append("companyId=");
 		msg.append(companyId);
+
+		msg.append(", endDate=");
+		msg.append(endDate);
 
 		msg.append(StringPool.CLOSE_CURLY_BRACE);
 
@@ -2228,19 +2278,20 @@ public class EventEntryPersistenceImpl extends BasePersistenceImpl<EventEntry>
 	}
 
 	/**
-	 * Returns the last event entry in the ordered set where companyId = &#63;.
+	 * Returns the last event entry in the ordered set where companyId = &#63; and endDate &gt; &#63;.
 	 *
 	 * @param companyId the company ID
+	 * @param endDate the end date
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	 * @return the last matching event entry, or <code>null</code> if a matching event entry could not be found
 	 * @throws SystemException if a system exception occurred
 	 */
-	public EventEntry fetchByCompanyId_Last(long companyId,
+	public EventEntry fetchByCompanyId_Last(long companyId, Date endDate,
 		OrderByComparator orderByComparator) throws SystemException {
-		int count = countByCompanyId(companyId);
+		int count = countByCompanyId(companyId, endDate);
 
-		List<EventEntry> list = findByCompanyId(companyId, count - 1, count,
-				orderByComparator);
+		List<EventEntry> list = findByCompanyId(companyId, endDate, count - 1,
+				count, orderByComparator);
 
 		if (!list.isEmpty()) {
 			return list.get(0);
@@ -2250,17 +2301,18 @@ public class EventEntryPersistenceImpl extends BasePersistenceImpl<EventEntry>
 	}
 
 	/**
-	 * Returns the event entries before and after the current event entry in the ordered set where companyId = &#63;.
+	 * Returns the event entries before and after the current event entry in the ordered set where companyId = &#63; and endDate &gt; &#63;.
 	 *
 	 * @param eventEntryId the primary key of the current event entry
 	 * @param companyId the company ID
+	 * @param endDate the end date
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	 * @return the previous, current, and next event entry
 	 * @throws org.lsp.liferay.portlet.socialliving.NoSuchEventEntryException if a event entry with the primary key could not be found
 	 * @throws SystemException if a system exception occurred
 	 */
 	public EventEntry[] findByCompanyId_PrevAndNext(long eventEntryId,
-		long companyId, OrderByComparator orderByComparator)
+		long companyId, Date endDate, OrderByComparator orderByComparator)
 		throws NoSuchEventEntryException, SystemException {
 		EventEntry eventEntry = findByPrimaryKey(eventEntryId);
 
@@ -2272,12 +2324,12 @@ public class EventEntryPersistenceImpl extends BasePersistenceImpl<EventEntry>
 			EventEntry[] array = new EventEntryImpl[3];
 
 			array[0] = getByCompanyId_PrevAndNext(session, eventEntry,
-					companyId, orderByComparator, true);
+					companyId, endDate, orderByComparator, true);
 
 			array[1] = eventEntry;
 
 			array[2] = getByCompanyId_PrevAndNext(session, eventEntry,
-					companyId, orderByComparator, false);
+					companyId, endDate, orderByComparator, false);
 
 			return array;
 		}
@@ -2290,7 +2342,7 @@ public class EventEntryPersistenceImpl extends BasePersistenceImpl<EventEntry>
 	}
 
 	protected EventEntry getByCompanyId_PrevAndNext(Session session,
-		EventEntry eventEntry, long companyId,
+		EventEntry eventEntry, long companyId, Date endDate,
 		OrderByComparator orderByComparator, boolean previous) {
 		StringBundler query = null;
 
@@ -2305,6 +2357,13 @@ public class EventEntryPersistenceImpl extends BasePersistenceImpl<EventEntry>
 		query.append(_SQL_SELECT_EVENTENTRY_WHERE);
 
 		query.append(_FINDER_COLUMN_COMPANYID_COMPANYID_2);
+
+		if (endDate == null) {
+			query.append(_FINDER_COLUMN_COMPANYID_ENDDATE_1);
+		}
+		else {
+			query.append(_FINDER_COLUMN_COMPANYID_ENDDATE_2);
+		}
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -2376,6 +2435,10 @@ public class EventEntryPersistenceImpl extends BasePersistenceImpl<EventEntry>
 		QueryPos qPos = QueryPos.getInstance(q);
 
 		qPos.add(companyId);
+
+		if (endDate != null) {
+			qPos.add(CalendarUtil.getTimestamp(endDate));
+		}
 
 		if (orderByComparator != null) {
 			Object[] values = orderByComparator.getOrderByConditionValues(eventEntry);
@@ -2918,39 +2981,44 @@ public class EventEntryPersistenceImpl extends BasePersistenceImpl<EventEntry>
 	}
 
 	/**
-	 * Removes all the event entries where groupId &ne; &#63; from the database.
+	 * Removes all the event entries where groupId &ne; &#63; and endDate &gt; &#63; from the database.
 	 *
 	 * @param groupId the group ID
+	 * @param endDate the end date
 	 * @throws SystemException if a system exception occurred
 	 */
-	public void removeByAllButGroupId(long groupId) throws SystemException {
-		for (EventEntry eventEntry : findByAllButGroupId(groupId)) {
-			remove(eventEntry);
-		}
-	}
-
-	/**
-	 * Removes all the event entries where companyId = &#63; and groupId = &#63; from the database.
-	 *
-	 * @param companyId the company ID
-	 * @param groupId the group ID
-	 * @throws SystemException if a system exception occurred
-	 */
-	public void removeByGroupId(long companyId, long groupId)
+	public void removeByAllButGroupId(long groupId, Date endDate)
 		throws SystemException {
-		for (EventEntry eventEntry : findByGroupId(companyId, groupId)) {
+		for (EventEntry eventEntry : findByAllButGroupId(groupId, endDate)) {
 			remove(eventEntry);
 		}
 	}
 
 	/**
-	 * Removes all the event entries where companyId = &#63; from the database.
+	 * Removes all the event entries where companyId = &#63; and groupId = &#63; and endDate &gt; &#63; from the database.
 	 *
 	 * @param companyId the company ID
+	 * @param groupId the group ID
+	 * @param endDate the end date
 	 * @throws SystemException if a system exception occurred
 	 */
-	public void removeByCompanyId(long companyId) throws SystemException {
-		for (EventEntry eventEntry : findByCompanyId(companyId)) {
+	public void removeByGroupId(long companyId, long groupId, Date endDate)
+		throws SystemException {
+		for (EventEntry eventEntry : findByGroupId(companyId, groupId, endDate)) {
+			remove(eventEntry);
+		}
+	}
+
+	/**
+	 * Removes all the event entries where companyId = &#63; and endDate &gt; &#63; from the database.
+	 *
+	 * @param companyId the company ID
+	 * @param endDate the end date
+	 * @throws SystemException if a system exception occurred
+	 */
+	public void removeByCompanyId(long companyId, Date endDate)
+		throws SystemException {
+		for (EventEntry eventEntry : findByCompanyId(companyId, endDate)) {
 			remove(eventEntry);
 		}
 	}
@@ -3097,24 +3165,33 @@ public class EventEntryPersistenceImpl extends BasePersistenceImpl<EventEntry>
 	}
 
 	/**
-	 * Returns the number of event entries where groupId &ne; &#63;.
+	 * Returns the number of event entries where groupId &ne; &#63; and endDate &gt; &#63;.
 	 *
 	 * @param groupId the group ID
+	 * @param endDate the end date
 	 * @return the number of matching event entries
 	 * @throws SystemException if a system exception occurred
 	 */
-	public int countByAllButGroupId(long groupId) throws SystemException {
-		Object[] finderArgs = new Object[] { groupId };
+	public int countByAllButGroupId(long groupId, Date endDate)
+		throws SystemException {
+		Object[] finderArgs = new Object[] { groupId, endDate };
 
 		Long count = (Long)FinderCacheUtil.getResult(FINDER_PATH_WITH_PAGINATION_COUNT_BY_ALLBUTGROUPID,
 				finderArgs, this);
 
 		if (count == null) {
-			StringBundler query = new StringBundler(2);
+			StringBundler query = new StringBundler(3);
 
 			query.append(_SQL_COUNT_EVENTENTRY_WHERE);
 
 			query.append(_FINDER_COLUMN_ALLBUTGROUPID_GROUPID_2);
+
+			if (endDate == null) {
+				query.append(_FINDER_COLUMN_ALLBUTGROUPID_ENDDATE_1);
+			}
+			else {
+				query.append(_FINDER_COLUMN_ALLBUTGROUPID_ENDDATE_2);
+			}
 
 			String sql = query.toString();
 
@@ -3128,6 +3205,10 @@ public class EventEntryPersistenceImpl extends BasePersistenceImpl<EventEntry>
 				QueryPos qPos = QueryPos.getInstance(q);
 
 				qPos.add(groupId);
+
+				if (endDate != null) {
+					qPos.add(CalendarUtil.getTimestamp(endDate));
+				}
 
 				count = (Long)q.uniqueResult();
 			}
@@ -3150,28 +3231,36 @@ public class EventEntryPersistenceImpl extends BasePersistenceImpl<EventEntry>
 	}
 
 	/**
-	 * Returns the number of event entries where companyId = &#63; and groupId = &#63;.
+	 * Returns the number of event entries where companyId = &#63; and groupId = &#63; and endDate &gt; &#63;.
 	 *
 	 * @param companyId the company ID
 	 * @param groupId the group ID
+	 * @param endDate the end date
 	 * @return the number of matching event entries
 	 * @throws SystemException if a system exception occurred
 	 */
-	public int countByGroupId(long companyId, long groupId)
+	public int countByGroupId(long companyId, long groupId, Date endDate)
 		throws SystemException {
-		Object[] finderArgs = new Object[] { companyId, groupId };
+		Object[] finderArgs = new Object[] { companyId, groupId, endDate };
 
-		Long count = (Long)FinderCacheUtil.getResult(FINDER_PATH_COUNT_BY_GROUPID,
+		Long count = (Long)FinderCacheUtil.getResult(FINDER_PATH_WITH_PAGINATION_COUNT_BY_GROUPID,
 				finderArgs, this);
 
 		if (count == null) {
-			StringBundler query = new StringBundler(3);
+			StringBundler query = new StringBundler(4);
 
 			query.append(_SQL_COUNT_EVENTENTRY_WHERE);
 
 			query.append(_FINDER_COLUMN_GROUPID_COMPANYID_2);
 
 			query.append(_FINDER_COLUMN_GROUPID_GROUPID_2);
+
+			if (endDate == null) {
+				query.append(_FINDER_COLUMN_GROUPID_ENDDATE_1);
+			}
+			else {
+				query.append(_FINDER_COLUMN_GROUPID_ENDDATE_2);
+			}
 
 			String sql = query.toString();
 
@@ -3188,6 +3277,10 @@ public class EventEntryPersistenceImpl extends BasePersistenceImpl<EventEntry>
 
 				qPos.add(groupId);
 
+				if (endDate != null) {
+					qPos.add(CalendarUtil.getTimestamp(endDate));
+				}
+
 				count = (Long)q.uniqueResult();
 			}
 			catch (Exception e) {
@@ -3198,7 +3291,7 @@ public class EventEntryPersistenceImpl extends BasePersistenceImpl<EventEntry>
 					count = Long.valueOf(0);
 				}
 
-				FinderCacheUtil.putResult(FINDER_PATH_COUNT_BY_GROUPID,
+				FinderCacheUtil.putResult(FINDER_PATH_WITH_PAGINATION_COUNT_BY_GROUPID,
 					finderArgs, count);
 
 				closeSession(session);
@@ -3209,24 +3302,33 @@ public class EventEntryPersistenceImpl extends BasePersistenceImpl<EventEntry>
 	}
 
 	/**
-	 * Returns the number of event entries where companyId = &#63;.
+	 * Returns the number of event entries where companyId = &#63; and endDate &gt; &#63;.
 	 *
 	 * @param companyId the company ID
+	 * @param endDate the end date
 	 * @return the number of matching event entries
 	 * @throws SystemException if a system exception occurred
 	 */
-	public int countByCompanyId(long companyId) throws SystemException {
-		Object[] finderArgs = new Object[] { companyId };
+	public int countByCompanyId(long companyId, Date endDate)
+		throws SystemException {
+		Object[] finderArgs = new Object[] { companyId, endDate };
 
-		Long count = (Long)FinderCacheUtil.getResult(FINDER_PATH_COUNT_BY_COMPANYID,
+		Long count = (Long)FinderCacheUtil.getResult(FINDER_PATH_WITH_PAGINATION_COUNT_BY_COMPANYID,
 				finderArgs, this);
 
 		if (count == null) {
-			StringBundler query = new StringBundler(2);
+			StringBundler query = new StringBundler(3);
 
 			query.append(_SQL_COUNT_EVENTENTRY_WHERE);
 
 			query.append(_FINDER_COLUMN_COMPANYID_COMPANYID_2);
+
+			if (endDate == null) {
+				query.append(_FINDER_COLUMN_COMPANYID_ENDDATE_1);
+			}
+			else {
+				query.append(_FINDER_COLUMN_COMPANYID_ENDDATE_2);
+			}
 
 			String sql = query.toString();
 
@@ -3241,6 +3343,10 @@ public class EventEntryPersistenceImpl extends BasePersistenceImpl<EventEntry>
 
 				qPos.add(companyId);
 
+				if (endDate != null) {
+					qPos.add(CalendarUtil.getTimestamp(endDate));
+				}
+
 				count = (Long)q.uniqueResult();
 			}
 			catch (Exception e) {
@@ -3251,7 +3357,7 @@ public class EventEntryPersistenceImpl extends BasePersistenceImpl<EventEntry>
 					count = Long.valueOf(0);
 				}
 
-				FinderCacheUtil.putResult(FINDER_PATH_COUNT_BY_COMPANYID,
+				FinderCacheUtil.putResult(FINDER_PATH_WITH_PAGINATION_COUNT_BY_COMPANYID,
 					finderArgs, count);
 
 				closeSession(session);
@@ -3401,10 +3507,16 @@ public class EventEntryPersistenceImpl extends BasePersistenceImpl<EventEntry>
 	private static final String _FINDER_COLUMN_ENTRYFINDER_EVENTENTRYID_2 = "eventEntry.eventEntryId = ?";
 	private static final String _FINDER_COLUMN_GLOBALFINDER_COMPANYID_2 = "eventEntry.companyId = ? AND ";
 	private static final String _FINDER_COLUMN_GLOBALFINDER_GROUPID_2 = "eventEntry.groupId = ?";
-	private static final String _FINDER_COLUMN_ALLBUTGROUPID_GROUPID_2 = "eventEntry.groupId != ?";
+	private static final String _FINDER_COLUMN_ALLBUTGROUPID_GROUPID_2 = "eventEntry.groupId != ? AND ";
+	private static final String _FINDER_COLUMN_ALLBUTGROUPID_ENDDATE_1 = "eventEntry.endDate > NULL";
+	private static final String _FINDER_COLUMN_ALLBUTGROUPID_ENDDATE_2 = "eventEntry.endDate > ?";
 	private static final String _FINDER_COLUMN_GROUPID_COMPANYID_2 = "eventEntry.companyId = ? AND ";
-	private static final String _FINDER_COLUMN_GROUPID_GROUPID_2 = "eventEntry.groupId = ?";
-	private static final String _FINDER_COLUMN_COMPANYID_COMPANYID_2 = "eventEntry.companyId = ?";
+	private static final String _FINDER_COLUMN_GROUPID_GROUPID_2 = "eventEntry.groupId = ? AND ";
+	private static final String _FINDER_COLUMN_GROUPID_ENDDATE_1 = "eventEntry.endDate > NULL";
+	private static final String _FINDER_COLUMN_GROUPID_ENDDATE_2 = "eventEntry.endDate > ?";
+	private static final String _FINDER_COLUMN_COMPANYID_COMPANYID_2 = "eventEntry.companyId = ? AND ";
+	private static final String _FINDER_COLUMN_COMPANYID_ENDDATE_1 = "eventEntry.endDate > NULL";
+	private static final String _FINDER_COLUMN_COMPANYID_ENDDATE_2 = "eventEntry.endDate > ?";
 	private static final String _FINDER_COLUMN_USERID_USERID_2 = "eventEntry.userId = ?";
 	private static final String _ORDER_BY_ENTITY_ALIAS = "eventEntry.";
 	private static final String _NO_SUCH_ENTITY_WITH_PRIMARY_KEY = "No EventEntry exists with the primary key ";

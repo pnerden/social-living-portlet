@@ -69,7 +69,8 @@ public class EventEntryServiceUtil {
 		int endDateMonth, int endDateDay, int endDateYear, int endDateHour,
 		int endDateMinute, int totalAttendees, int maxAttendees, double price,
 		byte[] thumbnail, int visibility, java.lang.String latitude,
-		java.lang.String longitude, java.lang.String location)
+		java.lang.String longitude, java.lang.String location,
+		boolean withSpouse, boolean withChildren)
 		throws com.liferay.portal.kernel.exception.PortalException,
 			com.liferay.portal.kernel.exception.SystemException {
 		return getService()
@@ -77,7 +78,8 @@ public class EventEntryServiceUtil {
 			startDateMonth, startDateDay, startDateYear, startDateHour,
 			startDateMinute, endDateMonth, endDateDay, endDateYear,
 			endDateHour, endDateMinute, totalAttendees, maxAttendees, price,
-			thumbnail, visibility, latitude, longitude, location);
+			thumbnail, visibility, latitude, longitude, location, withSpouse,
+			withChildren);
 	}
 
 	public static org.lsp.liferay.portlet.socialliving.model.EventEntry deleteEventEntry(
@@ -112,6 +114,16 @@ public class EventEntryServiceUtil {
 			permissionLevel);
 	}
 
+	public static java.util.List<org.lsp.liferay.portlet.socialliving.model.EventEntry> getEventEntries(
+		com.liferay.portal.theme.ThemeDisplay themeDisplay, int filter,
+		int visibility, java.lang.String permissionLevel, boolean inTheFuture)
+		throws com.liferay.portal.kernel.exception.PortalException,
+			com.liferay.portal.kernel.exception.SystemException {
+		return getService()
+				   .getEventEntries(themeDisplay, filter, visibility,
+			permissionLevel, inTheFuture);
+	}
+
 	public static int getVisibility(
 		org.lsp.liferay.portlet.socialliving.model.EventEntry eventEntry)
 		throws com.liferay.portal.kernel.exception.PortalException,
@@ -126,7 +138,8 @@ public class EventEntryServiceUtil {
 		int endDateMonth, int endDateDay, int endDateYear, int endDateHour,
 		int endDateMinute, int totalAttendees, int maxAttendees, double price,
 		byte[] thumbnail, int visibility, java.lang.String latitude,
-		java.lang.String longitude, java.lang.String location)
+		java.lang.String longitude, java.lang.String location,
+		boolean withSpouse, boolean withChildren)
 		throws com.liferay.portal.kernel.exception.PortalException,
 			com.liferay.portal.kernel.exception.SystemException {
 		return getService()
@@ -134,7 +147,8 @@ public class EventEntryServiceUtil {
 			startDateMonth, startDateDay, startDateYear, startDateHour,
 			startDateMinute, endDateMonth, endDateDay, endDateYear,
 			endDateHour, endDateMinute, totalAttendees, maxAttendees, price,
-			thumbnail, visibility, latitude, longitude, location);
+			thumbnail, visibility, latitude, longitude, location, withSpouse,
+			withChildren);
 	}
 
 	public static void clearService() {
