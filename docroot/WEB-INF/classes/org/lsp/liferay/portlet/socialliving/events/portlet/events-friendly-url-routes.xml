@@ -11,4 +11,9 @@
 		<implicit-parameter name="jspPage">/common/view_entry.jsp</implicit-parameter>
 		<implicit-parameter name="p_p_state">maximized</implicit-parameter>
 	</route>
+	<route>
+		<pattern>/user-registrations/{format}</pattern>
+		<generated-parameter name="resource">{format}</generated-parameter>
+		<implicit-parameter name="p_p_lifecycle">2</implicit-parameter>
+	</route>
 </routes>

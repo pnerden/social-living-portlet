@@ -83,7 +83,7 @@ for (int i = 0; i < eventEntries.size(); i++) {
 %>
 
 <aui:layout>
-	<aui:column columnWidth="<%= ((displaymaponview == EventConstants.DISPLAY_MAP_ON_VIEW) || (displaymaponview == EventConstants.DEFAULT_DISPLAY_MAP_ON_VIEW)) ? 33 : 50 %>" first="true" id="eventThumbnailColumn" >
+	<aui:column columnWidth="25" first="true" id="eventThumbnailColumn" >
 		<a href="<%= viewEventEntryURL %>" id="eventThumbnail"><img alt="<liferay-ui:message key="view-event" />" src="<%= thumbnailURL %>" /></a>
 		<br />
 		<%
@@ -110,17 +110,19 @@ for (int i = 0; i < eventEntries.size(); i++) {
 		}
 		%>
 	</aui:column>
-	<aui:column columnWidth="<%= ((displaymaponview == EventConstants.DISPLAY_MAP_ON_VIEW) || (displaymaponview == EventConstants.DEFAULT_DISPLAY_MAP_ON_VIEW)) ? 33 : 50 %>" last="<%= ((displaymaponview == EventConstants.DISPLAY_MAP_ON_VIEW) || (displaymaponview == EventConstants.DEFAULT_DISPLAY_MAP_ON_VIEW)) ? false : true %>" id="eventDetailsColumn" >
-		<h2>
-		<%
-		if (displayVisibility != EventConstants.VISIBILITY_GROUP) {
-		%>
-			<liferay-ui:message key="group" />&nbsp;<%= GroupLocalServiceUtil.getGroup(eventEntry.getGroupId()).getName()%><br />
-		<%
-		}
-		%>
-			<%=eventEntry.getTitle()%>
-		</h2>		
+	<aui:column columnWidth="<%= ((displaymaponview == EventConstants.DISPLAY_MAP_ON_VIEW) || (displaymaponview == EventConstants.DEFAULT_DISPLAY_MAP_ON_VIEW)) ? 45 : 75 %>" last="<%= ((displaymaponview == EventConstants.DISPLAY_MAP_ON_VIEW) || (displaymaponview == EventConstants.DEFAULT_DISPLAY_MAP_ON_VIEW)) ? false : true %>" id="eventDetailsColumn" >
+		<a href="<%= viewEventEntryURL %>">
+			<h2>
+			<%
+			if (displayVisibility != EventConstants.VISIBILITY_GROUP) {
+			%>
+				<liferay-ui:message key="group" />&nbsp;<%= GroupLocalServiceUtil.getGroup(eventEntry.getGroupId()).getName()%><br />
+			<%
+			}
+			%>
+				<%=eventEntry.getTitle()%>
+			</h2>
+		</a>		
 		<c:if test="<%= EventEntryServiceUtil.getVisibility(eventEntry) == EventConstants.VISIBILITY_GROUP %>">
 			<span class="portlet-msg-info"><liferay-ui:message key="private" /></span>
 		</c:if>
@@ -226,7 +228,7 @@ for (int i = 0; i < eventEntries.size(); i++) {
 		</liferay-ui:icon-list>
 	</aui:column>
 	<c:if test="<%= ((displaymaponview == EventConstants.DISPLAY_MAP_ON_VIEW) || (displaymaponview == EventConstants.DEFAULT_DISPLAY_MAP_ON_VIEW)) %>">
-	<aui:column columnWidth="33" last="true" id="eventMapColumn" >
+	<aui:column columnWidth="30" last="true" id="eventMapColumn" >
 		<lsp-osm:simplemap startLatitude="<%= eventEntry.getLatitude() %>" startLongitude="<%= eventEntry.getLongitude() %>" displayText="<%= StringEscapeUtils.escapeJavaScript(eventEntry.getLocation()) %>" occurenceId="<%= i %>"/>
 	</aui:column>
 	</c:if>
