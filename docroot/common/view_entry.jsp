@@ -112,6 +112,16 @@ int yesTotal = EventRegistrationLocalServiceUtil.getEventRegistrationsCount(even
 		</p>
 	</aui:column>
 	<aui:column columnWidth="33">
+		<h2>
+			<%
+			if (displayVisibility != EventConstants.VISIBILITY_GROUP) {
+			%>
+				<liferay-ui:message key="group" />&nbsp;<%= GroupLocalServiceUtil.getGroup(eventEntry.getGroupId()).getName()%><br />
+			<%
+			}
+			%>
+				<%=eventEntry.getTitle()%>
+		</h2>
 		<table id="eventDetailsTable">
 			<tr>
 				<td class="eventFirstTD"><liferay-ui:message key="group" /></td>
