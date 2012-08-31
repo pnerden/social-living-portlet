@@ -34,7 +34,7 @@ if (eventEntries.size() > 0) {
 		viewEventEntryURL.setParameter("mvcPath", "/common/view_entry.jsp");
 		viewEventEntryURL.setParameter("eventEntryId", String.valueOf(entry.getEventEntryId()));
 		
-		plot.setDescription(EventsMapPortletUtil.getEventPlotDescription(entry, entryGroup, viewEventEntryURL, themeDisplay, request));
+		plot.setDescription(StringEscapeUtils.escapeJavaScript(EventsMapPortletUtil.getEventPlotDescription(entry, entryGroup, viewEventEntryURL, themeDisplay, request)));
 		plot.setLatitude(entry.getLatitude());
 		plot.setLongitude(entry.getLongitude());
 		plotList.add(plot);
