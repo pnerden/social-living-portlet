@@ -54,7 +54,14 @@ public class ICalEventsService {
 			final VEvent event = new VEvent(new DateTime(e.getStartDate()),
 					e.getTitle());
 			event.getProperties().add(new DtEnd(new DateTime(e.getEndDate())));
-			event.getProperties().add(new Description(e.getDescription()));
+			StringBuilder sb = new StringBuilder();
+			sb.append(e.getLocation());
+			sb.append(" - ");
+			sb.append(e.getDescription());
+			sb.append(" - ");
+			sb.append(e.getPrice());
+			sb.append(" €");
+			event.getProperties().add(new Description(sb.toString()));
 			result.add(event);
 		}
 		

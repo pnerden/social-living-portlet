@@ -7,6 +7,7 @@ import org.lsp.liferay.portlet.socialliving.model.EventEntry;
 
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
+import com.liferay.portal.kernel.language.LanguageUtil;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.model.Group;
@@ -62,7 +63,19 @@ public class EventsMapPortletUtil {
 							sb.append(entry.getTitle());
 						sb.append("</a>");
 						sb.append("<br />");
-						sb.append(entry.getDescription());
+						sb.append(entry.getLocation());
+						sb.append("<br />");
+						if (entry.getDescription().length() > 100) {
+							sb.append(entry.getDescription().substring(0, 100));
+						} else {
+							sb.append(entry.getDescription());
+						}
+						sb.append(" ");
+						sb.append("<a href=\"");
+						sb.append(viewEventEntryURL);
+						sb.append("\">");
+							sb.append("("+LanguageUtil.get(themeDisplay.getLocale(), "more")+")");
+						sb.append("</a>");
 						sb.append("<br />");
 					sb.append("</td>");
 				sb.append("</tr>");
